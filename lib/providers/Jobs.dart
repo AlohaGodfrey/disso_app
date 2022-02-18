@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/Job.dart';
+import '../models/job.dart';
 
 class Jobs with ChangeNotifier {
   final List<Job> _jobItems = [

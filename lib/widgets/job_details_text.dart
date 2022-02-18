@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart'; //format date
 
-import '../models/Job.dart';
+import '../models/job.dart';
 
 Widget googleFontStyle(String text) {
   return Text(
@@ -40,11 +40,19 @@ Widget jobDetailPanel(Job currentJob) {
         const SizedBox(
           height: 5,
         ),
-        googleFontStyle('Contract ID: ${currentJob.id}'),
-        googleFontStyle('Configuration : ${currentJob.description}'),
-        googleFontStyle('Configuration : ${currentJob.postcode}'),
-        googleFontStyle(
-            'Contract Expiry : ${DateFormat('dd/MM/yyyy hh:mm').format(currentJob.endDate)}'),
+        Flexible(
+          child: googleFontStyle('Contract ID: ${currentJob.id}'),
+        ),
+        Flexible(
+          child: googleFontStyle('Configuration : ${currentJob.description}'),
+        ),
+        Flexible(
+          child: googleFontStyle('Configuration : ${currentJob.postcode}'),
+        ),
+        Flexible(
+          child: googleFontStyle(
+              'Contract Expiry : ${DateFormat('dd/MM/yyyy hh:mm').format(currentJob.endDate)}'),
+        ),
       ],
     ),
   );

@@ -7,10 +7,12 @@ import 'package:toggle_switch/toggle_switch.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cool_alert/cool_alert.dart';
 
-import '../models/Job.dart';
+import '../widgets/show_cool_dialog.dart' as custom_dialog;
+import '../models/job.dart';
 import '../theme/palette.dart';
 import '../widgets/job_details_text.dart';
 import '../helpers/location_helper.dart';
+// import '../providers/timesheet.dart';
 
 class JobActiveScreen extends StatefulWidget {
   static const routeName = '/job-active';
@@ -27,7 +29,11 @@ class _JobActiveScreenState extends State<JobActiveScreen> {
   var _switchPanel = true;
   var _breakPanel = true;
   CountDownController _clockController = CountDownController();
-  int _duration = 20; //calculate this from DateTime.now().toIso...
+  final int _initDuration = 12; //calculate this from DateTime.now().toIso...
+  double _elaspedTime = 0;
+  //timer for the internals
+  final _stopWatch = Stopwatch();
+  //pretend 12 seconds tranlates to 12 hours
 
   @override
   Widget build(BuildContext context) {
@@ -44,34 +50,22 @@ class _JobActiveScreenState extends State<JobActiveScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Container(
-            //   width: 200,
-            //   height: 100,
-            //   child: LocationInput(_previewImageUrl),
-            // ),
             Spacer(),
             CircularCountDownTimer(
               // duration: 43200,
-              duration: _duration,
+              duration: _initDuration,
               initialDuration: 0,
               controller: _clockController,
               width: MediaQuery.of(context).size.width / 1.5,
               height: MediaQuery.of(context).size.height / 1.9,
               ringColor: Palette.kToDark,
-              // ringColor: Color.fromARGB(255, 224, 224, 224),
               ringGradient: null,
               fillColor: Palette.bToLight,
-              // fillColor: Color.fromARGB(255, 234, 128, 252),
               fillGradient: null,
               backgroundColor: Palette.kToLight.shade100,
               backgroundGradient: null,
               strokeWidth: 10.0,
               strokeCap: StrokeCap.round,
-              // textStyle: TextStyle(
-              //     fontSize: 33.0,
-              //     color: Colors.white,
-              //     // color: Palette.kToLight.shade600,
-              //     fontWeight: FontWeight.normal),
               textStyle: GoogleFonts.poppins(
                   fontSize: 40,
                   fontWeight: FontWeight.w400,
@@ -86,19 +80,12 @@ class _JobActiveScreenState extends State<JobActiveScreen> {
                 print('Countdown Started');
               },
               onComplete: () {
-                print('Countdown Ended');
-                CoolAlert.show(
+                custom_dialog.activeJobDone(
                     context: context,
-                    type: CoolAlertType.confirm,
-                    backgroundColor: Palette.bToDark,
-                    title: 'Shift Complete',
-                    text: "Press Ok to save a digital timesheet",
-                    // animType: CoolAlertAnimType.slideInRight,
-                    // loopAnimation: true,
-                    onConfirmBtnTap: () {
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pop();
-                    });
+                    activeJob: currentJob,
+                    stopwatch: _stopWatch,
+                    earlyFinish: false,
+                    clockController: _clockController);
               },
             ),
             Container(
@@ -164,6 +151,8 @@ class _JobActiveScreenState extends State<JobActiveScreen> {
                                 _switchPanel = !_switchPanel;
                                 _breakPanel = !_breakPanel;
                                 _clockController.resume();
+                                _stopWatch.start();
+                                print(_stopWatch.elapsed);
                                 const SnackBar(
                                   content: Text(
                                     'Resuming Shift',
@@ -173,18 +162,13 @@ class _JobActiveScreenState extends State<JobActiveScreen> {
                               }
                               break;
                             case 2:
-                              CoolAlert.show(
+                              custom_dialog.activeJobDone(
                                   context: context,
-                                  type: CoolAlertType.confirm,
-                                  backgroundColor: Palette.bToDark,
-                                  title: 'Clocking Out',
-                                  text: "Do you want to end your shift?",
-                                  // animType: CoolAlertAnimType.slideInRight,
-                                  // loopAnimation: true,
-                                  onConfirmBtnTap: () {
-                                    Navigator.of(context).pop();
-                                    Navigator.of(context).pop();
-                                  });
+                                  activeJob: currentJob,
+                                  stopwatch: _stopWatch,
+                                  earlyFinish: false,
+                                  clockController: _clockController);
+
                               break;
                             default:
                               {
@@ -232,6 +216,8 @@ class _JobActiveScreenState extends State<JobActiveScreen> {
                                 _switchPanel = !_switchPanel;
                                 _breakPanel = !_breakPanel;
                                 _clockController.pause();
+                                _stopWatch.stop();
+                                print(_stopWatch.elapsed);
                               }
                               break;
                             case 1:
@@ -239,18 +225,12 @@ class _JobActiveScreenState extends State<JobActiveScreen> {
                               break;
                             case 2:
                               {
-                                CoolAlert.show(
+                                custom_dialog.activeJobDone(
                                     context: context,
-                                    type: CoolAlertType.confirm,
-                                    backgroundColor: Palette.bToDark,
-                                    title: 'Clocking Out',
-                                    text: "Do you want to end your shift?",
-                                    // animType: CoolAlertAnimType.slideInRight,
-                                    // loopAnimation: true,
-                                    onConfirmBtnTap: () {
-                                      Navigator.of(context).pop();
-                                      Navigator.of(context).pop();
-                                    });
+                                    activeJob: currentJob,
+                                    stopwatch: _stopWatch,
+                                    earlyFinish: true,
+                                    clockController: _clockController);
                               }
                               break;
                             default:
@@ -293,11 +273,12 @@ class _JobActiveScreenState extends State<JobActiveScreen> {
                             _jobStartPanel = false;
                             _switchPanel = false;
                             _clockController.start();
+                            _stopWatch.start();
                           });
                           scaffold.showSnackBar(
                             const SnackBar(
                               content: Text(
-                                'Starting Shift. Tracking disabled',
+                                '...Starting Shift... Tracking disabled',
                                 textAlign: TextAlign.center,
                               ),
                             ),

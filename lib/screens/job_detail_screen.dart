@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart'; //format date
 
-import '../models/Job.dart';
+import '../models/job.dart';
 import '../widgets/job_details_text.dart';
 import '../widgets/location_input.dart';
 import '../helpers/location_helper.dart';
@@ -30,13 +30,14 @@ class JobDetailScreen extends StatelessWidget {
         ),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           jobDetailPanel(currentJob),
           const SizedBox(width: 20),
           Expanded(
             child: Container(
-              height: 265,
+              // height: 265,
+              height: MediaQuery.of(context).size.height * 0.3,
               padding: const EdgeInsets.all(12),
               width: double.infinity,
               margin: const EdgeInsets.all(12),
@@ -99,7 +100,7 @@ class JobDetailScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(
-            height: 10,
+            height: 3,
           ),
           GestureDetector(
             onTap: () {

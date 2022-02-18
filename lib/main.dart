@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import './models/job.dart';
 import './screens/job_active_screen.dart';
 import './providers/jobs.dart';
+import './providers/timesheet.dart';
 import './theme/palette.dart';
 import './widgets/job_card.dart';
 import './screens/job_list_screen.dart';
@@ -24,6 +25,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (ctx) => Jobs(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => Timesheet(),
         )
       ],
       child: MaterialApp(

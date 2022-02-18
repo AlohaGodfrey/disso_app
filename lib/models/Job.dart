@@ -9,7 +9,8 @@ class Job with ChangeNotifier {
   final String description;
   final DateTime endDate;
   final PlaceLocation location;
-  bool vehicleRequired;
+  final bool vehicleRequired; //should be enum for later use
+  final double payRate;
 
   Job(
       {required this.id,
@@ -19,5 +20,6 @@ class Job with ChangeNotifier {
       required this.postcode,
       this.location =
           const PlaceLocation(latitude: 37.419857, longitude: -122.078827),
-      this.vehicleRequired = false});
+      this.vehicleRequired = false,
+      this.payRate = 13.50});
 }
