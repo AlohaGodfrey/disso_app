@@ -42,6 +42,12 @@ dependencies:
   google_maps_flutter: ^2.1.1
   intl: ^0.17.0
   swipeable_button_view: ^0.0.2
+  circular_countdown_timer: ^0.2.0
+  toggle_switch: ^1.4.0
+  font_awesome_flutter: ^9.2.0
+  cool_alert: ^1.1.0
+  
+ 
 
 dev_dependencies:
   flutter_test:

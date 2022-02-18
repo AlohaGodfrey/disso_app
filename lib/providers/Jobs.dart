@@ -1,7 +1,6 @@
-import 'package:disso_app/providers/Job.dart';
 import 'package:flutter/material.dart';
 
-import 'Job.dart';
+import '../models/Job.dart';
 
 class Jobs with ChangeNotifier {
   final List<Job> _jobItems = [

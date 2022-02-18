@@ -1,9 +1,10 @@
-import 'package:disso_app/providers/job.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'providers/jobs.dart';
+import './models/job.dart';
+import './screens/job_active_screen.dart';
+import './providers/jobs.dart';
 import './theme/palette.dart';
 import './widgets/job_card.dart';
 import './screens/job_list_screen.dart';
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
         //app navigation ur routes or navigator
         routes: {
           JobDetailScreen.routeName: (ctx) => JobDetailScreen(),
+          JobActiveScreen.routeName: (context) => JobActiveScreen(),
         },
       ),
     );

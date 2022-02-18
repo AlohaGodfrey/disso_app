@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../providers/Job.dart';
+import '../models/Job.dart';
 import '../screens/job_detail_screen.dart';
 
 class JobCard extends StatelessWidget {

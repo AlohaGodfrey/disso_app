@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/job_location.dart';
+import 'job_location.dart';
 
 class Job with ChangeNotifier {
   final String id;
