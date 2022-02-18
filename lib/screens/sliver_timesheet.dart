@@ -31,12 +31,22 @@ class SliverTimesheet extends StatelessWidget {
           SliverList(
             delegate: SliverChildListDelegate([
               Container(
-                height: MediaQuery.of(context).size.height,
-                child: ListView.builder(
-                  padding: EdgeInsets.all(0),
+                height: MediaQuery.of(context).size.height * 0.8,
+                child: ListView.separated(
+                  //annoying bug where there is default padding. Phantom space
+                  padding: const EdgeInsets.only(top: 0, bottom: 80),
+                  physics: const BouncingScrollPhysics(),
                   itemCount: timesheetHistory.timesheet.length,
-                  itemBuilder: (ctx, index) =>
-                      TimesheetItem(timesheetHistory.timesheet[index]),
+                  itemBuilder: (ctx, index) {
+                    return TimesheetItem(timesheetHistory.timesheet[index]);
+                  },
+
+                  // physics: ClampingScrollPhysics(),
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(
+                      height: 5,
+                    );
+                  },
                 ),
               )
             ]),

@@ -62,6 +62,9 @@ class _ProfileSliverState extends State<ProfileSliver> {
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white),
                           ),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Center(
                             child: Container(
                               padding: EdgeInsets.all(4),

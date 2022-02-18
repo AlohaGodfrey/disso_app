@@ -6,6 +6,7 @@ import './models/job.dart';
 import './screens/job_active_screen.dart';
 import './providers/jobs.dart';
 import './providers/timesheet.dart';
+import './providers/auth.dart';
 import './theme/palette.dart';
 import './widgets/job_card.dart';
 import './screens/job_list_screen.dart';
@@ -26,6 +27,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (_) => Auth(),
+        ),
         ChangeNotifierProvider(
           create: (ctx) => Jobs(),
         ),

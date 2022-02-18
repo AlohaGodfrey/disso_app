@@ -19,7 +19,56 @@ class TimesheetItem {
 
 class Timesheet with ChangeNotifier {
   // final String userId;
-  List<TimesheetItem> _timesheet = [];
+  List<TimesheetItem> _timesheet = [
+    TimesheetItem(
+        id: 'x1',
+        siteName: 'Little Portugal',
+        date: DateTime.now(),
+        hoursWorked: 12,
+        payRate: 11.5),
+    TimesheetItem(
+        id: 'x2',
+        siteName: 'Setllington',
+        date: DateTime.now(),
+        hoursWorked: 12,
+        payRate: 13.5),
+    TimesheetItem(
+        id: 'x3',
+        siteName: 'Finchley',
+        date: DateTime.now(),
+        hoursWorked: 12,
+        payRate: 11.5),
+    TimesheetItem(
+        id: 'x4',
+        siteName: 'Milton Keynes',
+        date: DateTime.now(),
+        hoursWorked: 12,
+        payRate: 11.5),
+    TimesheetItem(
+        id: 'x5',
+        siteName: 'Vicarige Lane',
+        date: DateTime.now(),
+        hoursWorked: 12,
+        payRate: 11.5),
+    TimesheetItem(
+        id: 'x6',
+        siteName: 'Kensington',
+        date: DateTime.now(),
+        hoursWorked: 12,
+        payRate: 11.5),
+    TimesheetItem(
+        id: 'x6',
+        siteName: 'Kensington',
+        date: DateTime.now(),
+        hoursWorked: 12,
+        payRate: 11.5),
+    TimesheetItem(
+        id: 'x6',
+        siteName: 'Kensington',
+        date: DateTime.now(),
+        hoursWorked: 12,
+        payRate: 11.5),
+  ];
 
   // Timesheet(this.userId, this._timesheet);
 

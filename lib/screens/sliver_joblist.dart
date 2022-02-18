@@ -26,8 +26,10 @@ class SliverJobList extends StatelessWidget {
               Container(
                 height: MediaQuery.of(context).size.height,
                 child: ListView.separated(
-                  padding: const EdgeInsets.symmetric(vertical: 24),
-                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.only(top: 24, bottom: 0),
+                  // physics: const BouncingScrollPhysics(),
+                  physics: const ClampingScrollPhysics(),
+
                   itemCount: JobList.length,
                   itemBuilder: (context, index) {
                     return JobCard(

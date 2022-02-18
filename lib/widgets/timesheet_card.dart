@@ -20,7 +20,8 @@ class _TimesheetItemState extends State<TimesheetItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 600),
       // height: 100,
       // padding: const EdgeInsets.all(12),
       width: double.infinity,
