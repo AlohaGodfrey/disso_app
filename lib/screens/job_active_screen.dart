@@ -1,23 +1,20 @@
-import 'package:disso_app/widgets/location_input.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:cool_alert/cool_alert.dart';
 
 import '../widgets/show_cool_dialog.dart' as custom_dialog;
 import '../models/job.dart';
 import '../theme/palette.dart';
 import '../widgets/job_details_text.dart';
 import '../helpers/location_helper.dart';
-// import '../providers/timesheet.dart';
+import '../widgets/app_drawer.dart';
 
 class JobActiveScreen extends StatefulWidget {
   static const routeName = '/job-active';
   JobActiveScreen({Key? key}) : super(key: key);
-  //add code to connect current job to user job
 
   @override
   _JobActiveScreenState createState() => _JobActiveScreenState();
@@ -38,19 +35,16 @@ class _JobActiveScreenState extends State<JobActiveScreen> {
   @override
   Widget build(BuildContext context) {
     final Job currentJob = ModalRoute.of(context)!.settings.arguments as Job;
-    final _previewImageUrl = LocationHelper.generateLocationPreviewImage(
-        latitute: currentJob.location.latitude,
-        longitude: currentJob.location.longitude);
     final scaffold = ScaffoldMessenger.of(context); //use for small snackbar txt
     return Scaffold(
       appBar: AppBar(
-        title: Text('Active Job'),
+        title: const Text('Active Job'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Spacer(),
+            const Spacer(),
             CircularCountDownTimer(
               // duration: 43200,
               duration: _initDuration,
@@ -77,7 +71,7 @@ class _JobActiveScreenState extends State<JobActiveScreen> {
               autoStart: false,
 
               onStart: () {
-                print('Countdown Started');
+                // print('Countdown Started');
               },
               onComplete: () {
                 custom_dialog.activeJobDone(
@@ -117,7 +111,6 @@ class _JobActiveScreenState extends State<JobActiveScreen> {
                       minWidth: MediaQuery.of(context).size.width * 0.28,
                       minHeight: 55,
                       activeFgColor: Colors.white,
-                      // inactiveFgColor: Colors.white,
                       totalSwitches: 3,
                       labels: const ['On break', 'Resume', 'Clock Out'],
                       icons: const [
@@ -132,7 +125,6 @@ class _JobActiveScreenState extends State<JobActiveScreen> {
                         [Colors.red]
                       ],
                       cornerRadius: 20,
-
                       onToggle: (index) async {
                         await Future.delayed(const Duration(milliseconds: 200));
                         setState(() {
@@ -152,7 +144,7 @@ class _JobActiveScreenState extends State<JobActiveScreen> {
                                 _breakPanel = !_breakPanel;
                                 _clockController.resume();
                                 _stopWatch.start();
-                                print(_stopWatch.elapsed);
+
                                 const SnackBar(
                                   content: Text(
                                     'Resuming Shift',
@@ -171,9 +163,7 @@ class _JobActiveScreenState extends State<JobActiveScreen> {
 
                               break;
                             default:
-                              {
-                                //statements;
-                              }
+                              {}
                               break;
                           }
                         });
@@ -192,7 +182,6 @@ class _JobActiveScreenState extends State<JobActiveScreen> {
                       totalSwitches: 3,
                       activeFgColor: Colors.white,
                       cornerRadius: 16,
-                      // inactiveFgColor: Colors.white,
                       labels: const ['Break', 'On-Site', 'Clock Out'],
                       initialLabelIndex: 1,
                       iconSize: 20,
@@ -217,7 +206,6 @@ class _JobActiveScreenState extends State<JobActiveScreen> {
                                 _breakPanel = !_breakPanel;
                                 _clockController.pause();
                                 _stopWatch.stop();
-                                print(_stopWatch.elapsed);
                               }
                               break;
                             case 1:
@@ -268,7 +256,6 @@ class _JobActiveScreenState extends State<JobActiveScreen> {
                           [Colors.blue]
                         ],
                         onToggle: (index) {
-                          print('switched to: $index');
                           setState(() {
                             _jobStartPanel = false;
                             _switchPanel = false;
@@ -290,7 +277,7 @@ class _JobActiveScreenState extends State<JobActiveScreen> {
                 ],
               ),
             ),
-            Spacer(),
+            const Spacer(),
             jobDetailPanel(currentJob),
             const SizedBox(
               height: 20,

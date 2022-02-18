@@ -10,6 +10,9 @@ import './theme/palette.dart';
 import './widgets/job_card.dart';
 import './screens/job_list_screen.dart';
 import './screens/job_detail_screen.dart';
+import './screens/timesheet_screen.dart';
+import './screens/sliver_timesheet.dart';
+import './screens/sliver_joblist.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,6 +40,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Palette.kToDark,
           canvasColor: const Color.fromRGBO(246, 246, 246, 1),
           appBarTheme: const AppBarTheme(
+            centerTitle: true,
             titleTextStyle: TextStyle(
               fontSize: 24,
               fontFamily: 'Lato',
@@ -50,11 +54,15 @@ class MyApp extends StatelessWidget {
               ),
         ),
         // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-        home: JobListScreen(),
+        home: SliverJobList(),
         //app navigation ur routes or navigator
         routes: {
+          JobListScreen.routeName: (ctx) => JobListScreen(),
           JobDetailScreen.routeName: (ctx) => JobDetailScreen(),
-          JobActiveScreen.routeName: (context) => JobActiveScreen(),
+          JobActiveScreen.routeName: (ctx) => JobActiveScreen(),
+          TimesheetScreen.routeName: (ctx) => TimesheetScreen(),
+          SliverTimesheet.routeName: (ctx) => SliverTimesheet(),
+          SliverJobList.routeName: (ctx) => SliverJobList(),
         },
       ),
     );

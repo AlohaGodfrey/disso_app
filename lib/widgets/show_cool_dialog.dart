@@ -35,6 +35,7 @@ void activeJobDone(
       text: text,
       onConfirmBtnTap: () {
         final timeWorked = stopwatch.elapsed.inSeconds;
+        print(stopwatch.elapsed);
         print(timeWorked);
         Provider.of<Timesheet>(context, listen: false)
             .addJob(activeJob, timeWorked.toDouble());

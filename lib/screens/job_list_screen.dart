@@ -4,8 +4,11 @@ import 'package:provider/provider.dart';
 
 import '../providers/jobs.dart';
 import '../widgets/job_card.dart';
+import '../widgets/app_drawer.dart';
 
 class JobListScreen extends StatelessWidget {
+  static const routeName = '/list-jobs';
+
   @override
   Widget build(BuildContext context) {
     final JobList = Provider.of<Jobs>(context).jobItems; //access the joblist
@@ -15,6 +18,7 @@ class JobListScreen extends StatelessWidget {
           'Job List',
         ),
       ),
+      drawer: AppDrawer(),
       body: ListView.separated(
         padding: const EdgeInsets.symmetric(vertical: 24),
         physics: const BouncingScrollPhysics(),
