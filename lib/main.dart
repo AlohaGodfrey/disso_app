@@ -9,13 +9,13 @@ import './providers/timesheet.dart';
 import './providers/auth.dart';
 import './theme/palette.dart';
 import './widgets/job_card.dart';
-import './screens/job_list_screen.dart';
+import 'screens/legacy_job_list_screen.dart';
 import './screens/job_detail_screen.dart';
-import './screens/timesheet_screen.dart';
+import 'screens/legacy_timesheet_screen.dart';
 import './screens/sliver_timesheet.dart';
 import './screens/sliver_joblist.dart';
-import './screens/auth_screen.dart';
-import './screens/splash_screen.dart';
+import './screens/auth_screen_bezier.dart';
+import './screens/bezier_splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -79,7 +79,7 @@ class MyApp extends StatelessWidget {
                               ConnectionState.waiting
                           //show splash screen during the auto-login
                           //attempt. if failed. show auth screen
-                          ? SplashScreen()
+                          ? SplashScreen() // : AuthScreen()
                           : AuthScreen()),
 
           //app navigation ur routes or navigator

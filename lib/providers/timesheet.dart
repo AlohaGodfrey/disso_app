@@ -102,7 +102,37 @@ class Timesheet with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchAndSetTimesheet() async {}
+  Future<void> fetchAndSetTimesheet() async {
+    final url = firebaseUrl(authToken, '/timesheet/$userId.json');
+    final response = await http.get(url);
+    final List<TimesheetItem> loadedTimesheetList = [];
+    final rawBody = json.decode(response.body);
+    try {
+      if (rawBody == null) {
+        //when the lists are empty no data is parsed
+        // throw HttpException('No Order History');
+        return;
+      }
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      extractedData.forEach((timesheetId, timesheetData) {
+        loadedTimesheetList.add(
+          TimesheetItem(
+            id: timesheetId,
+            siteName: timesheetData['siteName'],
+            date: DateTime.parse(timesheetData['date']),
+            payRate: timesheetData['payRate'],
+            hoursWorked: timesheetData['hoursWorked'],
+          ),
+        );
+      });
+
+      _timesheet = loadedTimesheetList.reversed.toList();
+      notifyListeners();
+    } catch (error) {
+      print(error);
+      throw error;
+    }
+  }
 
   Future<void> addJobX(Job activeJob, double hoursWorked) async {
     final timestamp = DateTime.now();
@@ -113,7 +143,7 @@ class Timesheet with ChangeNotifier {
       body: json.encode({
         'siteName': activeJob.title,
         'date': timestamp.toIso8601String(),
-        'hoursWorked': hoursWorked.toString(),
+        'hoursWorked': hoursWorked,
         'payRate': activeJob.payRate
       }),
     );
