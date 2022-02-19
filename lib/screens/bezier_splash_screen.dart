@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../theme/clip_shadow_path.dart';
 import '../theme/custom_clippers.dart';
@@ -30,6 +31,15 @@ class SplashScreen extends StatelessWidget {
             ),
             clipper: SmallClipper(),
             child: Container(color: Palette.kToLight),
+          ),
+          Center(
+            child: LoadingAnimationWidget.inkDrop(
+                color: Palette.bToLight, size: 25),
+            // child: CircularProgressIndicator(
+            //   strokeWidth: 2,
+            //   color: Palette.bToLight,
+            //   backgroundColor: Palette.bToLight.shade700,
+            // ),
           ),
         ],
       ),

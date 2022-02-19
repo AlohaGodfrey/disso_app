@@ -48,11 +48,12 @@ class AuthScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
+                children: const <Widget>[
+                  //careful ^^ added stupid const modifier.
                   SizedBox(
                     height: 100,
                   ),
-                  const Flexible(
+                  Flexible(
                       flex: 1,
                       child: Icon(
                         FontAwesomeIcons.clipboardCheck,
