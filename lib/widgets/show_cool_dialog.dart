@@ -33,12 +33,12 @@ void activeJobDone(
       backgroundColor: Palette.bToDark,
       title: title,
       text: text,
-      onConfirmBtnTap: () {
+      onConfirmBtnTap: () async {
         final timeWorked = stopwatch.elapsed.inSeconds;
         print(stopwatch.elapsed);
         print(timeWorked);
-        Provider.of<Timesheet>(context, listen: false)
-            .addJob(activeJob, timeWorked.toDouble());
+        await Provider.of<Timesheet>(context, listen: false)
+            .addJobX(activeJob, timeWorked.toDouble());
         Navigator.of(context).pop();
         Navigator.of(context).pop();
       },
