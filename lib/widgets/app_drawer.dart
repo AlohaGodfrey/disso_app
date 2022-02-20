@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 
 import '../screens/legacy_job_list_screen.dart';
 import '../screens/legacy_timesheet_screen.dart';
-import '../screens/sliver_joblist.dart';
-import '../screens/sliver_timesheet.dart';
+import '../screens/job_list_sliver.dart';
+import '../screens/timesheet_sliver.dart';
 import '../providers/auth.dart';
 
 class AppDrawer extends StatelessWidget {

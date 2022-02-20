@@ -1,21 +1,21 @@
+import 'package:disso_app/widgets/profile_sliver.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:provider/provider.dart';
 
-import './models/job.dart';
 import './screens/job_active_screen.dart';
 import './providers/jobs.dart';
 import './providers/timesheet.dart';
 import './providers/auth.dart';
 import './theme/palette.dart';
-import './widgets/job_card.dart';
 import 'screens/legacy_job_list_screen.dart';
 import './screens/job_detail_screen.dart';
 import 'screens/legacy_timesheet_screen.dart';
-import './screens/sliver_timesheet.dart';
-import './screens/sliver_joblist.dart';
+import 'screens/timesheet_sliver.dart';
+import 'screens/job_list_sliver.dart';
 import './screens/auth_screen_bezier.dart';
-import './screens/bezier_splash_screen.dart';
+import 'screens/splash_screen_bezier.dart';
+import './screens/legacy_auth_screen.dart';
 
 void main() {
   runApp(const MyApp());

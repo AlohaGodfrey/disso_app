@@ -6,18 +6,24 @@ import 'package:http/http.dart' as http; //bundle in http prefix
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/http_exception.dart';
+import '../helpers/firebase_url.dart';
 
 class Auth with ChangeNotifier {
   String? _token;
   DateTime? _expiryDate;
   String? _userId;
   Timer? _authTimer;
+  bool _isAdmin = false;
   static const dbUrl =
       'https://disso-7229a-default-rtdb.europe-west1.firebasedatabase.app';
 
   //check if user is authenticated
   bool get isAuth {
     return token != null;
+  }
+
+  bool get isAdmin {
+    return _isAdmin;
   }
 
   String? get token {
@@ -33,19 +39,62 @@ class Auth with ChangeNotifier {
     return _userId;
   }
 
-  Future<void> signup(String email, String password) async {
+  Future<void> signup(String email, String password, bool isAdmin) async {
     final _url = Uri.parse(
         'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCN1YGy3V2Lq3zaMowbVU6jPV9RGZnLTjs');
-    return _authenticate(email, password, _url);
+    return _authenticate(email, password, _url, setAdminStatus, isAdmin);
   }
 
-  Future<void> login(String email, String password) async {
+  Future<void> login(String email, String password, bool isAdmin) async {
     final _url = Uri.parse(
         'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCN1YGy3V2Lq3zaMowbVU6jPV9RGZnLTjs');
-    return _authenticate(email, password, _url);
+    return _authenticate(email, password, _url, fetchAdminStatus, isAdmin);
   }
 
-  Future<void> _authenticate(String email, String password, Uri url) async {
+  Future<void> setAdminStatus(bool isAdmin) async {
+    final url = firebaseUrl(_token as String, '/role/$userId.json');
+
+    //send admin status to server
+    final response = await http.post(
+      url,
+      body: json.encode({
+        'adminStatus': isAdmin,
+      }),
+    );
+    //set isadmin to...
+    _isAdmin = isAdmin;
+    //update job list tool and profile sliver
+    notifyListeners();
+  }
+
+  Future<void> fetchAdminStatus(bool isAdmin) async {
+    final url = firebaseUrl(_token as String, '/role/$userId.json');
+    final response = await http.get(url);
+
+    final rawBody = json.decode(response.body);
+    try {
+      if (rawBody == null) {
+        //when profile data is empty, user is not an admin
+        //used for the legacy accounts... new accounts
+        //will have a valid entry in table
+        _isAdmin = false;
+        return;
+      }
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+
+      extractedData.forEach((profileId, profileData) {
+        _isAdmin = profileData['adminStatus'];
+      });
+
+      notifyListeners();
+    } catch (error) {
+      print(error);
+      throw error;
+    }
+  }
+
+  Future<void> _authenticate(String email, String password, Uri url,
+      Function checkAdmin, bool isAdmin) async {
     try {
       final response = await http.post(
         url,
@@ -73,6 +122,7 @@ class Auth with ChangeNotifier {
           ),
         ),
       );
+      await checkAdmin(isAdmin); //prints and sets is admin status
       _autoLogout(); //starts timer for autologout
       notifyListeners();
 

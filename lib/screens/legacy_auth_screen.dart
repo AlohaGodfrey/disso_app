@@ -8,7 +8,7 @@ import '../models/http_exception.dart';
 
 enum AuthMode { Signup, Login }
 
-class AuthScreen extends StatelessWidget {
+class LegacyAuthScreen extends StatelessWidget {
   static const routeName = '/auth';
 
   @override
@@ -105,6 +105,7 @@ class _AuthCardState extends State<AuthCard>
     'email': '',
     'password': '',
   };
+  var _adminStatus = false;
   var _isLoading = false;
   final _passwordController = TextEditingController();
   AnimationController? _controller;
@@ -157,6 +158,7 @@ class _AuthCardState extends State<AuthCard>
     );
   }
 
+  //validates all text fields
   Future<void> _submit() async {
     final isValid = _formKey.currentState?.validate();
     if (isValid == null) {
@@ -164,7 +166,7 @@ class _AuthCardState extends State<AuthCard>
     } else if (!isValid) {
       return;
     }
-
+    //saves test field data then loads spinner
     _formKey.currentState?.save();
     setState(() {
       _isLoading = true;
@@ -174,12 +176,19 @@ class _AuthCardState extends State<AuthCard>
       if (_authMode == AuthMode.Login) {
         // Log user in
         await Provider.of<Auth>(context, listen: false).login(
-            _authData['email'] as String, _authData['password'] as String);
+            _authData['email'] as String,
+            _authData['password'] as String,
+            _adminStatus);
+        //retrieve user details. + autologin
       } else {
         //delay introduced to allow time to appreciate spinner
         // Sign user up
         await Provider.of<Auth>(context, listen: false).signup(
-            _authData['email'] as String, _authData['password'] as String);
+            _authData['email'] as String,
+            _authData['password'] as String,
+            _adminStatus);
+        //add user details to db.
+
       }
     } on HttpException catch (error) {
       var errorMessage = 'Authentication failed';
@@ -231,10 +240,10 @@ class _AuthCardState extends State<AuthCard>
       child: AnimatedContainer(
         duration: Duration(milliseconds: 300),
         curve: Curves.decelerate,
-        height: _authMode == AuthMode.Signup ? 320 : 260,
+        height: _authMode == AuthMode.Signup ? 370 : 260,
         // height: _heightAnimation!.value.height,
         constraints: BoxConstraints(
-          minHeight: _authMode == AuthMode.Signup ? 320 : 260,
+          minHeight: _authMode == AuthMode.Signup ? 370 : 260,
         ),
         width: deviceSize.width * 0.75,
         padding: const EdgeInsets.all(16.0),
@@ -244,6 +253,7 @@ class _AuthCardState extends State<AuthCard>
             child: Column(
               children: <Widget>[
                 TextFormField(
+                  // enabled: _authMode == AuthMode.Login,
                   decoration: const InputDecoration(labelText: 'E-Mail'),
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
@@ -261,7 +271,9 @@ class _AuthCardState extends State<AuthCard>
                     }
                   },
                 ),
+
                 TextFormField(
+                  // enabled: _authMode == AuthMode.Login,
                   decoration: const InputDecoration(labelText: 'Password'),
                   obscureText: true,
                   controller: _passwordController,
@@ -287,21 +299,42 @@ class _AuthCardState extends State<AuthCard>
                       maxHeight: _authMode == AuthMode.Signup ? 120 : 0),
                   curve: Curves.easeIn,
                   child: FadeTransition(
-                    opacity: _opacityAnimation!,
-                    child: TextFormField(
-                      enabled: _authMode == AuthMode.Signup,
-                      decoration:
-                          const InputDecoration(labelText: 'Confirm Password'),
-                      obscureText: true,
-                      validator: _authMode == AuthMode.Signup
-                          ? (value) {
-                              if (value != _passwordController.text) {
-                                return 'Passwords do not match!';
+                      opacity: _opacityAnimation!,
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            enabled: _authMode == AuthMode.Signup,
+                            decoration: const InputDecoration(
+                                labelText: 'Confirm Password'),
+                            obscureText: true,
+                            validator: _authMode == AuthMode.Signup
+                                ? (value) {
+                                    if (value != _passwordController.text) {
+                                      return 'Passwords do not match!';
+                                    }
+                                  }
+                                : null,
+                          ),
+                          TextFormField(
+                            enabled: _authMode == AuthMode.Signup,
+                            decoration: const InputDecoration(
+                                labelText: '[Optional] Admin Key'),
+                            obscureText: true,
+                            validator: _authMode == AuthMode.Signup
+                                ? (value) {
+                                    if (value != 'dissoAdminKey') {
+                                      return 'Invalid Admin Key!';
+                                    }
+                                  }
+                                : null,
+                            onSaved: (value) {
+                              if (value != null) {
+                                _adminStatus = true;
                               }
-                            }
-                          : null,
-                    ),
-                  ),
+                            },
+                          ),
+                        ],
+                      )),
                 ),
                 const SizedBox(
                   height: 20,

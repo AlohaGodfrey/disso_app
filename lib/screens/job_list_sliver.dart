@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/profile_sliver.dart';
 
-import '../widgets/app_drawer.dart';
 import '../providers/jobs.dart';
+import '../providers/auth.dart';
+import '../widgets/app_drawer.dart';
 import '../widgets/job_card.dart';
 
 class SliverJobList extends StatelessWidget {
@@ -11,7 +12,8 @@ class SliverJobList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final JobList = Provider.of<Jobs>(context).jobItems; //access the joblist
+    final jobList = Provider.of<Jobs>(context).jobItems; //access the joblist
+    final isAdmin = Provider.of<Auth>(context).isAdmin; //checks isAdmin?
     return Scaffold(
       drawer: const AppDrawer(),
       body: CustomScrollView(
@@ -20,7 +22,7 @@ class SliverJobList extends StatelessWidget {
             pinned: true,
             title: Text('Job List'),
           ),
-          ProfileSliver(),
+          ProfileSliver(isAdmin: isAdmin),
           SliverList(
             delegate: SliverChildListDelegate([
               Container(
@@ -30,10 +32,10 @@ class SliverJobList extends StatelessWidget {
                   // physics: const BouncingScrollPhysics(),
                   physics: const ClampingScrollPhysics(),
 
-                  itemCount: JobList.length,
+                  itemCount: jobList.length,
                   itemBuilder: (context, index) {
                     return JobCard(
-                      jobInstance: JobList[index],
+                      jobInstance: jobList[index],
                     );
                     // return JobCard(job: JobList[index]);
                   },
@@ -47,6 +49,14 @@ class SliverJobList extends StatelessWidget {
             ]),
           ),
         ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: Visibility(
+        visible: isAdmin,
+        child: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () {},
+        ),
       ),
     );
   }

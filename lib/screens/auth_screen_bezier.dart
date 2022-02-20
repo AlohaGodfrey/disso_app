@@ -46,31 +46,31 @@ class AuthScreen extends StatelessWidget {
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: const <Widget>[
-                  //careful ^^ added stupid const modifier.
-                  SizedBox(
-                    height: 100,
-                  ),
+                children: <Widget>[
                   Flexible(
-                      flex: 1,
+                    flex: 1,
+                    fit: FlexFit.tight,
+                    child: Align(
+                      alignment: Alignment.topCenter,
                       child: Icon(
                         FontAwesomeIcons.clipboardCheck,
-                        size: 80,
-                        color: Palette.bToLight,
-                      )),
-                  SizedBox(
-                    height: 100,
+                        size: 100,
+                        color: Palette.bToLight.shade100,
+                      ),
+                    ),
                   ),
                   Flexible(
-                    // flex: MediaQuery.of(context).size.width > 600 ? 2 : 1,
-                    flex: 3,
-                    child: const AuthCard(),
+                    // flex: MediaQuery.of(context).size.width > 600 ? 3 : 2,
+                    flex: 4,
+                    child: AuthCard(),
+                    fit: FlexFit.loose,
                   ),
-                  SizedBox(
-                    height: 100,
-                  ),
+                  // Flexible(
+                  //     child: SizedBox(
+                  //   height: 10,
+                  // ))
                 ],
               ),
             ),
@@ -100,8 +100,12 @@ class _AuthCardState extends State<AuthCard>
     'email': '',
     'password': '',
   };
+  var _adminStatus = false; //collects admin status
   var _isLoading = false;
   final _passwordController = TextEditingController();
+  final _emailFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
+  final _verifyPasswordFocusNode = FocusNode();
   AnimationController? _controller;
   Animation<Size>? _heightAnimation;
   Animation<double>? _opacityAnimation;
@@ -113,12 +117,12 @@ class _AuthCardState extends State<AuthCard>
     //animation setup
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 800),
     );
 
     _heightAnimation = Tween<Size>(
       begin: Size(double.infinity, 260),
-      end: Size(double.infinity, 320),
+      end: Size(double.infinity, 400),
     ).animate(
       CurvedAnimation(parent: _controller!, curve: Curves.linear),
     );
@@ -133,6 +137,9 @@ class _AuthCardState extends State<AuthCard>
     // TODO: implement dispose
     super.dispose();
     _controller!.dispose();
+
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
   }
 
   void _showErrorDialog(String message) {
@@ -153,6 +160,7 @@ class _AuthCardState extends State<AuthCard>
   }
 
   Future<void> _submit() async {
+    //runs forms validation process
     final isValid = _formKey.currentState?.validate();
     if (isValid == null) {
       return;
@@ -160,6 +168,7 @@ class _AuthCardState extends State<AuthCard>
       return;
     }
 
+    //collects data from all forms and show progress indicator
     _formKey.currentState?.save();
     setState(() {
       _isLoading = true;
@@ -169,12 +178,16 @@ class _AuthCardState extends State<AuthCard>
       if (_authMode == AuthMode.Login) {
         // Log user in
         await Provider.of<Auth>(context, listen: false).login(
-            _authData['email'] as String, _authData['password'] as String);
+            _authData['email'] as String,
+            _authData['password'] as String,
+            _adminStatus);
       } else {
         //delay introduced to allow time to appreciate spinner
         // Sign user up
         await Provider.of<Auth>(context, listen: false).signup(
-            _authData['email'] as String, _authData['password'] as String);
+            _authData['email'] as String,
+            _authData['password'] as String,
+            _adminStatus);
       }
     } on HttpException catch (error) {
       var errorMessage = 'Authentication failed';
@@ -226,10 +239,10 @@ class _AuthCardState extends State<AuthCard>
       child: AnimatedContainer(
         duration: Duration(milliseconds: 300),
         curve: Curves.decelerate,
-        height: _authMode == AuthMode.Signup ? 320 : 260,
+        height: _authMode == AuthMode.Signup ? 400 : 260,
         // height: _heightAnimation!.value.height,
         constraints: BoxConstraints(
-          minHeight: _authMode == AuthMode.Signup ? 320 : 260,
+          minHeight: _authMode == AuthMode.Signup ? 400 : 260,
         ),
         width: deviceSize.width * 0.75,
         padding: const EdgeInsets.all(16.0),
@@ -241,6 +254,10 @@ class _AuthCardState extends State<AuthCard>
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'E-Mail'),
                   keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
+                  onFieldSubmitted: (_) {
+                    FocusScope.of(context).requestFocus(_passwordFocusNode);
+                  },
                   validator: (value) {
                     if (value == null) {
                       return 'Value is Null';
@@ -256,10 +273,24 @@ class _AuthCardState extends State<AuthCard>
                     }
                   },
                 ),
+                //configured to automatically navigate the fields
+                //using TextInputActions and FocusNodes
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Password'),
                   obscureText: true,
                   controller: _passwordController,
+                  focusNode: _passwordFocusNode,
+                  textInputAction: _authMode == AuthMode.Signup
+                      ? TextInputAction.next
+                      : TextInputAction.done,
+                  onFieldSubmitted: (_) {
+                    if (_authMode == AuthMode.Signup) {
+                      FocusScope.of(context)
+                          .requestFocus(_verifyPasswordFocusNode);
+                    } else {
+                      _submit();
+                    }
+                  },
                   validator: (value) {
                     if (value == null) {
                       return 'Value is Null';
@@ -278,12 +309,14 @@ class _AuthCardState extends State<AuthCard>
                 AnimatedContainer(
                   duration: Duration(milliseconds: 300),
                   constraints: BoxConstraints(
+                      //add extra height for the error messges.
                       minHeight: _authMode == AuthMode.Signup ? 60 : 0,
-                      maxHeight: _authMode == AuthMode.Signup ? 120 : 0),
+                      maxHeight: _authMode == AuthMode.Signup ? 180 : 0),
                   curve: Curves.easeIn,
                   child: FadeTransition(
                     opacity: _opacityAnimation!,
                     child: TextFormField(
+                      focusNode: _verifyPasswordFocusNode,
                       enabled: _authMode == AuthMode.Signup,
                       decoration:
                           const InputDecoration(labelText: 'Confirm Password'),
@@ -295,6 +328,35 @@ class _AuthCardState extends State<AuthCard>
                               }
                             }
                           : null,
+                    ),
+                  ),
+                ),
+                AnimatedContainer(
+                  duration: Duration(milliseconds: 300),
+                  constraints: BoxConstraints(
+                      //add extra height for the error messges.
+                      minHeight: _authMode == AuthMode.Signup ? 60 : 0,
+                      maxHeight: _authMode == AuthMode.Signup ? 180 : 0),
+                  curve: Curves.easeIn,
+                  child: FadeTransition(
+                    opacity: _opacityAnimation!,
+                    child: TextFormField(
+                      enabled: _authMode == AuthMode.Signup,
+                      decoration: const InputDecoration(
+                          labelText: '[Optional] Admin Key'),
+                      obscureText: true,
+                      validator: _authMode == AuthMode.Signup
+                          ? (value) {
+                              if (value != 'dissoAdminKey') {
+                                return 'Invalid Admin Key!';
+                              }
+                            }
+                          : null,
+                      onSaved: (value) {
+                        if (value != null) {
+                          _adminStatus = true;
+                        }
+                      },
                     ),
                   ),
                 ),

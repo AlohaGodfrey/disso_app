@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/Auth.dart';
 import '../theme/palette.dart';
 
 class ProfileSliver extends StatefulWidget {
+  bool isAdmin;
+  ProfileSliver({this.isAdmin = false});
   @override
   _ProfileSliverState createState() => _ProfileSliverState();
 }
@@ -10,6 +15,7 @@ class ProfileSliver extends StatefulWidget {
 class _ProfileSliverState extends State<ProfileSliver> {
   @override
   Widget build(BuildContext context) {
+    // final isAdmin = Provider.of<Auth>(context).isAdmin; //checks isAdmin?
     Size size = MediaQuery.of(context).size;
     return SliverList(
       delegate: SliverChildListDelegate([
@@ -51,30 +57,39 @@ class _ProfileSliverState extends State<ProfileSliver> {
                       ),
                       Column(
                         children: [
-                          Text(
-                            'Immanuel Godfrey',
-                            // style: TextStyle(
-                            //     color: Colors.white,
-                            //     fontWeight: FontWeight.bold,
-                            //     fontSize: 16),
-                            style: GoogleFonts.inter(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white),
-                          ),
-                          SizedBox(
+                          widget.isAdmin
+                              ? Text(
+                                  'Admin Account',
+                                  style: GoogleFonts.inter(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white),
+                                )
+                              : Text(
+                                  'Traffic Management',
+                                  style: GoogleFonts.inter(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white),
+                                ),
+                          const SizedBox(
                             height: 10,
                           ),
                           Center(
                             child: Container(
-                              padding: EdgeInsets.all(4),
+                              padding: const EdgeInsets.all(4),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
                                   color: Colors.black54),
-                              child: Text(
-                                '  TM Operative  ',
-                                style: TextStyle(color: Colors.white),
-                              ),
+                              child: widget.isAdmin
+                                  ? const Text(
+                                      '  Supervisor  ',
+                                      style: TextStyle(color: Colors.white),
+                                    )
+                                  : const Text(
+                                      '  Operative  ',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                             ),
                           ),
                         ],
