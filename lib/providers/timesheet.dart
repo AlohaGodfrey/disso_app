@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http; //allows web server communication
 
-import '../models/Job.dart';
+import '../models/job_model.dart';
 import '../helpers/firebase_url.dart'; //custom made for Url/Uri Building
 
 class TimesheetItem {

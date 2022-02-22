@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart'; //format date
 
-import '../models/Job.dart';
+import '../models/job_model.dart';
 
 Widget googleFontStyle(String text) {
   return Text(

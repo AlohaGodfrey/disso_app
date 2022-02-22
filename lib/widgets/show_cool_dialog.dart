@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/timesheet.dart';
 import '../theme/palette.dart';
-import '../models/Job.dart';
+import '../models/job_model.dart';
 
 //shows a custom dialog and transfer job data
 void activeJobDone(

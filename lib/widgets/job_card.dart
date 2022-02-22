@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../models/Job.dart';
+import '../models/job_model.dart';
 import '../screens/job_detail_screen.dart';
 
 class JobCard extends StatelessWidget {
@@ -13,7 +13,7 @@ class JobCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final jobTitle = jobInstance.title;
     final jobDesc = jobInstance.description;
-
+    // print(jobInstance.lightConfig);
     return GestureDetector(
       onTap: () {
         print('clicked');

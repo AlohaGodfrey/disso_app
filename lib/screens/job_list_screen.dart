@@ -2,7 +2,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/profile_sliver.dart';
-import '../screens/new_job_screen.dart';
+import 'edit_job_screen.dart';
 import '../providers/jobs.dart';
 import '../providers/auth.dart';
 import '../widgets/app_drawer.dart';
@@ -58,7 +58,8 @@ class _JobListScreenState extends State<JobListScreen> {
                 child: ListView.separated(
                   padding: const EdgeInsets.only(top: 24, bottom: 0),
                   // physics: const BouncingScrollPhysics(),
-                  physics: const ClampingScrollPhysics(),
+                  // physics: const ClampingScrollPhysics(),
+                  physics: NeverScrollableScrollPhysics(),
 
                   itemCount: jobList.length,
                   itemBuilder: (context, index) {
@@ -84,7 +85,7 @@ class _JobListScreenState extends State<JobListScreen> {
         child: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
-            Navigator.of(context)..pushNamed(NewJobScreen.routeName);
+            Navigator.of(context)..pushNamed(EditJobScreen.routeName);
           },
         ),
       ),

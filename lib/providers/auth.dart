@@ -23,7 +23,8 @@ class Auth with ChangeNotifier {
   }
 
   bool get isAdmin {
-    return _isAdmin;
+    // return _isAdmin;
+    return true;
   }
 
   String? get token {

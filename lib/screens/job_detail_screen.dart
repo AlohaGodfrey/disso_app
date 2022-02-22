@@ -3,13 +3,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart'; //format date
 
-import '../models/Job.dart';
+import '../models/job_model.dart';
 import '../widgets/job_details_text.dart';
 import '../widgets/location_input.dart';
 import '../helpers/location_helper.dart';
 import '../theme/palette.dart';
 import '../screens/job_active_screen.dart';
 import '../providers/auth.dart';
+import 'edit_job_screen.dart';
 
 class JobDetailScreen extends StatelessWidget {
   static const routeName = '/job-detail';
@@ -51,6 +52,8 @@ class JobDetailScreen extends StatelessWidget {
             child: IconButton(
               onPressed: () {
                 //edit the current item.
+                Navigator.of(context).pushNamed(EditJobScreen.routeName,
+                    arguments: currentJob.id);
               },
               icon: Icon(Icons.edit),
             ),

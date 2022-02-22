@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/http_exception.dart';
 import '../helpers/firebase_url.dart';
-import '../models/Job.dart';
+import '../models/job_model.dart';
 
 class Jobs with ChangeNotifier {
   List<Job> _jobItems = [
@@ -124,10 +124,10 @@ class Jobs with ChangeNotifier {
             'title': newJob.title,
             'postcode': newJob.postcode,
             'description': newJob.description,
-            'endDate': newJob.endDate,
+            'endDate': newJob.endDate.toIso8601String(),
             'payRate': newJob.payRate,
             'vehicleRequired': newJob.vehicleRequired,
-            'lightConfig': newJob.lightConfig,
+            'lightConfig': newJob.lightConfig.name,
           }));
       _jobItems[jobIndex] = newJob;
       notifyListeners();

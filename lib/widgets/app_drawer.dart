@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../screens/legacy_job_list_screen.dart';
-import '../screens/legacy_timesheet_screen.dart';
 import '../screens/job_list_screen.dart';
 import '../screens/timesheet_screen.dart';
 import '../providers/auth.dart';

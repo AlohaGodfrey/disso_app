@@ -6,16 +6,13 @@ import './providers/jobs.dart';
 import './providers/timesheet.dart';
 import './providers/auth.dart';
 import './theme/palette.dart';
-import './screens/legacy_job_list_screen.dart';
 import './screens/job_detail_screen.dart';
-import './screens/legacy_timesheet_screen.dart';
 import './screens/timesheet_screen.dart';
 import './screens/job_list_screen.dart';
 import './screens/auth_screen.dart';
 import './screens/splash_screen.dart';
-import './screens/legacy_auth_screen.dart';
-import 'screens/new_job_screen.dart';
-import './models/Job.dart';
+import 'screens/edit_job_screen.dart';
+import '../models/job_model.dart';
 
 void main() {
   runApp(const MyApp());
@@ -102,7 +99,7 @@ class MyApp extends StatelessWidget {
             TimesheetScreen.routeName: (ctx) => TimesheetScreen(),
             TimesheetScreen.routeName: (ctx) => TimesheetScreen(),
             JobListScreen.routeName: (ctx) => JobListScreen(),
-            NewJobScreen.routeName: (ctx) => NewJobScreen(),
+            EditJobScreen.routeName: (ctx) => EditJobScreen(),
           },
         ),
       ),
