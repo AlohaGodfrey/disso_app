@@ -6,7 +6,7 @@ import '../providers/jobs.dart';
 import '../widgets/job_card.dart';
 import '../widgets/app_drawer.dart';
 
-class JobListScreen extends StatelessWidget {
+class LegacyJobListScreen extends StatelessWidget {
   static const routeName = '/list-jobs';
 
   @override

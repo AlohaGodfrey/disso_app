@@ -6,7 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../theme/clip_shadow_path.dart';
-import '../theme/custom_clippers.dart';
+import '../theme/custom_clippers_bezier.dart';
 import '../theme/palette.dart';
 import '../providers/auth.dart';
 import '../models/http_exception.dart';

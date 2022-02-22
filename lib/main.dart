@@ -1,6 +1,4 @@
-import 'package:disso_app/widgets/profile_sliver.dart';
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
 
 import './screens/job_active_screen.dart';
@@ -8,14 +6,16 @@ import './providers/jobs.dart';
 import './providers/timesheet.dart';
 import './providers/auth.dart';
 import './theme/palette.dart';
-import 'screens/legacy_job_list_screen.dart';
+import './screens/legacy_job_list_screen.dart';
 import './screens/job_detail_screen.dart';
-import 'screens/legacy_timesheet_screen.dart';
-import 'screens/timesheet_sliver.dart';
-import 'screens/job_list_sliver.dart';
-import './screens/auth_screen_bezier.dart';
-import 'screens/splash_screen_bezier.dart';
+import './screens/legacy_timesheet_screen.dart';
+import './screens/timesheet_screen.dart';
+import './screens/job_list_screen.dart';
+import './screens/auth_screen.dart';
+import './screens/splash_screen.dart';
 import './screens/legacy_auth_screen.dart';
+import 'screens/new_job_screen.dart';
+import './models/Job.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,8 +32,20 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => Auth(),
         ),
-        ChangeNotifierProvider(
-          create: (ctx) => Jobs(),
+        ChangeNotifierProxyProvider<Auth, Jobs>(
+          create: (context) => Jobs([
+            Job(
+              id: 'p1',
+              title: 'Islington',
+              description: 'Two way lights',
+              endDate: DateTime.now(),
+              postcode: 'HP11 2et',
+            ),
+          ], authToken: '', authUserId: ''),
+          update: (ctx, auth, previousJobs) => Jobs(
+              previousJobs == null ? [] : previousJobs.jobItems,
+              authToken: auth.token == null ? '' : auth.token as String,
+              authUserId: auth.userId == null ? '' : auth.userId as String),
         ),
         //products uses proxy Provider to depend on the Auth
         //object. whenever auth changes, Products gets rebuilt.
@@ -68,9 +80,9 @@ class MyApp extends StatelessWidget {
                   ),
                 ),
           ),
-          // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+          // home: AuthScreen(),
           home: auth.isAuth
-              ? SliverJobList()
+              ? JobListScreen()
               : FutureBuilder(
                   //attempt to auto login
                   future: auth.tryAutoLogin(),
@@ -88,8 +100,9 @@ class MyApp extends StatelessWidget {
             JobDetailScreen.routeName: (ctx) => JobDetailScreen(),
             JobActiveScreen.routeName: (ctx) => JobActiveScreen(),
             TimesheetScreen.routeName: (ctx) => TimesheetScreen(),
-            SliverTimesheet.routeName: (ctx) => SliverTimesheet(),
-            SliverJobList.routeName: (ctx) => SliverJobList(),
+            TimesheetScreen.routeName: (ctx) => TimesheetScreen(),
+            JobListScreen.routeName: (ctx) => JobListScreen(),
+            NewJobScreen.routeName: (ctx) => NewJobScreen(),
           },
         ),
       ),

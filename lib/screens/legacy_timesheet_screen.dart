@@ -5,7 +5,7 @@ import '../providers/timesheet.dart' show Timesheet;
 import '../widgets/timesheet_card.dart';
 import '../widgets/app_drawer.dart';
 
-class TimesheetScreen extends StatelessWidget {
+class LegacyTimesheetScreen extends StatelessWidget {
   static const routeName = '/timesheet';
 
   @override

@@ -9,18 +9,19 @@ import '../widgets/job_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/auth.dart';
 import '../providers/timesheet.dart' show Timesheet;
 import '../widgets/timesheet_card.dart';
 import '../widgets/app_drawer.dart';
 
-class SliverTimesheet extends StatefulWidget {
+class TimesheetScreen extends StatefulWidget {
   static const routeName = '/sliver-timesheet';
 
   @override
-  State<SliverTimesheet> createState() => _SliverTimesheetState();
+  State<TimesheetScreen> createState() => _TimesheetScreenState();
 }
 
-class _SliverTimesheetState extends State<SliverTimesheet> {
+class _TimesheetScreenState extends State<TimesheetScreen> {
   late Future _timesheetFuture;
   Future _obtaintimesheetFuture() {
     return Provider.of<Timesheet>(context, listen: false)
@@ -37,6 +38,8 @@ class _SliverTimesheetState extends State<SliverTimesheet> {
 
   @override
   Widget build(BuildContext context) {
+    final isAdmin =
+        Provider.of<Auth>(context, listen: false).isAdmin; //checks isAdmin?
     // final timesheetHistory = Provider.of<Timesheet>(context);
     return Scaffold(
       drawer: const AppDrawer(),
@@ -46,7 +49,7 @@ class _SliverTimesheetState extends State<SliverTimesheet> {
             pinned: true,
             title: Text('Digital Timesheet'),
           ),
-          ProfileSliver(),
+          ProfileSliver(isAdmin: isAdmin),
           SliverList(
             delegate: SliverChildListDelegate([
               FutureBuilder(

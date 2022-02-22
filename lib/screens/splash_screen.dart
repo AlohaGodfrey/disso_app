@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../theme/clip_shadow_path.dart';
-import '../theme/custom_clippers.dart';
+import '../theme/custom_clippers_bezier.dart';
 import '../theme/palette.dart';
 
 class SplashScreen extends StatelessWidget {

@@ -3,20 +3,24 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart'; //format date
 
-import '../models/job.dart';
+import '../models/Job.dart';
 import '../widgets/job_details_text.dart';
 import '../widgets/location_input.dart';
 import '../helpers/location_helper.dart';
 import '../theme/palette.dart';
 import '../screens/job_active_screen.dart';
+import '../providers/auth.dart';
 
 class JobDetailScreen extends StatelessWidget {
   static const routeName = '/job-detail';
+  // final bool isAdmin;
+  // JobDetailScreen({this.isAdmin = false});
 
   //get the job id to enter the data before sending it to be rendered
 
   @override
   Widget build(BuildContext context) {
+    final isAdmin = Provider.of<Auth>(context).isAdmin; //checks isAdmin?
     final Job currentJob = ModalRoute.of(context)!.settings.arguments as Job;
     // final jobData = Provider.of<Jobs>(context, listen: false).findById(id);
     final _previewImageUrl = LocationHelper.generateLocationPreviewImage(
@@ -28,6 +32,30 @@ class JobDetailScreen extends StatelessWidget {
         title: Text(
           '${currentJob.title} Site',
         ),
+        actions: [
+          Visibility(
+            visible: isAdmin,
+            child: IconButton(
+              onPressed: () {
+                //show pop up confirmation
+              },
+              icon: Icon(Icons.delete),
+              color: Colors.red,
+            ),
+          ),
+          SizedBox(
+            width: 2,
+          ),
+          Visibility(
+            visible: isAdmin,
+            child: IconButton(
+              onPressed: () {
+                //edit the current item.
+              },
+              icon: Icon(Icons.edit),
+            ),
+          )
+        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,

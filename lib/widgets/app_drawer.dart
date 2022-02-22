@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 
 import '../screens/legacy_job_list_screen.dart';
 import '../screens/legacy_timesheet_screen.dart';
-import '../screens/job_list_sliver.dart';
-import '../screens/timesheet_sliver.dart';
+import '../screens/job_list_screen.dart';
+import '../screens/timesheet_screen.dart';
 import '../providers/auth.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -25,7 +25,7 @@ class AppDrawer extends StatelessWidget {
             leading: Icon(Icons.search),
             title: Text('Search Jobs'),
             onTap: () {
-              Navigator.of(context).pushNamed(SliverJobList.routeName);
+              Navigator.of(context).pushNamed(JobListScreen.routeName);
             },
           ),
           const Divider(),
@@ -34,7 +34,7 @@ class AppDrawer extends StatelessWidget {
             title: Text('Timesheets'),
             onTap: () {
               Navigator.of(context)
-                  .pushReplacementNamed(SliverTimesheet.routeName);
+                  .pushReplacementNamed(TimesheetScreen.routeName);
             },
           ),
           const Divider(),

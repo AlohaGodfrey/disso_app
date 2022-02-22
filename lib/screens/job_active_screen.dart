@@ -6,7 +6,7 @@ import 'package:toggle_switch/toggle_switch.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../widgets/show_cool_dialog.dart' as custom_dialog;
-import '../models/job.dart';
+import '../models/Job.dart';
 import '../theme/palette.dart';
 import '../widgets/job_details_text.dart';
 import '../helpers/location_helper.dart';
