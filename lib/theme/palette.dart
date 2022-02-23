@@ -66,3 +66,24 @@ class Palette {
     },
   );
 } // you can define define int 500 as the default shade and add your lighter tints above and darker tints below.
+
+ThemeData paletteThemeData() {
+  return ThemeData(
+    //uses custom theme pallete
+    primarySwatch: Palette.kToDark,
+    canvasColor: const Color.fromRGBO(246, 246, 246, 1),
+    appBarTheme: const AppBarTheme(
+      centerTitle: true,
+      titleTextStyle: TextStyle(
+        fontSize: 24,
+        fontFamily: 'Lato',
+      ),
+    ),
+    textTheme: ThemeData.light().textTheme.copyWith(
+          headline6: const TextStyle(
+            fontSize: 24,
+            fontFamily: 'Anton',
+          ),
+        ),
+  );
+}

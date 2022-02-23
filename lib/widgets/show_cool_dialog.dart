@@ -4,6 +4,7 @@ import 'package:cool_alert/cool_alert.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/timesheet.dart';
+import '../providers/Jobs.dart';
 import '../theme/palette.dart';
 import '../models/job_model.dart';
 
@@ -47,4 +48,23 @@ void activeJobDone(
         stopwatch.start();
         Navigator.of(context).pop();
       });
+}
+
+void confirmJobDelete(BuildContext context, Job currentJob) {
+  CoolAlert.show(
+    context: context,
+    title: 'Delete Job Entry?',
+    text: 'This action cannot be undone',
+    type: CoolAlertType.confirm,
+    confirmBtnText: 'Delete Job',
+    confirmBtnColor: Colors.red,
+    backgroundColor: Palette.kToLight,
+    onConfirmBtnTap: () async {
+      //refills the provider with server data
+      await Provider.of<Jobs>(context, listen: false).fetchAndSetJobs();
+
+      //deletes the current job
+      await Provider.of<Jobs>(context, listen: false).deleteJob(currentJob.id);
+    },
+  );
 }

@@ -59,24 +59,8 @@ class MyApp extends StatelessWidget {
       child: Consumer<Auth>(
         builder: (context, auth, _) => MaterialApp(
           title: 'Flutter Demo',
-          theme: ThemeData(
-            //uses custom theme pallete
-            primarySwatch: Palette.kToDark,
-            canvasColor: const Color.fromRGBO(246, 246, 246, 1),
-            appBarTheme: const AppBarTheme(
-              centerTitle: true,
-              titleTextStyle: TextStyle(
-                fontSize: 24,
-                fontFamily: 'Lato',
-              ),
-            ),
-            textTheme: ThemeData.light().textTheme.copyWith(
-                  headline6: const TextStyle(
-                    fontSize: 24,
-                    fontFamily: 'Anton',
-                  ),
-                ),
-          ),
+          theme: paletteThemeData(),
+
           // home: AuthScreen(),
           home: auth.isAuth
               ? JobListScreen()
@@ -89,7 +73,8 @@ class MyApp extends StatelessWidget {
                           //show splash screen during the auto-login
                           //attempt. if failed. show auth screen
                           ? SplashScreen() // : AuthScreen()
-                          : AuthScreen()),
+                          : AuthScreen(),
+                ),
 
           //app navigation ur routes or navigator
           routes: {

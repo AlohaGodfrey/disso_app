@@ -1,13 +1,17 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/Jobs.dart';
 import '../models/job_model.dart';
 import '../screens/job_detail_screen.dart';
 
 class JobCard extends StatelessWidget {
   final Job jobInstance;
+  final Function refreshPage;
 
-  JobCard({required this.jobInstance});
+  JobCard({required this.jobInstance, required this.refreshPage});
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +19,17 @@ class JobCard extends StatelessWidget {
     final jobDesc = jobInstance.description;
     // print(jobInstance.lightConfig);
     return GestureDetector(
-      onTap: () {
-        print('clicked');
-        print(jobInstance.id);
-        Navigator.of(context)
+      onTap: () async {
+        //deletes job if user confirms on details screen
+        // Navigator.pushNamed(context, JobDetailScreen.routeName,
+        //     arguments: jobInstance);
+        final _confirmDeleteJob = await Navigator.of(context)
             .pushNamed(JobDetailScreen.routeName, arguments: jobInstance);
+        if (_confirmDeleteJob == true) {
+          // Provider.of<Jobs>(context, listen: false).deleteJob(jobInstance.id);
+          print('$_confirmDeleteJob');
+          refreshPage();
+        }
       },
       child: Container(
         height: 100,
@@ -67,11 +77,16 @@ class JobCard extends StatelessWidget {
                       style: GoogleFonts.inter(
                           fontSize: 16, fontWeight: FontWeight.w600)),
                   //subtitle
-                  Text('System | $jobDesc',
+                  Text('$jobDesc',
                       style: GoogleFonts.inter(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: Colors.grey.shade800)),
+                  // Text('System | $jobDesc',
+                  //     style: GoogleFonts.inter(
+                  //         fontSize: 13,
+                  //         fontWeight: FontWeight.w500,
+                  //         color: Colors.grey.shade800)),
                   Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,

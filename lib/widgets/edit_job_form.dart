@@ -36,6 +36,8 @@ class _EditJobFormState extends State<EditJobForm> {
     'description': '',
   };
 
+  var _isInit = true;
+
   void _presentDatePicker() {
     //pick job date up to a month in advance
     showDatePicker(
@@ -56,21 +58,54 @@ class _EditJobFormState extends State<EditJobForm> {
     });
   }
 
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+
+    //didChange...() is a in built function used for state managemet
+    //developers can overivde these functions so code is executed
+    //at different time.
+
+    //didChangeDepe...() runs multiple times. we want the code to
+    //execute when the variable _isIniti is initialised. so the
+    //arguments are loaded into the properties at the right time.
+
+    //once the _isInit if statment is run. _isInit is set to false.
+    //and can never be changed back to true.
+    if (_isInit) {
+      if (widget.jobId != null) {
+        _editedJob = Provider.of<Jobs>(context, listen: false)
+            .findById(widget.jobId as String);
+
+        _initValues = {
+          'title': _editedJob.title,
+          'description': _editedJob.description,
+          'payRate': _editedJob.payRate.toString(),
+          'endDate': _editedJob.endDate.toString(),
+          'postcode': _editedJob.postcode
+        };
+        _selectedDate = _editedJob.endDate;
+        print(_initValues['endDate']);
+      }
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (widget.jobId != null) {
-      _editedJob = Provider.of<Jobs>(context, listen: false)
-          .findById(widget.jobId as String) as Job;
+    // if (widget.jobId != null) {
+    //   _editedJob = Provider.of<Jobs>(context, listen: false)
+    //       .findById(widget.jobId as String) as Job;
 
-      _initValues = {
-        'title': _editedJob.title,
-        'description': _editedJob.description,
-        'payRate': _editedJob.payRate.toString(),
-        'endDate': _editedJob.endDate.toString(),
-        'postcode': _editedJob.postcode
-      };
-      _selectedDate = _editedJob.endDate;
-    }
+    //   _initValues = {
+    //     'title': _editedJob.title,
+    //     'description': _editedJob.description,
+    //     'payRate': _editedJob.payRate.toString(),
+    //     'endDate': _editedJob.endDate.toString(),
+    //     'postcode': _editedJob.postcode
+    //   };
+    //   _selectedDate = _editedJob.endDate;
+    // }
 
     return Form(
       key: widget.form,
@@ -110,6 +145,7 @@ class _EditJobFormState extends State<EditJobForm> {
                   lightConfig: _editedJob.lightConfig,
                 ),
               );
+
               _editedJob = Job(
                 id: _editedJob.id,
                 title: value as String,
@@ -139,11 +175,25 @@ class _EditJobFormState extends State<EditJobForm> {
               return null;
             },
             onSaved: (value) {
+              // updates state job
+              widget.updateJobDetails(
+                Job(
+                  id: _editedJob.id,
+                  title: _editedJob.title,
+                  description: _editedJob.description,
+                  postcode: value!.toUpperCase(),
+                  payRate: _editedJob.payRate,
+                  endDate: _editedJob.endDate,
+                  vehicleRequired: _editedJob.vehicleRequired,
+                  lightConfig: _editedJob.lightConfig,
+                ),
+                // updates local job
+              );
               _editedJob = Job(
                 id: _editedJob.id,
                 title: _editedJob.title,
                 description: _editedJob.description,
-                postcode: value!.toUpperCase(),
+                postcode: value.toUpperCase(),
                 payRate: _editedJob.payRate,
                 endDate: _editedJob.endDate,
                 vehicleRequired: _editedJob.vehicleRequired,
@@ -157,6 +207,19 @@ class _EditJobFormState extends State<EditJobForm> {
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.number,
             onSaved: (value) {
+              widget.updateJobDetails(
+                Job(
+                  id: _editedJob.id,
+                  title: _editedJob.title,
+                  description: _editedJob.description,
+                  postcode: _editedJob.postcode,
+                  payRate: double.parse(value as String),
+                  vehicleRequired: _editedJob.vehicleRequired,
+                  lightConfig: _editedJob.lightConfig,
+                  endDate: _editedJob.endDate,
+                ),
+              );
+
               _editedJob = Job(
                 id: _editedJob.id,
                 title: _editedJob.title,
@@ -236,6 +299,18 @@ class _EditJobFormState extends State<EditJobForm> {
                 switch (index) {
                   case 0:
                     {
+                      widget.updateJobDetails(
+                        Job(
+                          id: _editedJob.id,
+                          title: _editedJob.title,
+                          description: _editedJob.description,
+                          postcode: _editedJob.postcode,
+                          payRate: _editedJob.payRate,
+                          vehicleRequired: false,
+                          lightConfig: _editedJob.lightConfig,
+                          endDate: _editedJob.endDate,
+                        ),
+                      );
                       _editedJob = Job(
                         id: _editedJob.id,
                         title: _editedJob.title,
@@ -250,6 +325,18 @@ class _EditJobFormState extends State<EditJobForm> {
                     break;
                   case 1:
                     {
+                      widget.updateJobDetails(
+                        Job(
+                          id: _editedJob.id,
+                          title: _editedJob.title,
+                          description: _editedJob.description,
+                          postcode: _editedJob.postcode,
+                          payRate: _editedJob.payRate,
+                          vehicleRequired: true,
+                          lightConfig: _editedJob.lightConfig,
+                          endDate: _editedJob.endDate,
+                        ),
+                      );
                       _editedJob = Job(
                         id: _editedJob.id,
                         title: _editedJob.title,
@@ -264,23 +351,25 @@ class _EditJobFormState extends State<EditJobForm> {
                     break;
                   default:
                     {
-                      widget.updateJobDetails(Job(
-                        id: _editedJob.id,
-                        title: _editedJob.title,
-                        description: _editedJob.description,
-                        postcode: _editedJob.postcode,
-                        payRate: _editedJob.payRate,
-                        vehicleRequired: false,
-                        lightConfig: _editedJob.lightConfig,
-                        endDate: _editedJob.endDate,
-                      ));
+                      widget.updateJobDetails(
+                        Job(
+                          id: _editedJob.id,
+                          title: _editedJob.title,
+                          description: _editedJob.description,
+                          postcode: _editedJob.postcode,
+                          payRate: _editedJob.payRate,
+                          vehicleRequired: _editedJob.vehicleRequired,
+                          lightConfig: _editedJob.lightConfig,
+                          endDate: _editedJob.endDate,
+                        ),
+                      );
                       _editedJob = Job(
                         id: _editedJob.id,
                         title: _editedJob.title,
                         description: _editedJob.description,
                         postcode: _editedJob.postcode,
                         payRate: _editedJob.payRate,
-                        vehicleRequired: false,
+                        vehicleRequired: _editedJob.vehicleRequired,
                         lightConfig: _editedJob.lightConfig,
                         endDate: _editedJob.endDate,
                       );
@@ -311,11 +400,6 @@ class _EditJobFormState extends State<EditJobForm> {
               activeFgColor: Colors.white,
               totalSwitches: 3,
               labels: const ['Two-Way', 'Three-Way', 'Four-Way'],
-              // icons: const [
-              //   FontAwesomeIcons.utensils,
-              //   FontAwesomeIcons.play,
-              //   FontAwesomeIcons.home
-              // ],
               initialLabelIndex: _editedJob.lightConfig == LightConfig.twoWay
                   ? 0
                   : _editedJob.lightConfig == LightConfig.threeWay
@@ -331,6 +415,18 @@ class _EditJobFormState extends State<EditJobForm> {
                 switch (index) {
                   case 0:
                     {
+                      widget.updateJobDetails(
+                        Job(
+                          id: _editedJob.id,
+                          title: _editedJob.title,
+                          description: 'Two Way Lights \u{1F6A6}\u{1F6A6}',
+                          postcode: _editedJob.postcode,
+                          payRate: _editedJob.payRate,
+                          vehicleRequired: _editedJob.vehicleRequired,
+                          lightConfig: _editedJob.lightConfig,
+                          endDate: _editedJob.endDate,
+                        ),
+                      );
                       _editedJob = Job(
                         id: _editedJob.id,
                         title: _editedJob.title,
@@ -345,6 +441,19 @@ class _EditJobFormState extends State<EditJobForm> {
                     break;
                   case 1:
                     {
+                      widget.updateJobDetails(
+                        Job(
+                          id: _editedJob.id,
+                          title: _editedJob.title,
+                          description:
+                              'Three Way Lights \u{1F6A6}\u{1F6A6}\u{1F6A6}',
+                          postcode: _editedJob.postcode,
+                          payRate: _editedJob.payRate,
+                          vehicleRequired: _editedJob.vehicleRequired,
+                          lightConfig: _editedJob.lightConfig,
+                          endDate: _editedJob.endDate,
+                        ),
+                      );
                       _editedJob = Job(
                         id: _editedJob.id,
                         title: _editedJob.title,
@@ -360,6 +469,19 @@ class _EditJobFormState extends State<EditJobForm> {
                     break;
                   case 2:
                     {
+                      widget.updateJobDetails(
+                        Job(
+                          id: _editedJob.id,
+                          title: _editedJob.title,
+                          description:
+                              'Four Way Lights \u{1F6A6}\u{1F6A6}\u{1F6A6}\u{1F6A6}',
+                          postcode: _editedJob.postcode,
+                          payRate: _editedJob.payRate,
+                          vehicleRequired: _editedJob.vehicleRequired,
+                          lightConfig: _editedJob.lightConfig,
+                          endDate: _editedJob.endDate,
+                        ),
+                      );
                       _editedJob = Job(
                         id: _editedJob.id,
                         title: _editedJob.title,
@@ -375,10 +497,22 @@ class _EditJobFormState extends State<EditJobForm> {
                     break;
                   default:
                     {
+                      widget.updateJobDetails(
+                        Job(
+                          id: _editedJob.id,
+                          title: _editedJob.title,
+                          description: 'Two Way Lights \u{1F6A6}\u{1F6A6}',
+                          postcode: _editedJob.postcode,
+                          payRate: _editedJob.payRate,
+                          vehicleRequired: _editedJob.vehicleRequired,
+                          lightConfig: _editedJob.lightConfig,
+                          endDate: _editedJob.endDate,
+                        ),
+                      );
                       _editedJob = Job(
                         id: _editedJob.id,
                         title: _editedJob.title,
-                        description: 'Two Way Lights',
+                        description: 'Two Way Lights \u{1F6A6}\u{1F6A6}',
                         postcode: _editedJob.postcode,
                         payRate: _editedJob.payRate,
                         vehicleRequired: _editedJob.vehicleRequired,

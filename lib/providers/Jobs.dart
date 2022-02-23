@@ -66,6 +66,10 @@ class Jobs with ChangeNotifier {
   }
 
   Job findById(String id) {
+    // if (id == '') {
+    //   return Job;
+    // }
+
     return _jobItems.firstWhere((place) => place.id == id);
   }
 
@@ -160,6 +164,7 @@ class Jobs with ChangeNotifier {
       description: '',
       endDate: DateTime.now(),
     );
+    notifyListeners();
   }
 
   Future<void> fetchAndSetJobs() async {
@@ -195,7 +200,8 @@ class Jobs with ChangeNotifier {
             // isFavorite: prodData['isFavorite'],
             ));
       });
-      _jobItems = loadedJobs;
+
+      _jobItems = loadedJobs.reversed.toList();
       notifyListeners();
     } catch (error) {
       throw (error);
