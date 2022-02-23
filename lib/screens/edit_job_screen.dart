@@ -101,7 +101,7 @@ class _EditJobScreenState extends State<EditJobScreen> {
     final isAdmin = Provider.of<Auth>(context).isAdmin; //checks isAdmin?
     final jobId = ModalRoute.of(context)?.settings.arguments;
     return Scaffold(
-      drawer: const AppDrawer(),
+      // drawer: const AppDrawer(),
       body: CustomScrollView(
         physics: const NeverScrollableScrollPhysics(),
         slivers: [
@@ -113,9 +113,9 @@ class _EditJobScreenState extends State<EditJobScreen> {
                 onPressed: () {
                   _saveForm();
                   Navigator.of(context).pop;
-                  // Navigator.of(context).pop;
                 },
                 icon: Icon(Icons.save),
+                color: Palette.bToDark,
               ),
             ],
           ),
@@ -123,40 +123,29 @@ class _EditJobScreenState extends State<EditJobScreen> {
           SliverList(
             delegate: SliverChildListDelegate(
               [
-                _isLoading
-                    ? Container(
-                        height: (MediaQuery.of(context).size.height / 7) * 4.5,
-                        padding: const EdgeInsets.all(20),
-                        width: double.infinity,
-                        margin: const EdgeInsets.all(12),
-                        child: Center(
-                          child: LoadingAnimationWidget.inkDrop(
-                              color: Palette.bToLight, size: 25),
+                Container(
+                  height: (MediaQuery.of(context).size.height / 7) * 4.5,
+                  padding: const EdgeInsets.all(20),
+                  width: double.infinity,
+                  margin: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: Colors.white,
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color.fromARGB(136, 212, 212, 212),
+                          blurRadius: 2.0,
+                          spreadRadius: 0.0,
+                          offset: Offset(
+                              2.0, 2.0), // shadow direction: bottom right
                         ),
-                      )
-                    : Container(
-                        height: (MediaQuery.of(context).size.height / 7) * 4.5,
-                        padding: const EdgeInsets.all(20),
-                        width: double.infinity,
-                        margin: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16),
-                            color: Colors.white,
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Color.fromARGB(136, 212, 212, 212),
-                                blurRadius: 2.0,
-                                spreadRadius: 0.0,
-                                offset: Offset(
-                                    2.0, 2.0), // shadow direction: bottom right
-                              ),
-                            ]),
-                        child: EditJobForm(
-                          form: _form,
-                          jobId: jobId as String?,
-                          updateJobDetails: _updateJobDetails,
-                        ),
-                      )
+                      ]),
+                  child: EditJobForm(
+                    form: _form,
+                    jobId: jobId as String?,
+                    updateJobDetails: _updateJobDetails,
+                  ),
+                ),
               ],
             ),
           )

@@ -60,11 +60,13 @@ void confirmJobDelete(BuildContext context, Job currentJob) {
     confirmBtnColor: Colors.red,
     backgroundColor: Palette.kToLight,
     onConfirmBtnTap: () async {
-      //refills the provider with server data
+      //signals the main list to refresh
+      var jobDelete = true;
+      //delete the item
       await Provider.of<Jobs>(context, listen: false).fetchAndSetJobs();
-
-      //deletes the current job
       await Provider.of<Jobs>(context, listen: false).deleteJob(currentJob.id);
+      Navigator.of(context).pop();
+      Navigator.of(context).pop(jobDelete);
     },
   );
 }

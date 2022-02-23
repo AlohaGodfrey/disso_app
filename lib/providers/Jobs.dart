@@ -188,17 +188,17 @@ class Jobs with ChangeNotifier {
       // final favoriteData = json.decode(favoriteResponse.body);
       final List<Job> loadedJobs = [];
       extractedData.forEach((jobId, jobData) {
-        loadedJobs.add(Job(
-            id: jobId,
-            title: jobData['title'],
-            postcode: jobData['postcode'],
-            description: jobData['description'],
-            payRate: jobData['payRate'],
-            endDate: DateTime.parse(jobData['endDate']),
-            vehicleRequired: jobData['vehicleRequired']
-
-            // isFavorite: prodData['isFavorite'],
-            ));
+        loadedJobs.add(
+          Job(
+              id: jobId,
+              title: jobData['title'],
+              postcode: jobData['postcode'],
+              description: jobData['description'],
+              payRate: jobData['payRate'],
+              endDate: DateTime.parse(jobData['endDate']),
+              vehicleRequired: jobData['vehicleRequired'],
+              lightConfig: retrieveLightConfig(jobData['lightConfig'])),
+        );
       });
 
       _jobItems = loadedJobs.reversed.toList();
@@ -206,6 +206,19 @@ class Jobs with ChangeNotifier {
     } catch (error) {
       throw (error);
       print(error);
+    }
+  }
+
+  LightConfig retrieveLightConfig(String lightSetup) {
+    switch (lightSetup) {
+      case 'twoWay':
+        return LightConfig.twoWay;
+      case 'threeWay':
+        return LightConfig.threeWay;
+      case 'fourWay':
+        return LightConfig.fourWay;
+      default:
+        return LightConfig.twoWay;
     }
   }
 }

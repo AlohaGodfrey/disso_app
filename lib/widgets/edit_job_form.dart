@@ -519,6 +519,8 @@ class _EditJobFormState extends State<EditJobForm> {
                         lightConfig: LightConfig.twoWay,
                         endDate: _editedJob.endDate,
                       );
+
+                      _editedJob.lightConfig.index;
                     }
                     break;
                 }

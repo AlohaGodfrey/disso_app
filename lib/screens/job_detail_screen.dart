@@ -12,7 +12,8 @@ import '../theme/palette.dart';
 import '../screens/job_active_screen.dart';
 import '../providers/auth.dart';
 import '../providers/Jobs.dart';
-import 'edit_job_screen.dart';
+import './edit_job_screen.dart';
+import '../widgets/show_cool_dialog.dart';
 
 class JobDetailScreen extends StatelessWidget {
   static const routeName = '/job-detail';
@@ -58,26 +59,27 @@ class JobDetailScreen extends StatelessWidget {
                 child: IconButton(
                   onPressed: () {
                     //show pop up confirmation
-                    CoolAlert.show(
-                      context: context,
-                      title: 'Delete Job Entry?',
-                      text: 'This action cannot be undone',
-                      type: CoolAlertType.confirm,
-                      confirmBtnText: 'Delete Job',
-                      confirmBtnColor: Colors.red,
-                      backgroundColor: Palette.kToLight,
-                      onConfirmBtnTap: () async {
-                        //signals the main list to refresh
-                        jobDelete = true;
-                        //delete the item
-                        await Provider.of<Jobs>(context, listen: false)
-                            .fetchAndSetJobs();
-                        await Provider.of<Jobs>(context, listen: false)
-                            .deleteJob(currentJob.id);
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pop(jobDelete);
-                      },
-                    );
+                    confirmJobDelete(context, currentJob);
+                    // CoolAlert.show(
+                    //   context: context,
+                    //   title: 'Delete Job Entry?',
+                    //   text: 'This action cannot be undone',
+                    //   type: CoolAlertType.confirm,
+                    //   confirmBtnText: 'Delete Job',
+                    //   confirmBtnColor: Colors.red,
+                    //   backgroundColor: Palette.kToLight,
+                    //   onConfirmBtnTap: () async {
+                    //     //signals the main list to refresh
+                    //     jobDelete = true;
+                    //     //delete the item
+                    //     await Provider.of<Jobs>(context, listen: false)
+                    //         .fetchAndSetJobs();
+                    //     await Provider.of<Jobs>(context, listen: false)
+                    //         .deleteJob(currentJob.id);
+                    //     Navigator.of(context).pop();
+                    //     Navigator.of(context).pop(jobDelete);
+                    //   },
+                    // );
                   },
                   icon: const Icon(Icons.delete),
                   color: Colors.red,
