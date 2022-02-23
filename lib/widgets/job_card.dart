@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../providers/Jobs.dart';
 import '../models/job_model.dart';
 import '../screens/job_detail_screen.dart';
+import '../widgets/job_details_text.dart';
 
 class JobCard extends StatelessWidget {
   final Job jobInstance;
@@ -27,8 +28,9 @@ class JobCard extends StatelessWidget {
             .pushNamed(JobDetailScreen.routeName, arguments: jobInstance);
         if (_confirmDeleteJob == true) {
           // Provider.of<Jobs>(context, listen: false).deleteJob(jobInstance.id);
-          print('$_confirmDeleteJob');
+
           refreshPage();
+          print('$_confirmDeleteJob');
         }
       },
       child: Container(
@@ -69,6 +71,7 @@ class JobCard extends StatelessWidget {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   // SizedBox(height: 10),
                   //get rid of const
@@ -89,27 +92,45 @@ class JobCard extends StatelessWidget {
                   //         color: Colors.grey.shade800)),
                   Spacer(),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
-                        'Transportation',
-                        style: TextStyle(
-                          fontFamily: 'Lato',
-                          fontSize: 13,
-                        ),
-                      ),
-                      Text('|'),
+                      // Text(
+                      //   'Transportation',
+                      //   style: TextStyle(
+                      //     fontFamily: 'Lato',
+                      //     fontSize: 13,
+                      //   ),
+                      // ),
+                      // Text('|'),
+                      // Container(
+                      //     padding: const EdgeInsets.symmetric(
+                      //         vertical: 4, horizontal: 6),
+                      //     decoration: BoxDecoration(
+                      //         color: Colors.blue.shade50,
+                      //         borderRadius: BorderRadius.circular(6)),
+                      //     child: Icon(Icons.train)),
+                      // Icon(Icons.drive_eta),
+                      // Icon(Icons.directions_walk),
+                      // // Icon(Icons.train),
+                      // Icon(Icons.bike_scooter),
+                      // Text(
+                      //   'Transportation',
+                      //   style: TextStyle(
+                      //     fontFamily: 'Lato',
+                      //     fontSize: 13,
+                      //   ),
+                      // ),
+
                       Container(
                           padding: const EdgeInsets.symmetric(
                               vertical: 4, horizontal: 6),
                           decoration: BoxDecoration(
                               color: Colors.blue.shade50,
                               borderRadius: BorderRadius.circular(6)),
-                          child: Icon(Icons.train)),
-                      Icon(Icons.drive_eta),
-                      Icon(Icons.directions_walk),
-                      // Icon(Icons.train),
-                      Icon(Icons.bike_scooter),
+                          child:
+                              transportIconFinder(jobInstance.vehicleRequired)),
+                      googleFontStyle(' | '),
+                      transportInfo(jobInstance.vehicleRequired),
                     ],
                   )
                 ],

@@ -52,6 +52,7 @@ class _EditJobScreenState extends State<EditJobScreen> {
 
     //saves the user data
     _form.currentState?.save();
+
     setState(() {
       _isLoading = true;
     });

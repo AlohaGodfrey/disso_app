@@ -257,7 +257,7 @@ class _LegacyEditJobFormState extends State<LegacyEditJobForm> {
                 IconData(0xe0de, fontFamily: 'MaterialIcons'),
                 IconData(0xe208, fontFamily: 'MaterialIcons'),
               ],
-              initialLabelIndex: _editedJob.vehicleRequired ? 1 : 0,
+              initialLabelIndex: 0,
               activeBgColors: const [
                 [Palette.kToLight],
                 [Palette.kToLight],

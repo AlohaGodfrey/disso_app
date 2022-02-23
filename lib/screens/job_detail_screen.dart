@@ -60,26 +60,6 @@ class JobDetailScreen extends StatelessWidget {
                   onPressed: () {
                     //show pop up confirmation
                     confirmJobDelete(context, currentJob);
-                    // CoolAlert.show(
-                    //   context: context,
-                    //   title: 'Delete Job Entry?',
-                    //   text: 'This action cannot be undone',
-                    //   type: CoolAlertType.confirm,
-                    //   confirmBtnText: 'Delete Job',
-                    //   confirmBtnColor: Colors.red,
-                    //   backgroundColor: Palette.kToLight,
-                    //   onConfirmBtnTap: () async {
-                    //     //signals the main list to refresh
-                    //     jobDelete = true;
-                    //     //delete the item
-                    //     await Provider.of<Jobs>(context, listen: false)
-                    //         .fetchAndSetJobs();
-                    //     await Provider.of<Jobs>(context, listen: false)
-                    //         .deleteJob(currentJob.id);
-                    //     Navigator.of(context).pop();
-                    //     Navigator.of(context).pop(jobDelete);
-                    //   },
-                    // );
                   },
                   icon: const Icon(Icons.delete),
                   color: Colors.red,
@@ -141,12 +121,16 @@ class JobDetailScreen extends StatelessWidget {
                         height: 10,
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.directions_car),
-                          Icon(Icons.bike_scooter),
-                          Icon(Icons.directions_walk),
-                          Icon(Icons.train)
+                          // Icon(Icons.directions_car),
+                          // Icon(Icons.bike_scooter),
+                          // Icon(Icons.directions_walk),
+                          // Icon(Icons.train)
+
+                          transportIconFinder(currentJob.vehicleRequired),
+                          googleFontStyle(' | '),
+                          transportInfo(currentJob.vehicleRequired),
                         ],
                       ),
                       const SizedBox(

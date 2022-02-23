@@ -31,13 +31,13 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProxyProvider<Auth, Jobs>(
           create: (context) => Jobs([
-            Job(
-              id: 'p1',
-              title: 'Islington',
-              description: 'Two way lights',
-              endDate: DateTime.now(),
-              postcode: 'HP11 2et',
-            ),
+            // Job(
+            //   id: 'p1',
+            //   title: 'Islington',
+            //   description: 'Two way lights',
+            //   endDate: DateTime.now(),
+            //   postcode: 'HP11 2et',
+            // ),
           ], authToken: '', authUserId: ''),
           update: (ctx, auth, previousJobs) => Jobs(
               previousJobs == null ? [] : previousJobs.jobItems,

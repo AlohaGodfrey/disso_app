@@ -180,7 +180,9 @@ class _EditJobFormState extends State<EditJobForm> {
                 Job(
                   id: _editedJob.id,
                   title: _editedJob.title,
-                  description: _editedJob.description,
+                  description: _editedJob.description == ''
+                      ? 'Two Way Lights \u{1F6A6}\u{1F6A6}'
+                      : _editedJob.description,
                   postcode: value!.toUpperCase(),
                   payRate: _editedJob.payRate,
                   endDate: _editedJob.endDate,
@@ -192,7 +194,9 @@ class _EditJobFormState extends State<EditJobForm> {
               _editedJob = Job(
                 id: _editedJob.id,
                 title: _editedJob.title,
-                description: _editedJob.description,
+                description: _editedJob.description == ''
+                    ? 'Two Way Lights \u{1F6A6}\u{1F6A6}'
+                    : _editedJob.description,
                 postcode: value.toUpperCase(),
                 payRate: _editedJob.payRate,
                 endDate: _editedJob.endDate,
@@ -274,23 +278,30 @@ class _EditJobFormState extends State<EditJobForm> {
 
           Align(
             alignment: Alignment.topCenter,
-            child: googleFontStyle('Site Accessibility'),
+            child: googleFontStyle('Vehicle Requirements'),
           ),
           Divider(),
           Align(
             alignment: Alignment.center,
             child: ToggleSwitch(
-              minWidth: MediaQuery.of(context).size.width * 0.40,
+              minWidth: MediaQuery.of(context).size.width * 0.27,
               minHeight: 40,
               activeFgColor: Colors.white,
-              totalSwitches: 2,
-              labels: const ['Any Transport', 'Car Only'],
+              totalSwitches: 3,
+              labels: const ['None', 'Car Only', 'No Cars'],
               icons: const [
                 IconData(0xe0de, fontFamily: 'MaterialIcons'),
                 IconData(0xe208, fontFamily: 'MaterialIcons'),
+                IconData(0xe0e1, fontFamily: 'MaterialIcons'),
               ],
-              initialLabelIndex: _editedJob.vehicleRequired ? 1 : 0,
+              initialLabelIndex:
+                  _editedJob.vehicleRequired == VehicleRequired.anyTransport
+                      ? 0
+                      : _editedJob.vehicleRequired == VehicleRequired.carOnly
+                          ? 1
+                          : 2,
               activeBgColors: const [
+                [Palette.kToLight],
                 [Palette.kToLight],
                 [Palette.kToLight],
               ],
@@ -306,7 +317,7 @@ class _EditJobFormState extends State<EditJobForm> {
                           description: _editedJob.description,
                           postcode: _editedJob.postcode,
                           payRate: _editedJob.payRate,
-                          vehicleRequired: false,
+                          vehicleRequired: VehicleRequired.anyTransport,
                           lightConfig: _editedJob.lightConfig,
                           endDate: _editedJob.endDate,
                         ),
@@ -317,7 +328,7 @@ class _EditJobFormState extends State<EditJobForm> {
                         description: _editedJob.description,
                         postcode: _editedJob.postcode,
                         payRate: _editedJob.payRate,
-                        vehicleRequired: false,
+                        vehicleRequired: VehicleRequired.anyTransport,
                         lightConfig: _editedJob.lightConfig,
                         endDate: _editedJob.endDate,
                       );
@@ -332,7 +343,7 @@ class _EditJobFormState extends State<EditJobForm> {
                           description: _editedJob.description,
                           postcode: _editedJob.postcode,
                           payRate: _editedJob.payRate,
-                          vehicleRequired: true,
+                          vehicleRequired: VehicleRequired.carOnly,
                           lightConfig: _editedJob.lightConfig,
                           endDate: _editedJob.endDate,
                         ),
@@ -343,13 +354,13 @@ class _EditJobFormState extends State<EditJobForm> {
                         description: _editedJob.description,
                         postcode: _editedJob.postcode,
                         payRate: _editedJob.payRate,
-                        vehicleRequired: true,
+                        vehicleRequired: VehicleRequired.carOnly,
                         lightConfig: _editedJob.lightConfig,
                         endDate: _editedJob.endDate,
                       );
                     }
                     break;
-                  default:
+                  case 2:
                     {
                       widget.updateJobDetails(
                         Job(
@@ -358,7 +369,7 @@ class _EditJobFormState extends State<EditJobForm> {
                           description: _editedJob.description,
                           postcode: _editedJob.postcode,
                           payRate: _editedJob.payRate,
-                          vehicleRequired: _editedJob.vehicleRequired,
+                          vehicleRequired: VehicleRequired.noParking,
                           lightConfig: _editedJob.lightConfig,
                           endDate: _editedJob.endDate,
                         ),
@@ -369,12 +380,14 @@ class _EditJobFormState extends State<EditJobForm> {
                         description: _editedJob.description,
                         postcode: _editedJob.postcode,
                         payRate: _editedJob.payRate,
-                        vehicleRequired: _editedJob.vehicleRequired,
+                        vehicleRequired: VehicleRequired.noParking,
                         lightConfig: _editedJob.lightConfig,
                         endDate: _editedJob.endDate,
                       );
                     }
                     break;
+                  default:
+                    return;
                 }
               },
             ),

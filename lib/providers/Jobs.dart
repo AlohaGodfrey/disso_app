@@ -65,6 +65,10 @@ class Jobs with ChangeNotifier {
     return [..._jobItems];
   }
 
+  void clearJobList() {
+    _jobItems = [];
+  }
+
   Job findById(String id) {
     // if (id == '') {
     //   return Job;
@@ -88,7 +92,7 @@ class Jobs with ChangeNotifier {
           'description': jobEntry.description,
           'endDate': jobEntry.endDate.toIso8601String(),
           'payRate': jobEntry.payRate,
-          'vehicleRequired': jobEntry.vehicleRequired,
+          'vehicleRequired': jobEntry.vehicleRequired.name,
           'lightConfig': jobEntry.lightConfig.name,
         }),
       );
@@ -165,6 +169,7 @@ class Jobs with ChangeNotifier {
       endDate: DateTime.now(),
     );
     notifyListeners();
+    print(_jobItems.length);
   }
 
   Future<void> fetchAndSetJobs() async {
@@ -178,6 +183,9 @@ class Jobs with ChangeNotifier {
         '/job-list.json',
       );
       final response = await http.get(url);
+      if (response.body == "null") {
+        return;
+      }
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       if (extractedData == null) {
         //when the lists are empty no data is parsed
@@ -196,7 +204,8 @@ class Jobs with ChangeNotifier {
               description: jobData['description'],
               payRate: jobData['payRate'],
               endDate: DateTime.parse(jobData['endDate']),
-              vehicleRequired: jobData['vehicleRequired'],
+              vehicleRequired:
+                  retrieveVehicleRequirments(jobData['vehicleRequired']),
               lightConfig: retrieveLightConfig(jobData['lightConfig'])),
         );
       });
@@ -206,6 +215,19 @@ class Jobs with ChangeNotifier {
     } catch (error) {
       throw (error);
       print(error);
+    }
+  }
+
+  VehicleRequired retrieveVehicleRequirments(String transportMode) {
+    switch (transportMode) {
+      case 'anyTransport':
+        return VehicleRequired.anyTransport;
+      case 'carOnly':
+        return VehicleRequired.carOnly;
+      case 'noParking':
+        return VehicleRequired.noParking;
+      default:
+        return VehicleRequired.anyTransport;
     }
   }
 

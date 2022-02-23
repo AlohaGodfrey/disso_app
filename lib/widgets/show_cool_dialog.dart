@@ -65,6 +65,7 @@ void confirmJobDelete(BuildContext context, Job currentJob) {
       //delete the item
       await Provider.of<Jobs>(context, listen: false).fetchAndSetJobs();
       await Provider.of<Jobs>(context, listen: false).deleteJob(currentJob.id);
+      await Provider.of<Jobs>(context, listen: false).fetchAndSetJobs();
       Navigator.of(context).pop();
       Navigator.of(context).pop(jobDelete);
     },

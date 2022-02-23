@@ -57,3 +57,33 @@ Widget jobDetailPanel(Job currentJob) {
     ),
   );
 }
+
+Widget transportIconFinder(VehicleRequired transportMode) {
+  switch (transportMode) {
+    case VehicleRequired.anyTransport:
+      return Row(children: const [
+        Icon(Icons.drive_eta),
+        Icon(Icons.directions_walk),
+        Icon(Icons.train),
+        Icon(Icons.bike_scooter),
+      ]);
+    case VehicleRequired.carOnly:
+      return const Icon(Icons.drive_eta);
+    case VehicleRequired.noParking:
+      return Row(children: const [
+        Icon(Icons.train),
+        Icon(Icons.bike_scooter),
+      ]);
+  }
+}
+
+Widget transportInfo(VehicleRequired transportMode) {
+  switch (transportMode) {
+    case VehicleRequired.anyTransport:
+      return googleFontStyle('Public Transport');
+    case VehicleRequired.carOnly:
+      return googleFontStyle('Vehicle Required');
+    case VehicleRequired.noParking:
+      return googleFontStyle('No Parking');
+  }
+}
