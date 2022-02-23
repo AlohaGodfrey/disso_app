@@ -21,9 +21,6 @@ class JobCard extends StatelessWidget {
     // print(jobInstance.lightConfig);
     return GestureDetector(
       onTap: () async {
-        //deletes job if user confirms on details screen
-        // Navigator.pushNamed(context, JobDetailScreen.routeName,
-        //     arguments: jobInstance);
         final _confirmDeleteJob = await Navigator.of(context)
             .pushNamed(JobDetailScreen.routeName, arguments: jobInstance);
         if (_confirmDeleteJob == true) {
@@ -85,42 +82,11 @@ class JobCard extends StatelessWidget {
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: Colors.grey.shade800)),
-                  // Text('System | $jobDesc',
-                  //     style: GoogleFonts.inter(
-                  //         fontSize: 13,
-                  //         fontWeight: FontWeight.w500,
-                  //         color: Colors.grey.shade800)),
+
                   Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      // Text(
-                      //   'Transportation',
-                      //   style: TextStyle(
-                      //     fontFamily: 'Lato',
-                      //     fontSize: 13,
-                      //   ),
-                      // ),
-                      // Text('|'),
-                      // Container(
-                      //     padding: const EdgeInsets.symmetric(
-                      //         vertical: 4, horizontal: 6),
-                      //     decoration: BoxDecoration(
-                      //         color: Colors.blue.shade50,
-                      //         borderRadius: BorderRadius.circular(6)),
-                      //     child: Icon(Icons.train)),
-                      // Icon(Icons.drive_eta),
-                      // Icon(Icons.directions_walk),
-                      // // Icon(Icons.train),
-                      // Icon(Icons.bike_scooter),
-                      // Text(
-                      //   'Transportation',
-                      //   style: TextStyle(
-                      //     fontFamily: 'Lato',
-                      //     fontSize: 13,
-                      //   ),
-                      // ),
-
                       Container(
                           padding: const EdgeInsets.symmetric(
                               vertical: 4, horizontal: 6),

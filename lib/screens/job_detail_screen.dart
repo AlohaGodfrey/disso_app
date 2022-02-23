@@ -109,7 +109,7 @@ class JobDetailScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Location | ${currentJob.title}',
+                        'Location | ${currentJob.title} ${currentJob.postcode}',
                         style: GoogleFonts.inter(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
@@ -123,11 +123,6 @@ class JobDetailScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          // Icon(Icons.directions_car),
-                          // Icon(Icons.bike_scooter),
-                          // Icon(Icons.directions_walk),
-                          // Icon(Icons.train)
-
                           transportIconFinder(currentJob.vehicleRequired),
                           googleFontStyle(' | '),
                           transportInfo(currentJob.vehicleRequired),

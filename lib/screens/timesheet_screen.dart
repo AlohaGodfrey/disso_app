@@ -45,9 +45,15 @@ class _TimesheetScreenState extends State<TimesheetScreen> {
       drawer: const AppDrawer(),
       body: CustomScrollView(
         slivers: [
-          const SliverAppBar(
+          SliverAppBar(
             pinned: true,
             title: Text('Digital Timesheet'),
+            actions: [
+              IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.download),
+              ),
+            ],
           ),
           ProfileSliver(isAdmin: isAdmin),
           SliverList(

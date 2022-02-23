@@ -134,7 +134,7 @@ class Jobs with ChangeNotifier {
             'description': newJob.description,
             'endDate': newJob.endDate.toIso8601String(),
             'payRate': newJob.payRate,
-            'vehicleRequired': newJob.vehicleRequired,
+            'vehicleRequired': newJob.vehicleRequired.name,
             'lightConfig': newJob.lightConfig.name,
           }));
       _jobItems[jobIndex] = newJob;

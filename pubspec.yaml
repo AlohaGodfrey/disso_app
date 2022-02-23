@@ -48,12 +48,19 @@ dependencies:
   cool_alert: ^1.1.0
   shared_preferences: ^2.0.13
   loading_animation_widget: ^1.1.0+1
-  
+  flutter_launcher_icons: "^0.9.2"
  
+flutter_icons:
+    image_path: "assets/logo_alpha_large.png"
+    android: true  
+    
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  
+    
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -68,11 +75,13 @@ dev_dependencies:
 # The following section is specific to Flutter.
 flutter:
 
+  
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
 
+  
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/logo.png
@@ -201,3 +210,4 @@ flutter_native_splash:
   #info_plist_files:
   #  - 'ios/Runner/Info-Debug.plist'
   #  - 'ios/Runner/Info-Release.plist'
+  

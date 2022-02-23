@@ -47,11 +47,12 @@ Widget jobDetailPanel(Job currentJob) {
           child: googleFontStyle('Configuration : ${currentJob.description}'),
         ),
         Flexible(
-          child: googleFontStyle('Configuration : ${currentJob.postcode}'),
+          child: googleFontStyle(
+              'Contract Expiry : ${DateFormat('dd/MM/yyyy hh:mm').format(currentJob.endDate)}'),
         ),
         Flexible(
           child: googleFontStyle(
-              'Contract Expiry : ${DateFormat('dd/MM/yyyy hh:mm').format(currentJob.endDate)}'),
+              'Hourly Rate: £${currentJob.payRate.toStringAsFixed(2)}'),
         ),
       ],
     ),
