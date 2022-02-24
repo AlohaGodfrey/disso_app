@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../screens/job_list_screen.dart';
+import '../routes/routes.dart';
+import '../screens/list_job_screen.dart';
 import '../screens/timesheet_screen.dart';
 import '../providers/auth.dart';
 
@@ -23,7 +24,7 @@ class AppDrawer extends StatelessWidget {
             leading: Icon(Icons.search),
             title: Text('Search Jobs'),
             onTap: () {
-              Navigator.of(context).pushNamed(JobListScreen.routeName);
+              Navigator.of(context).pushNamed(RouteManager.listJobScreen);
             },
           ),
           const Divider(),
@@ -32,7 +33,7 @@ class AppDrawer extends StatelessWidget {
             title: Text('Timesheets'),
             onTap: () {
               Navigator.of(context)
-                  .pushReplacementNamed(TimesheetScreen.routeName);
+                  .pushReplacementNamed(RouteManager.timesheetScreen);
             },
           ),
           const Divider(),

@@ -4,7 +4,7 @@ import '../widgets/profile_sliver.dart';
 
 import '../widgets/app_drawer.dart';
 import '../providers/jobs.dart';
-import '../widgets/job_card.dart';
+import '../widgets/list_job_card.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -50,7 +50,9 @@ class _TimesheetScreenState extends State<TimesheetScreen> {
             title: Text('Digital Timesheet'),
             actions: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  print(context.read<Auth?>()?.isAdmin);
+                },
                 icon: Icon(Icons.download),
               ),
             ],
@@ -90,7 +92,7 @@ class _TimesheetScreenState extends State<TimesheetScreen> {
                             // physics: ClampingScrollPhysics(),
                             separatorBuilder: (context, index) {
                               return const SizedBox(
-                                height: 5,
+                                height: 0,
                               );
                             },
                           ),

@@ -5,22 +5,23 @@ import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../widgets/show_cool_dialog.dart' as custom_dialog;
+import '../widgets/show_dialog.dart' as custom_dialog;
 import '../models/job_model.dart';
 import '../theme/palette.dart';
-import '../widgets/job_details_text.dart';
+import '../widgets/details_job_text.dart';
 import '../helpers/location_helper.dart';
 import '../widgets/app_drawer.dart';
 
-class JobActiveScreen extends StatefulWidget {
+class ActiveJobScreen extends StatefulWidget {
   static const routeName = '/job-active';
-  JobActiveScreen({Key? key}) : super(key: key);
+  final Job currentJob;
+  ActiveJobScreen(this.currentJob);
 
   @override
-  _JobActiveScreenState createState() => _JobActiveScreenState();
+  _ActiveJobScreenState createState() => _ActiveJobScreenState();
 }
 
-class _JobActiveScreenState extends State<JobActiveScreen> {
+class _ActiveJobScreenState extends State<ActiveJobScreen> {
   List<bool> _isSelected = [false, false];
   var _jobStartPanel = true;
   var _switchPanel = true;
@@ -34,7 +35,6 @@ class _JobActiveScreenState extends State<JobActiveScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Job currentJob = ModalRoute.of(context)!.settings.arguments as Job;
     final scaffold = ScaffoldMessenger.of(context); //use for small snackbar txt
     return Scaffold(
       appBar: AppBar(
@@ -76,7 +76,7 @@ class _JobActiveScreenState extends State<JobActiveScreen> {
               onComplete: () {
                 custom_dialog.activeJobDone(
                     context: context,
-                    activeJob: currentJob,
+                    activeJob: widget.currentJob,
                     stopwatch: _stopWatch,
                     earlyFinish: false,
                     clockController: _clockController);
@@ -156,7 +156,7 @@ class _JobActiveScreenState extends State<JobActiveScreen> {
                             case 2:
                               custom_dialog.activeJobDone(
                                   context: context,
-                                  activeJob: currentJob,
+                                  activeJob: widget.currentJob,
                                   stopwatch: _stopWatch,
                                   earlyFinish: false,
                                   clockController: _clockController);
@@ -215,7 +215,7 @@ class _JobActiveScreenState extends State<JobActiveScreen> {
                               {
                                 custom_dialog.activeJobDone(
                                     context: context,
-                                    activeJob: currentJob,
+                                    activeJob: widget.currentJob,
                                     stopwatch: _stopWatch,
                                     earlyFinish: true,
                                     clockController: _clockController);
@@ -265,7 +265,7 @@ class _JobActiveScreenState extends State<JobActiveScreen> {
                           scaffold.showSnackBar(
                             const SnackBar(
                               content: Text(
-                                '...Starting Shift... Tracking disabled',
+                                'Online',
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -278,7 +278,7 @@ class _JobActiveScreenState extends State<JobActiveScreen> {
               ),
             ),
             const Spacer(),
-            jobDetailPanel(currentJob),
+            jobDetailPanel(widget.currentJob),
             const SizedBox(
               height: 20,
             )

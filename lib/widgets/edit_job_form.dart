@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/jobs.dart';
 import '../models/job_model.dart';
-import '../widgets/job_details_text.dart';
+import 'details_job_text.dart';
 import '../theme/palette.dart';
 
 class EditJobForm extends StatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:disso_app/screens/job_list_screen.dart';
+import 'package:disso_app/screens/list_job_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/profile_sliver.dart';
@@ -7,13 +7,15 @@ import 'package:toggle_switch/toggle_switch.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+import '../routes/routes.dart';
+
 import '../providers/jobs.dart';
 import '../providers/auth.dart';
 import '../widgets/app_drawer.dart';
 import '../legacy_screens/legacy_new_job_form.dart';
 import '../models/job_model.dart';
 import '../theme/palette.dart';
-import '../widgets/job_details_text.dart';
+import '../widgets/details_job_text.dart';
 import '../widgets/edit_job_form.dart';
 
 class EditJobScreen extends StatefulWidget {
@@ -93,7 +95,7 @@ class _EditJobScreenState extends State<EditJobScreen> {
     setState(() {
       _isLoading = false;
     });
-    Navigator.of(context).pushReplacementNamed(JobListScreen.routeName);
+    Navigator.of(context).pushReplacementNamed(RouteManager.listJobScreen);
   }
 
   @override

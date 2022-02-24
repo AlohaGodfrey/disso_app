@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/jobs.dart';
-import '../widgets/job_card.dart';
+import '../widgets/list_job_card.dart';
 import '../widgets/app_drawer.dart';
 
 // class LegacyJobListScreen extends StatelessWidget {

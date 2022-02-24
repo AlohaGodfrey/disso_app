@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart'; //used for date format
 
 import '../providers/timesheet.dart' as pvd;
-import './job_details_text.dart';
+import 'details_job_text.dart';
 
 class TimesheetItem extends StatefulWidget {
   final pvd.TimesheetItem timesheet;

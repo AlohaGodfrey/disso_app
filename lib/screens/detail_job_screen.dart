@@ -4,28 +4,31 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart'; //format date
 import 'package:cool_alert/cool_alert.dart';
 
+import '../routes/routes.dart';
+
 import '../models/job_model.dart';
-import '../widgets/job_details_text.dart';
+import '../widgets/details_job_text.dart';
 import '../widgets/location_input.dart';
 import '../helpers/location_helper.dart';
 import '../theme/palette.dart';
-import '../screens/job_active_screen.dart';
+import 'active_job_screen.dart';
 import '../providers/auth.dart';
 import '../providers/Jobs.dart';
 import './edit_job_screen.dart';
-import '../widgets/show_cool_dialog.dart';
+import '../widgets/show_dialog.dart';
 
-class JobDetailScreen extends StatelessWidget {
+class DetailJobScreen extends StatelessWidget {
   static const routeName = '/job-detail';
   bool jobDelete = false;
-  // JobDetailScreen({this.isAdmin = false});
+  final Job currentJob;
+  DetailJobScreen(this.currentJob);
 
   //get the job id to enter the data before sending it to be rendered
 
   @override
   Widget build(BuildContext context) {
     final isAdmin = Provider.of<Auth>(context).isAdmin; //checks isAdmin?
-    final Job currentJob = ModalRoute.of(context)!.settings.arguments as Job;
+    // final Job currentJob = ModalRoute.of(context)!.settings.arguments as Job;
 
     // Provider.of<Jobs>(context, listen: false).fetchAndSetJobs();
     final _previewImageUrl = LocationHelper.generateLocationPreviewImage(
@@ -73,7 +76,7 @@ class JobDetailScreen extends StatelessWidget {
                 child: IconButton(
                   onPressed: () {
                     //edit the current item.
-                    Navigator.of(context).pushNamed(EditJobScreen.routeName,
+                    Navigator.of(context).pushNamed(RouteManager.editJobScreen,
                         arguments: currentJob.id);
                   },
                   icon: Icon(Icons.edit),
@@ -156,7 +159,7 @@ class JobDetailScreen extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   Navigator.of(context).pushReplacementNamed(
-                      JobActiveScreen.routeName,
+                      RouteManager.activeJobScreen,
                       arguments: currentJob);
                   print('job selected');
                 },

@@ -1,3 +1,4 @@
+import 'package:disso_app/routes/routes.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -5,8 +6,8 @@ import 'package:provider/provider.dart';
 
 import '../providers/Jobs.dart';
 import '../models/job_model.dart';
-import '../screens/job_detail_screen.dart';
-import '../widgets/job_details_text.dart';
+import '../screens/detail_job_screen.dart';
+import 'details_job_text.dart';
 
 class JobCard extends StatelessWidget {
   final Job jobInstance;
@@ -24,7 +25,7 @@ class JobCard extends StatelessWidget {
         // print(context.read<Jobs?>()!.authToken);
 
         final _confirmDeleteJob = await Navigator.of(context)
-            .pushNamed(JobDetailScreen.routeName, arguments: jobInstance);
+            .pushNamed(RouteManager.detailJobScreen, arguments: jobInstance);
         if (_confirmDeleteJob == true) {
           // Provider.of<Jobs>(context, listen: false).deleteJob(jobInstance.id);
 

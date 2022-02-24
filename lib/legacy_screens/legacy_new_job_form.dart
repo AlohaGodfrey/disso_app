@@ -7,7 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../providers/Jobs.dart';
 import '../models/job_model.dart';
 import '../theme/palette.dart';
-import '../widgets/job_details_text.dart';
+import '../widgets/details_job_text.dart';
 
 class LegacyEditJobForm extends StatefulWidget {
   @override

@@ -3,24 +3,25 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+import '../routes/routes.dart';
 import '../widgets/profile_sliver.dart';
 import './edit_job_screen.dart';
 import '../providers/jobs.dart';
 import '../providers/auth.dart';
 import '../widgets/app_drawer.dart';
-import '../widgets/job_card.dart';
+import '../widgets/list_job_card.dart';
 import '../theme/palette.dart';
 import '../models/job_model.dart';
-import '../widgets/job_details_text.dart';
+import '../widgets/details_job_text.dart';
 
-class JobListScreen extends StatefulWidget {
+class ListJobScreen extends StatefulWidget {
   static const routeName = '/sliver-job-list';
 
   @override
-  State<JobListScreen> createState() => _JobListScreenState();
+  State<ListJobScreen> createState() => _ListJobScreenState();
 }
 
-class _JobListScreenState extends State<JobListScreen> {
+class _ListJobScreenState extends State<ListJobScreen> {
   var _isLoading = true;
   var jobAvailability = false;
   late List<Job> jobList;
@@ -114,7 +115,7 @@ class _JobListScreenState extends State<JobListScreen> {
                             ),
                           )
                         : Container(
-                            height: 100,
+                            // height: 100,
                             padding: const EdgeInsets.all(12),
                             width: double.infinity,
                             margin: const EdgeInsets.symmetric(
@@ -154,7 +155,7 @@ class _JobListScreenState extends State<JobListScreen> {
           backgroundColor: Palette.kToDark.shade100,
           child: Icon(Icons.add),
           onPressed: () {
-            Navigator.of(context).pushNamed(EditJobScreen.routeName);
+            Navigator.of(context).pushNamed(RouteManager.editJobScreen);
           },
         ),
       ),
