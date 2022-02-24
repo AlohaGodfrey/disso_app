@@ -117,142 +117,6 @@ class _EditJobFormState extends State<EditJobForm> {
             alignment: Alignment.topCenter,
             child: googleFontStyle('Job Details'),
           ),
-          TextFormField(
-            initialValue: _initValues['title'],
-            decoration: const InputDecoration(labelText: 'Site Area'),
-            textInputAction: TextInputAction.next,
-            onFieldSubmitted: (_) {
-              FocusScope.of(context).requestFocus(_postCodeFocusNode);
-            },
-            validator: (value) {
-              if (value == null) {
-                return 'return is null';
-              } else if (value.isEmpty) {
-                return 'Please provide a Title.';
-              }
-              return null;
-            },
-            onSaved: (value) {
-              widget.updateJobDetails(
-                Job(
-                  id: _editedJob.id,
-                  title: value as String,
-                  description: _editedJob.description,
-                  postcode: _editedJob.postcode,
-                  payRate: _editedJob.payRate,
-                  endDate: _editedJob.endDate,
-                  vehicleRequired: _editedJob.vehicleRequired,
-                  lightConfig: _editedJob.lightConfig,
-                ),
-              );
-
-              _editedJob = Job(
-                id: _editedJob.id,
-                title: value as String,
-                description: _editedJob.description,
-                postcode: _editedJob.postcode,
-                payRate: _editedJob.payRate,
-                endDate: _editedJob.endDate,
-                vehicleRequired: _editedJob.vehicleRequired,
-                lightConfig: _editedJob.lightConfig,
-              );
-            },
-          ),
-          TextFormField(
-            initialValue: _initValues['postcode'],
-            decoration: const InputDecoration(labelText: 'PostCode'),
-            textInputAction: TextInputAction.next,
-            focusNode: _postCodeFocusNode,
-            validator: (value) {
-              if (value == null) {
-                return 'return is null';
-              } else if (value.isEmpty) {
-                return 'Please provide an Area Postcode';
-              }
-              if (value.length != 5) {
-                return 'Should be five characters long';
-              }
-              return null;
-            },
-            onSaved: (value) {
-              // updates state job
-              widget.updateJobDetails(
-                Job(
-                  id: _editedJob.id,
-                  title: _editedJob.title,
-                  description: _editedJob.description == ''
-                      ? 'Two Way Lights \u{1F6A6}\u{1F6A6}'
-                      : _editedJob.description,
-                  postcode: value!.toUpperCase(),
-                  payRate: _editedJob.payRate,
-                  endDate: _editedJob.endDate,
-                  vehicleRequired: _editedJob.vehicleRequired,
-                  lightConfig: _editedJob.lightConfig,
-                ),
-                // updates local job
-              );
-              _editedJob = Job(
-                id: _editedJob.id,
-                title: _editedJob.title,
-                description: _editedJob.description == ''
-                    ? 'Two Way Lights \u{1F6A6}\u{1F6A6}'
-                    : _editedJob.description,
-                postcode: value.toUpperCase(),
-                payRate: _editedJob.payRate,
-                endDate: _editedJob.endDate,
-                vehicleRequired: _editedJob.vehicleRequired,
-                lightConfig: _editedJob.lightConfig,
-              );
-            },
-          ),
-          TextFormField(
-            initialValue: '13.50',
-            decoration: const InputDecoration(labelText: 'Pay Rate [£13.50]'),
-            textInputAction: TextInputAction.next,
-            keyboardType: TextInputType.number,
-            onSaved: (value) {
-              widget.updateJobDetails(
-                Job(
-                  id: _editedJob.id,
-                  title: _editedJob.title,
-                  description: _editedJob.description,
-                  postcode: _editedJob.postcode,
-                  payRate: double.parse(value as String),
-                  vehicleRequired: _editedJob.vehicleRequired,
-                  lightConfig: _editedJob.lightConfig,
-                  endDate: _editedJob.endDate,
-                ),
-              );
-
-              _editedJob = Job(
-                id: _editedJob.id,
-                title: _editedJob.title,
-                description: _editedJob.description,
-                postcode: _editedJob.postcode,
-                payRate: double.parse(value as String),
-                vehicleRequired: _editedJob.vehicleRequired,
-                lightConfig: _editedJob.lightConfig,
-                endDate: _editedJob.endDate,
-              );
-            },
-            validator: (value) {
-              if (value == null) {
-                return 'return is null';
-                //needed for null safety checks in flutter v1.12^
-              }
-              if (value.isEmpty) {
-                return 'Please enter a Price';
-              }
-              if (double.tryParse(value) == null) {
-                return 'Please enter a valid number.';
-              }
-              if (double.parse(value) <= 0) {
-                return 'Please enter a number greater than zero.';
-              }
-              return null;
-            },
-          ),
-
           Container(
             height: 70,
             child: Row(
@@ -273,6 +137,157 @@ class _EditJobFormState extends State<EditJobForm> {
                   ),
                 )
               ],
+            ),
+          ),
+
+          Container(
+            height: 50,
+            padding: EdgeInsets.symmetric(vertical: 5),
+            child: TextFormField(
+              initialValue: _initValues['title'],
+              decoration: const InputDecoration(
+                  labelText: 'Site Area', border: OutlineInputBorder()),
+              textInputAction: TextInputAction.next,
+              onFieldSubmitted: (_) {
+                FocusScope.of(context).requestFocus(_postCodeFocusNode);
+              },
+              validator: (value) {
+                if (value == null) {
+                  return 'return is null';
+                } else if (value.isEmpty) {
+                  return 'Please provide a Title.';
+                }
+                return null;
+              },
+              onSaved: (value) {
+                widget.updateJobDetails(
+                  Job(
+                    id: _editedJob.id,
+                    title: value as String,
+                    description: _editedJob.description,
+                    postcode: _editedJob.postcode,
+                    payRate: _editedJob.payRate,
+                    endDate: _editedJob.endDate,
+                    vehicleRequired: _editedJob.vehicleRequired,
+                    lightConfig: _editedJob.lightConfig,
+                  ),
+                );
+
+                _editedJob = Job(
+                  id: _editedJob.id,
+                  title: value as String,
+                  description: _editedJob.description,
+                  postcode: _editedJob.postcode,
+                  payRate: _editedJob.payRate,
+                  endDate: _editedJob.endDate,
+                  vehicleRequired: _editedJob.vehicleRequired,
+                  lightConfig: _editedJob.lightConfig,
+                );
+              },
+            ),
+          ),
+          Container(
+            height: 50,
+            padding: EdgeInsets.symmetric(vertical: 5),
+            child: TextFormField(
+              initialValue: _initValues['postcode'],
+              decoration: const InputDecoration(
+                  labelText: 'PostCode', border: OutlineInputBorder()),
+              textInputAction: TextInputAction.next,
+              focusNode: _postCodeFocusNode,
+              validator: (value) {
+                if (value == null) {
+                  return 'return is null';
+                } else if (value.isEmpty) {
+                  return 'Please provide an Area Postcode';
+                }
+                if (value.length != 5) {
+                  return 'Should be five characters long';
+                }
+                return null;
+              },
+              onSaved: (value) {
+                // updates state job
+                widget.updateJobDetails(
+                  Job(
+                    id: _editedJob.id,
+                    title: _editedJob.title,
+                    description: _editedJob.description == ''
+                        ? 'Two Way Lights \u{1F6A6}\u{1F6A6}'
+                        : _editedJob.description,
+                    postcode: value!.toUpperCase(),
+                    payRate: _editedJob.payRate,
+                    endDate: _editedJob.endDate,
+                    vehicleRequired: _editedJob.vehicleRequired,
+                    lightConfig: _editedJob.lightConfig,
+                  ),
+                  // updates local job
+                );
+                _editedJob = Job(
+                  id: _editedJob.id,
+                  title: _editedJob.title,
+                  description: _editedJob.description == ''
+                      ? 'Two Way Lights \u{1F6A6}\u{1F6A6}'
+                      : _editedJob.description,
+                  postcode: value.toUpperCase(),
+                  payRate: _editedJob.payRate,
+                  endDate: _editedJob.endDate,
+                  vehicleRequired: _editedJob.vehicleRequired,
+                  lightConfig: _editedJob.lightConfig,
+                );
+              },
+            ),
+          ),
+          Container(
+            height: 40,
+            margin: EdgeInsets.symmetric(vertical: 5),
+            child: TextFormField(
+              initialValue: '13.50',
+              decoration: const InputDecoration(
+                  labelText: 'Pay Rate [£13.50]', border: OutlineInputBorder()),
+              textInputAction: TextInputAction.next,
+              keyboardType: TextInputType.number,
+              onSaved: (value) {
+                widget.updateJobDetails(
+                  Job(
+                    id: _editedJob.id,
+                    title: _editedJob.title,
+                    description: _editedJob.description,
+                    postcode: _editedJob.postcode,
+                    payRate: double.parse(value as String),
+                    vehicleRequired: _editedJob.vehicleRequired,
+                    lightConfig: _editedJob.lightConfig,
+                    endDate: _editedJob.endDate,
+                  ),
+                );
+
+                _editedJob = Job(
+                  id: _editedJob.id,
+                  title: _editedJob.title,
+                  description: _editedJob.description,
+                  postcode: _editedJob.postcode,
+                  payRate: double.parse(value as String),
+                  vehicleRequired: _editedJob.vehicleRequired,
+                  lightConfig: _editedJob.lightConfig,
+                  endDate: _editedJob.endDate,
+                );
+              },
+              validator: (value) {
+                if (value == null) {
+                  return 'return is null';
+                  //needed for null safety checks in flutter v1.12^
+                }
+                if (value.isEmpty) {
+                  return 'Please enter a Price';
+                }
+                if (double.tryParse(value) == null) {
+                  return 'Please enter a valid number.';
+                }
+                if (double.parse(value) <= 0) {
+                  return 'Please enter a number greater than zero.';
+                }
+                return null;
+              },
             ),
           ),
 

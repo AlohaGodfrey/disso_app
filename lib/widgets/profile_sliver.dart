@@ -95,6 +95,11 @@ class _ProfileSliverState extends State<ProfileSliver> {
                         ],
                       ),
                       Spacer(),
+                      IconButton(
+                          onPressed: () {
+                            print(context.read<Auth?>()?.isAdmin);
+                          },
+                          icon: Icon(Icons.help))
                     ],
                   )
                 ],

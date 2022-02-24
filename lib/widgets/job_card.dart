@@ -21,6 +21,8 @@ class JobCard extends StatelessWidget {
     // print(jobInstance.lightConfig);
     return GestureDetector(
       onTap: () async {
+        // print(context.read<Jobs?>()!.authToken);
+
         final _confirmDeleteJob = await Navigator.of(context)
             .pushNamed(JobDetailScreen.routeName, arguments: jobInstance);
         if (_confirmDeleteJob == true) {
