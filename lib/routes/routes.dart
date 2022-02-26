@@ -9,6 +9,7 @@ import '../screens/detail_job_screen.dart';
 import '../screens/edit_job_screen.dart';
 import '../screens/list_job_screen.dart';
 import '../screens/timesheet_screen.dart';
+import '../screens/maps_google_screen.dart';
 
 class RouteManager {
   static const String autoLoginConfig = '/';
@@ -19,6 +20,7 @@ class RouteManager {
   static const String editJobScreen = '/edit-jobs';
   static const String activeJobScreen = '/active-job';
   static const String timesheetScreen = '/timesheet';
+  static const String mapsGoogleScreen = '/maps-google';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -62,6 +64,11 @@ class RouteManager {
       case timesheetScreen:
         return MaterialPageRoute(
           builder: (context) => TimesheetScreen(),
+        );
+
+      case mapsGoogleScreen:
+        return MaterialPageRoute(
+          builder: (context) => MapsGoogleScreen(),
         );
 
       default:

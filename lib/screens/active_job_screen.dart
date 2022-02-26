@@ -9,7 +9,7 @@ import '../widgets/show_dialog.dart' as custom_dialog;
 import '../models/job_model.dart';
 import '../theme/palette.dart';
 import '../widgets/details_job_text.dart';
-import '../helpers/location_helper.dart';
+import '../helpers/location_service.dart';
 import '../widgets/app_drawer.dart';
 
 class ActiveJobScreen extends StatefulWidget {

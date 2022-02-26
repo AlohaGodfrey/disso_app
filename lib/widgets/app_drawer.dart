@@ -11,6 +11,7 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isAdmin = context.read<Auth>().isAdmin;
     return Drawer(
       child: Column(
         children: [
@@ -35,6 +36,21 @@ class AppDrawer extends StatelessWidget {
               Navigator.of(context)
                   .pushReplacementNamed(RouteManager.timesheetScreen);
             },
+          ),
+          Visibility(
+            visible: isAdmin,
+            child: const Divider(),
+          ),
+          Visibility(
+            visible: isAdmin,
+            child: ListTile(
+              leading: const Icon(Icons.location_history),
+              title: Text('Map Overview'),
+              onTap: () {
+                Navigator.of(context)
+                    .pushReplacementNamed(RouteManager.mapsGoogleScreen);
+              },
+            ),
           ),
           const Divider(),
           ListTile(

@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart'; //format date
-import 'package:cool_alert/cool_alert.dart';
 
 import '../routes/routes.dart';
 
 import '../models/job_model.dart';
 import '../widgets/details_job_text.dart';
 import '../widgets/location_input.dart';
-import '../helpers/location_helper.dart';
+import '../helpers/location_service.dart';
 import '../theme/palette.dart';
-import 'active_job_screen.dart';
 import '../providers/auth.dart';
 import '../providers/Jobs.dart';
-import './edit_job_screen.dart';
 import '../widgets/show_dialog.dart';
 
 class DetailJobScreen extends StatelessWidget {
@@ -31,7 +27,7 @@ class DetailJobScreen extends StatelessWidget {
     // final Job currentJob = ModalRoute.of(context)!.settings.arguments as Job;
 
     // Provider.of<Jobs>(context, listen: false).fetchAndSetJobs();
-    final _previewImageUrl = LocationHelper.generateLocationPreviewImage(
+    final _previewImageUrl = LocationService.generateLocationPreviewImage(
         latitute: currentJob.location.latitude,
         longitude: currentJob.location.longitude);
 
@@ -116,11 +112,11 @@ class DetailJobScreen extends StatelessWidget {
                         style: GoogleFonts.inter(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       LocationInput(_previewImageUrl),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Row(
