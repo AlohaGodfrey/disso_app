@@ -5,14 +5,14 @@ import 'package:provider/provider.dart';
 import '../providers/Auth.dart';
 import '../theme/palette.dart';
 
-class ProfileSliver extends StatefulWidget {
+class ProfileBarSliver extends StatefulWidget {
   bool isAdmin;
-  ProfileSliver({this.isAdmin = false});
+  ProfileBarSliver({this.isAdmin = false});
   @override
-  _ProfileSliverState createState() => _ProfileSliverState();
+  _ProfileBarSliverState createState() => _ProfileBarSliverState();
 }
 
-class _ProfileSliverState extends State<ProfileSliver> {
+class _ProfileBarSliverState extends State<ProfileBarSliver> {
   @override
   Widget build(BuildContext context) {
     // final isAdmin = Provider.of<Auth>(context).isAdmin; //checks isAdmin?

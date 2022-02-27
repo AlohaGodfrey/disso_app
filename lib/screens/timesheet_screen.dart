@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../widgets/profile_sliver.dart';
+import '../widgets/profile_bar.dart';
 
 import '../widgets/app_drawer.dart';
 import '../providers/jobs.dart';
@@ -57,7 +57,7 @@ class _TimesheetScreenState extends State<TimesheetScreen> {
               ),
             ],
           ),
-          ProfileSliver(isAdmin: isAdmin),
+          ProfileBarSliver(isAdmin: isAdmin),
           SliverList(
             delegate: SliverChildListDelegate([
               FutureBuilder(
