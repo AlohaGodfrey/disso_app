@@ -67,6 +67,12 @@ class MapsGoogleScreenState extends State<MapsGoogleScreen> {
     zoom: 15,
   );
 
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   static const Marker _kUniCampusMarker = Marker(
       markerId: MarkerId('_kUniCampus'),
       infoWindow:
@@ -94,7 +100,9 @@ class MapsGoogleScreenState extends State<MapsGoogleScreen> {
           ProfileSearchSliver(
             isAdmin: true,
             searchController: _searchController,
-            SearchCity: _searchUpdateMap,
+            searchFunction: _searchUpdateMap,
+            searchBarHint: "Enter a Location?",
+            searchType: SearchType.viaSearchButton,
           ),
           SliverList(
             delegate: SliverChildListDelegate(

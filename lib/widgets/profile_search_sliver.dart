@@ -5,14 +5,20 @@ import 'package:provider/provider.dart';
 import '../providers/Auth.dart';
 import '../theme/palette.dart';
 
+enum SearchType { viaSearchButton, viaTextInput }
+
 class ProfileSearchSliver extends StatefulWidget {
   bool isAdmin;
   TextEditingController searchController;
-  Function SearchCity;
+  Function searchFunction;
+  String searchBarHint;
+  SearchType searchType;
   ProfileSearchSliver(
       {this.isAdmin = false,
       required this.searchController,
-      required this.SearchCity});
+      required this.searchFunction,
+      required this.searchBarHint,
+      required this.searchType});
   @override
   _ProfileSearchSliverState createState() => _ProfileSearchSliverState();
 }
@@ -131,19 +137,36 @@ class _ProfileSearchSliverState extends State<ProfileSearchSliver> {
                   elevation: 3,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)),
-                  child: TextFormField(
-                    controller: widget.searchController,
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        labelText: "Enter a Location?",
-                        suffixIcon: IconButton(
-                          onPressed: () async {
-                            widget.SearchCity();
+                  child: widget.searchType == SearchType.viaSearchButton
+                      ? TextFormField(
+                          controller: widget.searchController,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              labelText: widget.searchBarHint,
+                              suffixIcon: IconButton(
+                                onPressed: () async {
+                                  widget.searchFunction();
+                                },
+                                icon: Icon(Icons.search),
+                              ),
+                              contentPadding: EdgeInsets.only(left: 20)),
+                        )
+                      : TextField(
+                          controller: widget.searchController,
+                          onChanged: (value) {
+                            widget.searchFunction(value);
                           },
-                          icon: Icon(Icons.search),
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              labelText: widget.searchBarHint,
+                              suffixIcon: IconButton(
+                                onPressed: () async {
+                                  // widget.searchFunction();
+                                },
+                                icon: Icon(Icons.search),
+                              ),
+                              contentPadding: EdgeInsets.only(left: 20)),
                         ),
-                        contentPadding: EdgeInsets.only(left: 20)),
-                  ),
                 ),
               ),
             ),

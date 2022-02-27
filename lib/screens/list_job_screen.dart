@@ -1,10 +1,11 @@
 import 'package:flutter/scheduler.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../routes/routes.dart';
-import '../widgets/profile_bar_sliver.dart';
+import '../widgets/profile_search_sliver.dart';
 import './edit_job_screen.dart';
 import '../providers/jobs.dart';
 import '../providers/auth.dart';
@@ -25,6 +26,8 @@ class _ListJobScreenState extends State<ListJobScreen> {
   var _isLoading = true;
   var jobAvailability = false;
   late List<Job> jobList;
+  List<Job> jobListSearch = [];
+  TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -56,6 +59,25 @@ class _ListJobScreenState extends State<ListJobScreen> {
   }
 
   @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _searchUpdateJobList(String value) async {
+    setState(() {
+      jobListSearch = jobList
+          .where((jobInstance) =>
+              jobInstance.title.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+
+      if (_searchController.text.isNotEmpty && jobListSearch.isEmpty) {
+        // print('Job list search length: ${jobListSearch.length}');
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     jobList = Provider.of<Jobs>(context, listen: true).jobItems;
     final isAdmin = Provider.of<Auth>(context).isAdmin; //checks isAdmin?
@@ -74,11 +96,18 @@ class _ListJobScreenState extends State<ListJobScreen> {
               ),
             ],
           ),
-          ProfileBarSliver(isAdmin: isAdmin),
+          ProfileSearchSliver(
+            isAdmin: true,
+            searchController: _searchController,
+            searchFunction: _searchUpdateJobList,
+            searchBarHint: "Enter a Job Site?",
+            searchType: SearchType.viaTextInput,
+          ),
           SliverList(
             delegate: SliverChildListDelegate(
               [
                 _isLoading
+                    //showws loading spinner
                     ? Container(
                         height: (MediaQuery.of(context).size.height / 7) * 4.5,
                         padding: const EdgeInsets.all(20),
@@ -91,30 +120,58 @@ class _ListJobScreenState extends State<ListJobScreen> {
                       )
                     : jobAvailability
                         ? Container(
+                            //shows job list
                             height: MediaQuery.of(context).size.height,
-                            child: ListView.separated(
-                              padding:
-                                  const EdgeInsets.only(top: 24, bottom: 0),
-                              // physics: const BouncingScrollPhysics(),
-                              physics: const ClampingScrollPhysics(),
-                              // physics: NeverScrollableScrollPhysics(),
+                            child: _searchController.text.isNotEmpty &&
+                                    jobListSearch.isEmpty
+                                ? Center(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Padding(padding: EdgeInsets.all(12)),
+                                        Icon(
+                                          Icons.search_off,
+                                          size: 100,
+                                          color: Palette.kToLight,
+                                        ),
+                                        Text('No results found',
+                                            style: GoogleFonts.inter(
+                                                fontSize: 35,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.grey.shade800))
+                                      ],
+                                    ),
+                                  )
+                                : ListView.separated(
+                                    padding: const EdgeInsets.only(
+                                        top: 24, bottom: 0),
+                                    // physics: const BouncingScrollPhysics(),
+                                    physics: const ClampingScrollPhysics(),
+                                    // physics: NeverScrollableScrollPhysics(),
 
-                              itemCount: jobList.length,
-                              itemBuilder: (context, index) {
-                                return JobCard(
-                                  jobInstance: jobList[index],
-                                  refreshPage: refreshPage,
-                                );
-                                // return JobCard(job: JobList[index]);
-                              },
-                              separatorBuilder: (context, index) {
-                                return const SizedBox(
-                                  height: 12,
-                                );
-                              },
-                            ),
+                                    itemCount: _searchController.text.isNotEmpty
+                                        ? jobListSearch.length
+                                        : jobList.length,
+                                    itemBuilder: (context, index) {
+                                      return JobCard(
+                                        jobInstance:
+                                            _searchController.text.isNotEmpty
+                                                ? jobListSearch[index]
+                                                : jobList[index],
+                                        refreshPage: refreshPage,
+                                      );
+                                      // return JobCard(job: JobList[index]);
+                                    },
+                                    separatorBuilder: (context, index) {
+                                      return const SizedBox(
+                                        height: 12,
+                                      );
+                                    },
+                                  ),
                           )
                         : Container(
+                            //shows inital no jobs available on firebase
                             // height: 100,
                             padding: const EdgeInsets.all(12),
                             width: double.infinity,
