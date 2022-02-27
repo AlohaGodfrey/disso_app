@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../routes/routes.dart';
-import '../widgets/profile_bar.dart';
+import '../widgets/profile_bar_sliver.dart';
 import './edit_job_screen.dart';
 import '../providers/jobs.dart';
 import '../providers/auth.dart';

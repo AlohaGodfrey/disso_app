@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http; //bundle in http prefix
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/http_exception.dart';
-import '../helpers/firebase_url.dart';
+import '../helpers/firebase_service.dart';
 
 class Auth with ChangeNotifier {
   String? _token;

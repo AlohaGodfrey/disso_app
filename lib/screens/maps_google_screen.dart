@@ -5,7 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../helpers/location_service.dart';
 import '../widgets/app_drawer.dart';
-import '../widgets/profile_search.dart';
+import '../widgets/profile_search_sliver.dart';
 
 class MapsGoogleScreen extends StatefulWidget {
   @override

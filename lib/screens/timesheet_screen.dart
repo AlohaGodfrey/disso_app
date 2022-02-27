@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../widgets/profile_bar.dart';
+import '../widgets/profile_bar_sliver.dart';
 
 import '../widgets/app_drawer.dart';
-import '../providers/jobs.dart';
-import '../widgets/list_job_card.dart';
-
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import '../providers/auth.dart';
 import '../providers/timesheet.dart' show Timesheet;
 import '../widgets/timesheet_card.dart';
-import '../widgets/app_drawer.dart';
+import '../widgets/timesheet_pdf_invoice.dart';
 
 class TimesheetScreen extends StatefulWidget {
   static const routeName = '/sliver-timesheet';
@@ -49,11 +43,18 @@ class _TimesheetScreenState extends State<TimesheetScreen> {
             pinned: true,
             title: Text('Digital Timesheet'),
             actions: [
+              //disables pdf button if timesheet history is empty
+              //if timesheet history is null then disable pdf button
               IconButton(
-                onPressed: () {
-                  print(context.read<Auth?>()?.isAdmin);
+                onPressed: () async {
+                  if (context.read<Timesheet?>()?.timesheet.isNotEmpty ??
+                      true) {
+                    generatePDF(context.read<Timesheet>().timesheet);
+                  } else {
+                    print(false);
+                  }
                 },
-                icon: Icon(Icons.download),
+                icon: const Icon(Icons.picture_as_pdf_rounded),
               ),
             ],
           ),

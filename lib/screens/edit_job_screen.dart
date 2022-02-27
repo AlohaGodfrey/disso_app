@@ -1,7 +1,7 @@
 import 'package:disso_app/screens/list_job_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../widgets/profile_bar.dart';
+import '../widgets/profile_bar_sliver.dart';
 import 'package:intl/intl.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

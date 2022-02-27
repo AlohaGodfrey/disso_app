@@ -2,7 +2,8 @@ import 'package:disso_app/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; //used for date format
 
-import '../providers/timesheet.dart' as pvd;
+// import '../providers/timesheet.dart' as pvd;
+import '../models/timesheet_model.dart' as pvd;
 import 'details_job_text.dart';
 
 class TimesheetItem extends StatefulWidget {
