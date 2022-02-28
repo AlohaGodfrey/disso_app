@@ -25,7 +25,8 @@ class AppDrawer extends StatelessWidget {
             leading: Icon(Icons.search),
             title: Text('Search Jobs'),
             onTap: () {
-              Navigator.of(context).pushNamed(RouteManager.listJobScreen);
+              Navigator.of(context)
+                  .pushReplacementNamed(RouteManager.listJobScreen);
             },
           ),
           const Divider(),
