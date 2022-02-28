@@ -19,6 +19,7 @@ class JobCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final jobTitle = jobInstance.title;
     final jobDesc = jobInstance.description;
+    final deviceSize = MediaQuery.of(context).size;
     // print(jobInstance.lightConfig);
     return GestureDetector(
       onTap: () async {
@@ -34,78 +35,82 @@ class JobCard extends StatelessWidget {
         }
       },
       child: Container(
-        height: 100,
-        padding: const EdgeInsets.all(12),
-        width: double.infinity,
-        margin: const EdgeInsets.symmetric(
-          horizontal: 16,
-        ),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            color: Colors.white,
-            boxShadow: const [
-              BoxShadow(
-                color: Color.fromARGB(136, 212, 212, 212),
-                blurRadius: 2.0,
-                spreadRadius: 0.0,
-                offset: Offset(2.0, 2.0), // shadow direction: bottom right
+        width: 300,
+        child: Container(
+          height: 100,
+          margin: EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.all(12),
+          width: 300,
+          // margin: EdgeInsets.symmetric(
+          //   horizontal: 16,
+          // ),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: Colors.white,
+              boxShadow: const [
+                BoxShadow(
+                  color: Color.fromARGB(136, 212, 212, 212),
+                  blurRadius: 2.0,
+                  spreadRadius: 0.0,
+                  offset: Offset(2.0, 2.0), // shadow direction: bottom right
+                ),
+              ]),
+          child: Row(
+            children: [
+              //display image
+              AspectRatio(
+                aspectRatio: 1,
+                child: Container(
+                  padding: const EdgeInsets.all(18),
+                  decoration: BoxDecoration(
+                      color: Colors.grey.shade100,
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Image.asset('assets/logo.png'),
+                ),
               ),
-            ]),
-        child: Row(
-          children: [
-            //display image
-            AspectRatio(
-              aspectRatio: 1,
-              child: Container(
-                padding: const EdgeInsets.all(18),
-                decoration: BoxDecoration(
-                    color: Colors.grey.shade100,
-                    borderRadius: BorderRadius.circular(12)),
-                child: Image.asset('assets/logo.png'),
+              const SizedBox(
+                width: 12,
               ),
-            ),
-            const SizedBox(
-              width: 12,
-            ),
-            //display job info
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  // SizedBox(height: 10),
-                  //get rid of const
-                  //title
-                  Text(jobTitle,
-                      style: GoogleFonts.inter(
-                          fontSize: 16, fontWeight: FontWeight.w600)),
-                  //subtitle
-                  Text('$jobDesc',
-                      style: GoogleFonts.inter(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.grey.shade800)),
+              //display job info
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    // SizedBox(height: 10),
+                    //get rid of const
+                    //title
+                    Text(jobTitle,
+                        style: GoogleFonts.inter(
+                            fontSize: 16, fontWeight: FontWeight.w600)),
+                    //subtitle
+                    Text('$jobDesc',
+                        style: GoogleFonts.inter(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.grey.shade800)),
 
-                  Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 4, horizontal: 6),
-                          decoration: BoxDecoration(
-                              color: Colors.blue.shade50,
-                              borderRadius: BorderRadius.circular(6)),
-                          child:
-                              transportIconFinder(jobInstance.vehicleRequired)),
-                      googleFontStyle(' | '),
-                      transportInfo(jobInstance.vehicleRequired),
-                    ],
-                  )
-                ],
+                    Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 4, horizontal: 6),
+                            decoration: BoxDecoration(
+                                color: Colors.blue.shade50,
+                                borderRadius: BorderRadius.circular(6)),
+                            child: transportIconFinder(
+                                jobInstance.vehicleRequired)),
+                        googleFontStyle(' | '),
+                        transportInfo(jobInstance.vehicleRequired),
+                      ],
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -5,25 +5,25 @@ import 'package:provider/provider.dart';
 import '../providers/Auth.dart';
 import '../theme/palette.dart';
 
-class ProfileBarSliver extends StatefulWidget {
+class ProfileSliver extends StatefulWidget {
   bool isAdmin;
-  ProfileBarSliver({this.isAdmin = false});
+  ProfileSliver({this.isAdmin = false});
   @override
-  _ProfileBarSliverState createState() => _ProfileBarSliverState();
+  _ProfileSliverState createState() => _ProfileSliverState();
 }
 
-class _ProfileBarSliverState extends State<ProfileBarSliver> {
+class _ProfileSliverState extends State<ProfileSliver> {
   @override
   Widget build(BuildContext context) {
     // final isAdmin = Provider.of<Auth>(context).isAdmin; //checks isAdmin?
-    Size size = MediaQuery.of(context).size;
+    Size deviceSize = MediaQuery.of(context).size;
     return SliverList(
       delegate: SliverChildListDelegate([
         Column(
           children: [
             Container(
               padding: EdgeInsets.symmetric(horizontal: 15),
-              height: size.height / 7,
+              height: deviceSize.height / 7,
               decoration: const BoxDecoration(
                   color: Palette.kToLight,
                   borderRadius: BorderRadius.vertical(
@@ -52,9 +52,10 @@ class _ProfileBarSliverState extends State<ProfileBarSliver> {
                           radius: 30,
                         ),
                       ),
-                      SizedBox(
-                        width: size.width * 0.12,
-                      ),
+                      // SizedBox(
+                      //   width: deviceSize.width * 0.12,
+                      // ),
+                      Spacer(),
                       Column(
                         children: [
                           widget.isAdmin
@@ -95,6 +96,9 @@ class _ProfileBarSliverState extends State<ProfileBarSliver> {
                         ],
                       ),
                       Spacer(),
+                      SizedBox(
+                        width: deviceSize.width * 0.02,
+                      ),
                       IconButton(
                           onPressed: () {
                             print(context.read<Auth?>()?.isAdmin);

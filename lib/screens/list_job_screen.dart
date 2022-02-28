@@ -82,6 +82,8 @@ class _ListJobScreenState extends State<ListJobScreen> {
     jobList = Provider.of<Jobs>(context, listen: true).jobItems;
     final isAdmin = Provider.of<Auth>(context).isAdmin; //checks isAdmin?
     jobAvailability = jobList.isNotEmpty;
+    final deviceSize = MediaQuery.of(context).size;
+
     return Scaffold(
       drawer: const AppDrawer(),
       body: CustomScrollView(

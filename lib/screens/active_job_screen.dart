@@ -1,3 +1,4 @@
+import 'package:disso_app/widgets/location_input.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
@@ -35,6 +36,9 @@ class _ActiveJobScreenState extends State<ActiveJobScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final _previewImageUrl = LocationService.generateLocationPreviewImage(
+        latitute: widget.currentJob.location.latitude,
+        longitude: widget.currentJob.location.longitude);
     final scaffold = ScaffoldMessenger.of(context); //use for small snackbar txt
     return Scaffold(
       appBar: AppBar(
@@ -42,16 +46,20 @@ class _ActiveJobScreenState extends State<ActiveJobScreen> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const Spacer(),
+            Container(
+              child: LocationInput(_previewImageUrl),
+              height: MediaQuery.of(context).size.height * 0.1,
+            ),
+            // const Spacer(),
             CircularCountDownTimer(
               // duration: 43200,
               duration: _initDuration,
               initialDuration: 0,
               controller: _clockController,
-              width: MediaQuery.of(context).size.width / 1.5,
-              height: MediaQuery.of(context).size.height / 1.9,
+              width: MediaQuery.of(context).size.width * 0.6,
+              height: MediaQuery.of(context).size.height * 0.42,
               ringColor: Palette.kToDark,
               ringGradient: null,
               fillColor: Palette.bToLight,

@@ -1,7 +1,7 @@
 import 'package:disso_app/screens/list_job_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../widgets/profile_bar_sliver.dart';
+import '../widgets/profile_sliver.dart';
 import 'package:intl/intl.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -122,14 +122,16 @@ class _EditJobScreenState extends State<EditJobScreen> {
               ),
             ],
           ),
-          ProfileBarSliver(isAdmin: isAdmin),
+          ProfileSliver(isAdmin: isAdmin),
           SliverList(
             delegate: SliverChildListDelegate(
               [
                 Container(
                   height: (MediaQuery.of(context).size.height / 7) * 4.5,
                   padding: const EdgeInsets.all(20),
-                  width: double.infinity,
+                  width: MediaQuery.of(context).size.width > 600
+                      ? MediaQuery.of(context).size.width * 0.5
+                      : double.infinity,
                   margin: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),

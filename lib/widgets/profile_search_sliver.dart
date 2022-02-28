@@ -51,9 +51,10 @@ class _ProfileSearchSliverState extends State<ProfileSearchSliver> {
                     ]),
                 child: Column(
                   children: [
-                    const SizedBox(
-                      height: 20,
-                    ),
+                    // const SizedBox(
+                    //   height: 20,
+                    // ),
+
                     Row(
                       children: [
                         const CircleAvatar(
@@ -64,9 +65,10 @@ class _ProfileSearchSliverState extends State<ProfileSearchSliver> {
                             radius: 30,
                           ),
                         ),
-                        SizedBox(
-                          width: size.width * 0.12,
-                        ),
+                        // SizedBox(
+                        //   width: size.width * 0.12,
+                        // ),
+                        Spacer(),
                         Column(
                           children: [
                             widget.isAdmin
@@ -107,6 +109,9 @@ class _ProfileSearchSliverState extends State<ProfileSearchSliver> {
                           ],
                         ),
                         Spacer(),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.02,
+                        ),
                         IconButton(
                             onPressed: () {
                               print(context.read<Auth?>()?.isAdmin);
