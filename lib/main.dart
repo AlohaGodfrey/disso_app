@@ -60,7 +60,8 @@ class MyApp extends StatelessWidget {
       ],
       child: Consumer<Auth>(builder: (context, auth, _) {
         return MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Disso App',
+          debugShowCheckedModeBanner: false,
           theme: paletteThemeData(),
           initialRoute: RouteManager.autoLoginConfig,
           onGenerateRoute: RouteManager.generateRoute,

@@ -99,7 +99,7 @@ class _ListJobScreenState extends State<ListJobScreen> {
             ],
           ),
           ProfileSearchSliver(
-            isAdmin: true,
+            isAdmin: isAdmin,
             searchController: _searchController,
             searchFunction: _searchUpdateJobList,
             searchBarHint: "Enter a Job Site?",
@@ -209,7 +209,7 @@ class _ListJobScreenState extends State<ListJobScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: Visibility(
-        visible: isAdmin,
+        visible: true,
         child: FloatingActionButton(
           backgroundColor: Palette.kToDark.shade100,
           child: Icon(Icons.add),
