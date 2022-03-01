@@ -1,3 +1,4 @@
+import 'package:disso_app/widgets/show_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,7 +11,6 @@ import '../providers/timesheet.dart' show Timesheet;
 
 class TimesheetScreen extends StatefulWidget {
   const TimesheetScreen({Key? key}) : super(key: key);
-
   @override
   State<TimesheetScreen> createState() => _TimesheetScreenState();
 }
@@ -58,7 +58,7 @@ class _TimesheetScreenState extends State<TimesheetScreen> {
               ),
             ],
           ),
-          ProfileSliver(isAdmin: isAdmin),
+          ProfileSliver(isAdmin: isAdmin, helpDialog: HelpHintType.timesheet),
           SliverList(
             delegate: SliverChildListDelegate([
               FutureBuilder(

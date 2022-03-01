@@ -8,6 +8,8 @@ import '../providers/Jobs.dart';
 import '../theme/palette.dart';
 import '../models/job_model.dart';
 
+enum HelpHintType { listAdmin, listUser, editJob, timesheet, mapsGoogle }
+
 //shows a custom dialog and transfer job data
 void activeJobDone(
     {required BuildContext context,
@@ -68,5 +70,56 @@ void confirmJobDelete(BuildContext context, Job currentJob) {
       Navigator.of(context).pop();
       Navigator.of(context).pop(jobDelete);
     },
+  );
+}
+
+//timesheet help, location help, job list help, edit job screen
+//add new jobs, pull down to refresh, search job sites
+void helpContextDialog(BuildContext context, HelpHintType currentScreen) {
+  String star = '\n\u{2A}\u{FE0F}';
+  String helpTitle = 'No Help Available';
+  String helpInfo = 'contact support';
+  String helpInfoExtended = '';
+
+  switch (currentScreen) {
+    case HelpHintType.listUser:
+      helpTitle = 'Search and Select jobs';
+      helpInfo =
+          '\u{2A}\u{FE0F} Search job list instantly$star Refresh for latest updates';
+      helpInfoExtended = '$star View brief job summary';
+      break;
+    case HelpHintType.listAdmin:
+      helpTitle = 'Search and Select jobs';
+      helpInfo =
+          '\u{2A}\u{FE0F} Search job list instantly$star Refresh for latest updates';
+      helpInfoExtended = '$star View brief job summary $star Add new jobs';
+      break;
+    case HelpHintType.editJob:
+      helpTitle = 'Edit/Add a new job';
+      helpInfo =
+          '\u{2A}\u{FE0F} Add/Edit a Job$star Enter custom details$star Set Pay Rate';
+      helpInfoExtended =
+          '$star Select vehicle requirements $star Three Light Configurations';
+      break;
+    case HelpHintType.mapsGoogle:
+      helpTitle = 'View location info';
+      helpInfo =
+          '\u{2A}\u{FE0F} Interact with dynamic map$star View worker active location';
+      helpInfoExtended = '$star Visit any location';
+      break;
+    case HelpHintType.timesheet:
+      helpTitle = 'View Work History';
+      helpInfo =
+          '\u{2A}\u{FE0F} View Timesheet summary$star Expand timesheet history details';
+      helpInfoExtended = '$star Generate a PDF Invoice';
+      break;
+  }
+
+  CoolAlert.show(
+    context: context,
+    backgroundColor: Palette.kToLight,
+    type: CoolAlertType.info,
+    title: helpTitle,
+    text: '$helpInfo $helpInfoExtended',
   );
 }

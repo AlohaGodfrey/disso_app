@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:disso_app/widgets/show_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -95,6 +96,7 @@ class MapsGoogleScreenState extends State<MapsGoogleScreen> {
             searchFunction: _searchUpdateMap,
             searchBarHint: "Enter a Location?",
             searchType: SearchType.viaSearchButton,
+            helpDialog: HelpHintType.mapsGoogle,
           ),
           SliverList(
             delegate: SliverChildListDelegate(

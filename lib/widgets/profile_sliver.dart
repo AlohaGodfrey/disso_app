@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
-import '../providers/Auth.dart';
 import '../theme/palette.dart';
+import './show_dialog.dart';
 
 class ProfileSliver extends StatefulWidget {
   //bool flag used to load different text depending on user isAdmin permission
-  bool isAdmin;
-  ProfileSliver({Key? key, this.isAdmin = false}) : super(key: key);
+  final bool isAdmin;
+  final HelpHintType helpDialog;
+  const ProfileSliver(
+      {Key? key, this.isAdmin = false, required this.helpDialog})
+      : super(key: key);
   @override
   _ProfileSliverState createState() => _ProfileSliverState();
 }
@@ -98,7 +100,8 @@ class _ProfileSliverState extends State<ProfileSliver> {
                       ),
                       IconButton(
                           onPressed: () {
-                            print(context.read<Auth?>()?.isAdmin);
+                            // print(context.read<Auth?>()?.isAdmin);
+                            helpContextDialog(context, widget.helpDialog);
                           },
                           icon: const Icon(Icons.help))
                     ],

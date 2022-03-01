@@ -2,22 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../theme/palette.dart';
+import './show_dialog.dart';
 
 enum SearchType { viaSearchButton, viaTextInput }
 
 class ProfileSearchSliver extends StatefulWidget {
-  bool isAdmin;
-  TextEditingController searchController;
-  Function searchFunction;
-  String searchBarHint;
-  SearchType searchType;
-  ProfileSearchSliver(
+  final bool isAdmin;
+  final TextEditingController searchController;
+  final Function searchFunction;
+  final String searchBarHint;
+  final SearchType searchType;
+  final HelpHintType helpDialog;
+  const ProfileSearchSliver(
       {Key? key,
       this.isAdmin = false,
       required this.searchController,
       required this.searchFunction,
       required this.searchBarHint,
-      required this.searchType})
+      required this.searchType,
+      required this.helpDialog})
       : super(key: key);
   @override
   _ProfileSearchSliverState createState() => _ProfileSearchSliverState();
@@ -108,7 +111,14 @@ class _ProfileSearchSliverState extends State<ProfileSearchSliver> {
                         IconButton(
                             onPressed: () {
                               // print(context.read<Auth?>()?.isAdmin);
-                              FocusManager.instance.primaryFocus?.unfocus();
+                              // FocusManager.instance.primaryFocus?.unfocus();
+                              if (widget.helpDialog == HelpHintType.listUser &&
+                                  widget.isAdmin == true) {
+                                helpContextDialog(
+                                    context, HelpHintType.listAdmin);
+                                return;
+                              }
+                              helpContextDialog(context, widget.helpDialog);
                             },
                             icon: const Icon(Icons.help))
                       ],

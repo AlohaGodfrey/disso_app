@@ -1,3 +1,4 @@
+import 'package:disso_app/widgets/show_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -116,7 +117,10 @@ class _EditJobScreenState extends State<EditJobScreen> {
               ),
             ],
           ),
-          ProfileSliver(isAdmin: isAdmin),
+          ProfileSliver(
+            isAdmin: isAdmin,
+            helpDialog: HelpHintType.editJob,
+          ),
           SliverList(
             delegate: SliverChildListDelegate(
               [
