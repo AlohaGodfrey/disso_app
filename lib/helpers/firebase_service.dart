@@ -1,4 +1,4 @@
-//builds the custom url location
+//builds the database custom url location
 Uri firebaseUrl(String authToken, String uriTarget, [String? uriFilter]) {
   String dbUrl;
   const dbHost =

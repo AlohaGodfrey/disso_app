@@ -3,7 +3,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http; //bundle in http prefix
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/http_exception.dart';
 import '../helpers/firebase_service.dart';
@@ -54,7 +53,7 @@ class Jobs with ChangeNotifier {
         }),
       );
 
-      print(json.decode(response.body));
+      // print(json.decode(response.body));
 
       final newJob = Job(
           title: jobEntry.title,
@@ -75,7 +74,7 @@ class Jobs with ChangeNotifier {
 
       notifyListeners();
     } catch (error) {
-      print(error);
+      // print(error);
       throw error;
     }
   }

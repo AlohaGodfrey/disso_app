@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'job_location.dart';
+import 'place_location.dart';
 
 enum LightConfig { twoWay, threeWay, fourWay }
 enum VehicleRequired { noParking, carOnly, anyTransport }

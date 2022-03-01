@@ -29,6 +29,7 @@ class _EditJobScreenState extends State<EditJobScreen> {
       postcode: '');
 
   //for loading spinner during upload
+  // ignore: unused_field
   var _isLoading = false;
 
   void _updateJobDetails(Job revisedJob) {
@@ -66,14 +67,14 @@ class _EditJobScreenState extends State<EditJobScreen> {
           //add custom dialog
           context: context,
           builder: (ctx) => AlertDialog(
-            title: Text('An error occurred!'),
-            content: Text('Something went wrong'),
+            title: const Text('An error occurred!'),
+            content: const Text('Something went wrong'),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(ctx).pop();
                 },
-                child: Text('Okay'),
+                child: const Text('Okay'),
               )
             ],
           ),
@@ -103,14 +104,14 @@ class _EditJobScreenState extends State<EditJobScreen> {
         slivers: [
           SliverAppBar(
             pinned: true,
-            title: Text('New Job Edit'),
+            title: const Text('New Job Edit'),
             actions: [
               IconButton(
                 onPressed: () {
                   _saveForm();
                   Navigator.of(context).pop;
                 },
-                icon: Icon(Icons.save),
+                icon: const Icon(Icons.save),
                 color: Palette.bToDark,
               ),
             ],

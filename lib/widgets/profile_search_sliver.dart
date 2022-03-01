@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
-import '../providers/Auth.dart';
 import '../theme/palette.dart';
 
 enum SearchType { viaSearchButton, viaTextInput }
@@ -14,11 +12,13 @@ class ProfileSearchSliver extends StatefulWidget {
   String searchBarHint;
   SearchType searchType;
   ProfileSearchSliver(
-      {this.isAdmin = false,
+      {Key? key,
+      this.isAdmin = false,
       required this.searchController,
       required this.searchFunction,
       required this.searchBarHint,
-      required this.searchType});
+      required this.searchType})
+      : super(key: key);
   @override
   _ProfileSearchSliverState createState() => _ProfileSearchSliverState();
 }
