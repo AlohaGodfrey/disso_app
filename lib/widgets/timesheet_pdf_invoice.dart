@@ -8,18 +8,8 @@ void generatePDF(List<TimesheetItem> timesheetData) async {
   final date = DateTime.now();
   final dueDate = date.add(Duration(days: 7));
 
+  //collects user timesheet Data
   final tableData = timesheetData.map((item) {
-    // final total = item.unitPrice * (1 + item.vat);
-
-    // return [
-    //   item.description,
-    //   DateFormat('EEEEEEE d/M/y').format(item.date),
-    //   '${item.hours}',
-    //   '£ ${item.payRate.toStringAsFixed(2)}',
-    //   '${item.vat * 100} %',
-    //   '£ ${item.amount}',
-    // ];
-
     return InvoiceItem(
         description: item.siteName,
         date: item.date,
@@ -28,6 +18,8 @@ void generatePDF(List<TimesheetItem> timesheetData) async {
         payRate: item.payRate);
   }).toList();
 
+  //invoice class is split in between three subclasses,
+  //supplier customer, supplier, Invoide info.
   final invoice = Invoice(
       //define supplier
       supplier: const Supplier(
@@ -47,54 +39,11 @@ void generatePDF(List<TimesheetItem> timesheetData) async {
         description: 'Operative Invoice detailing job details and categories',
         number: '${DateTime.now().year}-9999',
       ),
-      items: tableData
-      // items: [
-      //   InvoiceItem(
-      //     description: 'Coffee',
-      //     date: DateTime.now(),
-      //     vat: 0.19,
-      //     amount: 5.99,
-      //   ),
-      //   InvoiceItem(
-      //     description: 'Water',
-      //     date: DateTime.now(),
-      //     vat: 0.19,
-      //     amount: 0.99,
-      //   ),
-      //   InvoiceItem(
-      //     description: 'Orange',
-      //     date: DateTime.now(),
-      //     vat: 0.19,
-      //     amount: 2.99,
-      //   ),
-      //   InvoiceItem(
-      //     description: 'Apple',
-      //     date: DateTime.now(),
-      //     vat: 0.19,
-      //     amount: 3.99,
-      //   ),
-      //   InvoiceItem(
-      //     description: 'Mango',
-      //     date: DateTime.now(),
-      //     vat: 0.19,
-      //     amount: 1.59,
-      //   ),
-      //   InvoiceItem(
-      //     description: 'Blue Berries',
-      //     date: DateTime.now(),
-      //     vat: 0.19,
-      //     amount: 0.99,
-      //   ),
-      //   InvoiceItem(
-      //     description: 'Lemon',
-      //     date: DateTime.now(),
-      //     vat: 0.19,
-      //     amount: 1.29,
-      //   ),
-      // ],
-      );
+      items: tableData);
 
+  //generates a new invoice
   final pdfFile = await PdfInvoiceApi.generate(invoice);
 
+  //opens the invoice
   PdfApi.openFile(pdfFile);
 }

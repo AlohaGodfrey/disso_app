@@ -11,9 +11,10 @@ class AutoLoginConfig extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final auth = context.read<Auth>();
+    //listens for authentication status change
+    final auth = context.watch<Auth>();
     return auth.isAuth
-        ? ListJobScreen()
+        ? const ListJobScreen()
         : FutureBuilder(
             //attempt to auto login
             future: auth.tryAutoLogin(),
@@ -21,8 +22,8 @@ class AutoLoginConfig extends StatelessWidget {
                 authResultSnapashot.connectionState == ConnectionState.waiting
                     //show splash screen during the auto-login
                     //attempt. if failed. show auth screen
-                    ? SplashScreen() // : AuthScreen()
-                    : AuthScreen(),
+                    ? const SplashScreen() // : AuthScreen()
+                    : const AuthScreen(),
           );
   }
 }

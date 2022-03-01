@@ -6,8 +6,9 @@ import '../providers/Auth.dart';
 import '../theme/palette.dart';
 
 class ProfileSliver extends StatefulWidget {
+  //bool flag used to load different text depending on user isAdmin permission
   bool isAdmin;
-  ProfileSliver({this.isAdmin = false});
+  ProfileSliver({Key? key, this.isAdmin = false}) : super(key: key);
   @override
   _ProfileSliverState createState() => _ProfileSliverState();
 }
@@ -15,14 +16,13 @@ class ProfileSliver extends StatefulWidget {
 class _ProfileSliverState extends State<ProfileSliver> {
   @override
   Widget build(BuildContext context) {
-    // final isAdmin = Provider.of<Auth>(context).isAdmin; //checks isAdmin?
     Size deviceSize = MediaQuery.of(context).size;
     return SliverList(
       delegate: SliverChildListDelegate([
         Column(
           children: [
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               height: deviceSize.height / 7,
               decoration: const BoxDecoration(
                   color: Palette.kToLight,
@@ -52,10 +52,7 @@ class _ProfileSliverState extends State<ProfileSliver> {
                           radius: 30,
                         ),
                       ),
-                      // SizedBox(
-                      //   width: deviceSize.width * 0.12,
-                      // ),
-                      Spacer(),
+                      const Spacer(),
                       Column(
                         children: [
                           widget.isAdmin
@@ -95,7 +92,7 @@ class _ProfileSliverState extends State<ProfileSliver> {
                           ),
                         ],
                       ),
-                      Spacer(),
+                      const Spacer(),
                       SizedBox(
                         width: deviceSize.width * 0.02,
                       ),
@@ -103,7 +100,7 @@ class _ProfileSliverState extends State<ProfileSliver> {
                           onPressed: () {
                             print(context.read<Auth?>()?.isAdmin);
                           },
-                          icon: Icon(Icons.help))
+                          icon: const Icon(Icons.help))
                     ],
                   )
                 ],

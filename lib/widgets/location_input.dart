@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
-// import 'package:location/location.dart'; //location data. see pub.dev docs
-import 'package:google_maps_flutter/google_maps_flutter.dart'; //for LatLng
-
 class LocationInput extends StatelessWidget {
   final String _previewImageUrl;
-  LocationInput(this._previewImageUrl);
+  const LocationInput(this._previewImageUrl, {Key? key}) : super(key: key);
 
+  //uses location_service URL to generate a map
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
@@ -16,18 +14,11 @@ class LocationInput extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(width: 1, color: Colors.grey),
       ),
-      child: _previewImageUrl == null
-          ? const Center(
-              child: Text(
-                'No Active Location',
-                textAlign: TextAlign.center,
-              ),
-            )
-          : Image.network(
-              _previewImageUrl,
-              fit: BoxFit.cover,
-              width: double.infinity,
-            ),
+      child: Image.network(
+        _previewImageUrl,
+        fit: BoxFit.cover,
+        width: double.infinity,
+      ),
     );
   }
 }

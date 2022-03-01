@@ -36,8 +36,6 @@ void activeJobDone(
       text: text,
       onConfirmBtnTap: () async {
         final timeWorked = stopwatch.elapsed.inSeconds;
-        print(stopwatch.elapsed);
-        print(timeWorked);
         await Provider.of<Timesheet>(context, listen: false)
             .addJobX(activeJob, timeWorked.toDouble());
         Navigator.of(context).pop();
@@ -50,6 +48,7 @@ void activeJobDone(
       });
 }
 
+//confirmation windows for admin requesting job delete
 void confirmJobDelete(BuildContext context, Job currentJob) {
   CoolAlert.show(
     context: context,

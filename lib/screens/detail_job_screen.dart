@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../routes/routes.dart';
 
 import '../models/job_model.dart';
-import '../widgets/details_job_text.dart';
+import '../widgets/details_job_widgets.dart';
 import '../widgets/location_input.dart';
 import '../helpers/location_service.dart';
 import '../theme/palette.dart';
@@ -14,10 +14,9 @@ import '../providers/Jobs.dart';
 import '../widgets/show_dialog.dart';
 
 class DetailJobScreen extends StatelessWidget {
-  static const routeName = '/job-detail';
   bool jobDelete = false;
   final Job currentJob;
-  DetailJobScreen(this.currentJob);
+  DetailJobScreen(this.currentJob, {Key? key}) : super(key: key);
 
   //get the job id to enter the data before sending it to be rendered
 
@@ -75,7 +74,7 @@ class DetailJobScreen extends StatelessWidget {
                     Navigator.of(context).pushNamed(RouteManager.editJobScreen,
                         arguments: currentJob.id);
                   },
-                  icon: Icon(Icons.edit),
+                  icon: const Icon(Icons.edit),
                 ),
               )
             ],
@@ -157,7 +156,6 @@ class DetailJobScreen extends StatelessWidget {
                   Navigator.of(context).pushReplacementNamed(
                       RouteManager.activeJobScreen,
                       arguments: currentJob);
-                  print('job selected');
                 },
                 child: Container(
                   height: 80,
@@ -169,12 +167,7 @@ class DetailJobScreen extends StatelessWidget {
                     gradient: const LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
-                        colors: [
-                          // Colors.yellow,
-                          // Colors.green,
-                          Palette.bToDark,
-                          Palette.kToDark
-                        ]),
+                        colors: [Palette.bToDark, Palette.kToDark]),
                     boxShadow: const [
                       BoxShadow(
                         color: Color.fromARGB(136, 212, 212, 212),

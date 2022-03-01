@@ -5,17 +5,19 @@ import 'package:provider/provider.dart';
 
 import '../providers/jobs.dart';
 import '../models/job_model.dart';
-import 'details_job_text.dart';
 import '../theme/palette.dart';
+import './details_job_widgets.dart';
 
 class EditJobForm extends StatefulWidget {
   final GlobalKey<FormState> form;
   final String? jobId;
   final Function updateJobDetails;
-  EditJobForm(
+  const EditJobForm(
       {required this.form,
       required this.jobId,
-      required this.updateJobDetails});
+      required this.updateJobDetails,
+      Key? key})
+      : super(key: key);
 
   @override
   _EditJobFormState createState() => _EditJobFormState();
@@ -55,12 +57,35 @@ class _EditJobFormState extends State<EditJobForm> {
       setState(() {
         _selectedDate = pickedDate;
       });
+      //updates edit_job_scren Job Object
+      widget.updateJobDetails(
+        Job(
+          id: _editedJob.id,
+          title: _editedJob.title,
+          description: _editedJob.description,
+          postcode: _editedJob.postcode,
+          payRate: _editedJob.payRate,
+          endDate: _selectedDate as DateTime,
+          vehicleRequired: _editedJob.vehicleRequired,
+          lightConfig: _editedJob.lightConfig,
+        ),
+      );
+      //updates local job object
+      _editedJob = Job(
+        id: _editedJob.id,
+        title: _editedJob.title,
+        description: _editedJob.description,
+        postcode: _editedJob.postcode,
+        payRate: _editedJob.payRate,
+        endDate: _selectedDate as DateTime,
+        vehicleRequired: _editedJob.vehicleRequired,
+        lightConfig: _editedJob.lightConfig,
+      );
     });
   }
 
+  @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-
     //didChange...() is a in built function used for state managemet
     //developers can overivde these functions so code is executed
     //at different time.
@@ -71,6 +96,9 @@ class _EditJobFormState extends State<EditJobForm> {
 
     //once the _isInit if statment is run. _isInit is set to false.
     //and can never be changed back to true.
+
+    //If Job id is valid, copy the old data into the form to be edited.
+    //else create new empty fields for the form
     if (_isInit) {
       if (widget.jobId != null) {
         _editedJob = Provider.of<Jobs>(context, listen: false)
@@ -84,29 +112,16 @@ class _EditJobFormState extends State<EditJobForm> {
           'postcode': _editedJob.postcode
         };
         _selectedDate = _editedJob.endDate;
-        print(_initValues['endDate']);
       }
     }
     _isInit = false;
+
+    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    // if (widget.jobId != null) {
-    //   _editedJob = Provider.of<Jobs>(context, listen: false)
-    //       .findById(widget.jobId as String) as Job;
-
-    //   _initValues = {
-    //     'title': _editedJob.title,
-    //     'description': _editedJob.description,
-    //     'payRate': _editedJob.payRate.toString(),
-    //     'endDate': _editedJob.endDate.toString(),
-    //     'postcode': _editedJob.postcode
-    //   };
-    //   _selectedDate = _editedJob.endDate;
-    // }
-
     return Form(
       key: widget.form,
       child: Column(
@@ -142,7 +157,7 @@ class _EditJobFormState extends State<EditJobForm> {
 
           Container(
             height: 50,
-            padding: EdgeInsets.symmetric(vertical: 5),
+            padding: const EdgeInsets.symmetric(vertical: 5),
             child: TextFormField(
               initialValue: _initValues['title'],
               decoration: const InputDecoration(
@@ -188,7 +203,7 @@ class _EditJobFormState extends State<EditJobForm> {
           ),
           Container(
             height: 50,
-            padding: EdgeInsets.symmetric(vertical: 5),
+            padding: const EdgeInsets.symmetric(vertical: 5),
             child: TextFormField(
               initialValue: _initValues['postcode'],
               decoration: const InputDecoration(
@@ -240,7 +255,7 @@ class _EditJobFormState extends State<EditJobForm> {
           ),
           Container(
             height: 40,
-            margin: EdgeInsets.symmetric(vertical: 5),
+            margin: const EdgeInsets.symmetric(vertical: 5),
             child: TextFormField(
               initialValue: '13.50',
               decoration: const InputDecoration(
@@ -295,7 +310,7 @@ class _EditJobFormState extends State<EditJobForm> {
             alignment: Alignment.topCenter,
             child: googleFontStyle('Vehicle Requirements'),
           ),
-          Divider(),
+          const Divider(),
           Align(
             alignment: Alignment.center,
             child: ToggleSwitch(
@@ -410,7 +425,7 @@ class _EditJobFormState extends State<EditJobForm> {
           //site config switch
           //vehicle required bool switch
           //date selector
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Align(
@@ -418,7 +433,7 @@ class _EditJobFormState extends State<EditJobForm> {
             child: googleFontStyle(
                 '\u{1F6A6}\u{1F6A6}\u{1F6A6}  Light Configuration   \u{1F6A6}\u{1F6A6}\u{1F6A6}'),
           ),
-          Divider(),
+          const Divider(),
 
           Align(
             alignment: Alignment.center,

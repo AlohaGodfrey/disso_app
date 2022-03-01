@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../routes/routes.dart';
-import '../screens/list_job_screen.dart';
-import '../screens/timesheet_screen.dart';
 import '../providers/auth.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -16,14 +14,13 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: [
           AppBar(
-            title: Text('Disso'),
+            title: const Text('Disso'),
             automaticallyImplyLeading: false,
           ),
           const Divider(),
           ListTile(
-            // leading: Icon(Icons.content_paste_search_rounded),
-            leading: Icon(Icons.search),
-            title: Text('Search Jobs'),
+            leading: const Icon(Icons.search),
+            title: const Text('Search Jobs'),
             onTap: () {
               Navigator.of(context)
                   .pushReplacementNamed(RouteManager.listJobScreen);
@@ -32,7 +29,7 @@ class AppDrawer extends StatelessWidget {
           const Divider(),
           ListTile(
             leading: const Icon(Icons.history),
-            title: Text('Timesheets'),
+            title: const Text('Timesheets'),
             onTap: () {
               Navigator.of(context)
                   .pushReplacementNamed(RouteManager.timesheetScreen);
@@ -46,7 +43,7 @@ class AppDrawer extends StatelessWidget {
             visible: isAdmin,
             child: ListTile(
               leading: const Icon(Icons.location_history),
-              title: Text('Map Overview'),
+              title: const Text('Map Overview'),
               onTap: () {
                 Navigator.of(context)
                     .pushReplacementNamed(RouteManager.mapsGoogleScreen);
@@ -58,11 +55,12 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.exit_to_app),
             title: const Text('Logout'),
             onTap: () {
-              Navigator.of(context).pop(); //closes drawer
+              //closes drawer
+              Navigator.of(context).pop();
               //navigate to homescreen
               Navigator.of(context).pushReplacementNamed('/');
-              Provider.of<Auth>(context, listen: false)
-                  .logout(); //logs out user
+              //logs out user
+              Provider.of<Auth>(context, listen: false).logout();
             },
           ),
         ],

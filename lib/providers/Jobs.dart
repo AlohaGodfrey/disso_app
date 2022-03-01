@@ -10,50 +10,7 @@ import '../helpers/firebase_service.dart';
 import '../models/job_model.dart';
 
 class Jobs with ChangeNotifier {
-  List<Job> _jobItems = [
-    Job(
-      id: 'p1',
-      title: 'Islington',
-      description: 'Two way lights',
-      endDate: DateTime.now(),
-      postcode: 'HP11 2et',
-    ),
-    Job(
-      id: 'p2',
-      title: 'Kingston',
-      description: 'Two way lights',
-      endDate: DateTime.now(),
-      postcode: 'HP11 2et',
-    ),
-    Job(
-      id: 'p3',
-      title: 'Streatham',
-      description: 'Two way lights',
-      endDate: DateTime.now(),
-      postcode: 'HP11 2et',
-    ),
-    Job(
-      id: 'p4',
-      title: 'Lewisham',
-      description: 'Two way lights',
-      endDate: DateTime.now(),
-      postcode: 'HP11 2et',
-    ),
-    Job(
-      id: 'p5',
-      title: 'Caledonian',
-      description: 'Two way lights',
-      endDate: DateTime.now(),
-      postcode: 'HP11 2et',
-    ),
-    Job(
-      id: 'p6',
-      title: 'Camden - Caledonian Road',
-      description: 'Four way lights',
-      endDate: DateTime.now(),
-      postcode: 'HP11 2et',
-    ),
-  ];
+  List<Job> _jobItems = [];
 
   final String authToken;
   final String authUserId;
@@ -153,6 +110,7 @@ class Jobs with ChangeNotifier {
     var existingJob = _jobItems[existingJobIndex];
     _jobItems.removeAt(existingJobIndex);
     notifyListeners();
+
     final url = firebaseUrl(authToken, '/job-list/$id.json');
     final response = await http.delete(url);
     if (response.statusCode >= 400) {
@@ -168,16 +126,12 @@ class Jobs with ChangeNotifier {
       description: '',
       endDate: DateTime.now(),
     );
+    //feeds all listeners with new data
     notifyListeners();
-    print(_jobItems.length);
   }
 
   Future<void> fetchAndSetJobs() async {
     try {
-      //builds the custom url location
-      // String _customUrl = _dbUrl + '/products.json' + _authUrl;
-      // final Uri _url = Uri.parse(_customUrl);
-
       var url = firebaseUrl(
         authToken,
         '/job-list.json',
@@ -191,9 +145,6 @@ class Jobs with ChangeNotifier {
         //when the lists are empty no data is parsed
         return;
       }
-      // url = firebaseUrl(authToken, '/job-list.json');
-      // final favoriteResponse = await http.get(url);
-      // final favoriteData = json.decode(favoriteResponse.body);
       final List<Job> loadedJobs = [];
       extractedData.forEach((jobId, jobData) {
         loadedJobs.add(
@@ -214,7 +165,6 @@ class Jobs with ChangeNotifier {
       notifyListeners();
     } catch (error) {
       throw (error);
-      print(error);
     }
   }
 

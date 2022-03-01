@@ -11,6 +11,8 @@ import '../screens/list_job_screen.dart';
 import '../screens/timesheet_screen.dart';
 import '../screens/maps_google_screen.dart';
 
+//Screen Navigation Manager
+
 class RouteManager {
   static const String autoLoginConfig = '/';
   static const String authScreen = '/auth';
@@ -26,22 +28,22 @@ class RouteManager {
     switch (settings.name) {
       case autoLoginConfig:
         return MaterialPageRoute(
-          builder: (context) => AutoLoginConfig(),
+          builder: (context) => const AutoLoginConfig(),
         );
 
       case authScreen:
         return MaterialPageRoute(
-          builder: (context) => AuthScreen(),
+          builder: (context) => const AuthScreen(),
         );
 
       case splashScreen:
         return MaterialPageRoute(
-          builder: (context) => SplashScreen(),
+          builder: (context) => const SplashScreen(),
         );
 
       case listJobScreen:
         return MaterialPageRoute(
-          builder: (context) => ListJobScreen(),
+          builder: (context) => const ListJobScreen(),
         );
 
       case detailJobScreen:
@@ -51,8 +53,9 @@ class RouteManager {
         );
 
       case editJobScreen:
+        final jobId = settings.arguments as String?;
         return MaterialPageRoute(
-          builder: (context) => EditJobScreen(),
+          builder: (context) => EditJobScreen(jobId: jobId),
         );
 
       case activeJobScreen:
@@ -63,12 +66,12 @@ class RouteManager {
 
       case timesheetScreen:
         return MaterialPageRoute(
-          builder: (context) => TimesheetScreen(),
+          builder: (context) => const TimesheetScreen(),
         );
 
       case mapsGoogleScreen:
         return MaterialPageRoute(
-          builder: (context) => MapsGoogleScreen(),
+          builder: (context) => const MapsGoogleScreen(),
         );
 
       default:

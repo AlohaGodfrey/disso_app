@@ -2,13 +2,12 @@ import 'package:disso_app/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; //used for date format
 
-// import '../providers/timesheet.dart' as pvd;
+import 'details_job_widgets.dart';
 import '../models/timesheet_model.dart' as pvd;
-import 'details_job_text.dart';
 
 class TimesheetItem extends StatefulWidget {
   final pvd.TimesheetItem timesheet;
-  TimesheetItem(this.timesheet);
+  const TimesheetItem(this.timesheet, {Key? key}) : super(key: key);
 
   @override
   State<TimesheetItem> createState() => _TimesheetItemState();
@@ -20,9 +19,7 @@ class _TimesheetItemState extends State<TimesheetItem> {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 600),
-      // height: 100,
-      // padding: const EdgeInsets.all(12),
+      duration: const Duration(milliseconds: 600),
       width: double.infinity,
       margin: const EdgeInsets.symmetric(
         horizontal: 20,
@@ -41,7 +38,7 @@ class _TimesheetItemState extends State<TimesheetItem> {
           ]),
       child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
         ListTile(
-          title: Text('${widget.timesheet.siteName}'),
+          title: Text(widget.timesheet.siteName),
           subtitle: Text(
               DateFormat('dd MM yyyy hh:mm').format(widget.timesheet.date)),
           trailing: IconButton(
@@ -66,7 +63,7 @@ class _TimesheetItemState extends State<TimesheetItem> {
                     height: 20,
                     decoration: BoxDecoration(
                       borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(16)),
+                          const BorderRadius.vertical(top: Radius.circular(16)),
                       color: Palette.kToLight.shade100,
                       boxShadow: const [
                         BoxShadow(
@@ -105,8 +102,8 @@ class _TimesheetItemState extends State<TimesheetItem> {
                   Container(
                     height: 20,
                     decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.vertical(bottom: Radius.circular(16)),
+                        borderRadius: const BorderRadius.vertical(
+                            bottom: Radius.circular(16)),
                         color: Palette.kToLight.shade700,
                         boxShadow: const [
                           BoxShadow(
@@ -125,15 +122,6 @@ class _TimesheetItemState extends State<TimesheetItem> {
                 ],
               ),
             ),
-            // child: Column(
-            //   crossAxisAlignment: CrossAxisAlignment.start,
-            //   children: [
-            //     Text('Rate: ${widget.timesheet.payRate}'),
-            //     Text('Clocked: ${widget.timesheet.hoursWorked} hours'),
-            //     Text(
-            //         'Pay: ${widget.timesheet.payRate * widget.timesheet.hoursWorked}'),
-            //   ],
-            // ),
           ),
       ]),
     );

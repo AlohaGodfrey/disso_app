@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//splash screen bezier shadow object
 @immutable
 class ClipShadowPath extends StatelessWidget {
   final BoxShadow shadow;

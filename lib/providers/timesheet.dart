@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http; //allows web server communication
 
 import '../models/job_model.dart';
-import '../helpers/firebase_service.dart'; //custom made for Url/Uri Building
 import '../models/timesheet_model.dart';
+import '../helpers/firebase_service.dart'; //custom made for Url/Uri Building
 
 class Timesheet with ChangeNotifier {
   final String authToken;
@@ -15,59 +15,7 @@ class Timesheet with ChangeNotifier {
 
   Timesheet(this.authToken, this.userId, this._timesheet);
 
-  // List<TimesheetItem> _timesheet = [
-  // TimesheetItem(
-  //     id: 'x1',
-  //     siteName: 'Little Portugal',
-  //     date: DateTime.now(),
-  //     hoursWorked: 12,
-  //     payRate: 11.5),
-  // TimesheetItem(
-  //     id: 'x2',
-  //     siteName: 'Setllington',
-  //     date: DateTime.now(),
-  //     hoursWorked: 12,
-  //     payRate: 13.5),
-  // TimesheetItem(
-  //     id: 'x3',
-  //     siteName: 'Finchley',
-  //     date: DateTime.now(),
-  //     hoursWorked: 12,
-  //     payRate: 11.5),
-  // TimesheetItem(
-  //     id: 'x4',
-  //     siteName: 'Milton Keynes',
-  //     date: DateTime.now(),
-  //     hoursWorked: 12,
-  //     payRate: 11.5),
-  // TimesheetItem(
-  //     id: 'x5',
-  //     siteName: 'Vicarige Lane',
-  //     date: DateTime.now(),
-  //     hoursWorked: 12,
-  //     payRate: 11.5),
-  // TimesheetItem(
-  //     id: 'x6',
-  //     siteName: 'Kensington',
-  //     date: DateTime.now(),
-  //     hoursWorked: 12,
-  //     payRate: 11.5),
-  // TimesheetItem(
-  //     id: 'x6',
-  //     siteName: 'Kensington',
-  //     date: DateTime.now(),
-  //     hoursWorked: 12,
-  //     payRate: 11.5),
-  // TimesheetItem(
-  //     id: 'x6',
-  //     siteName: 'Kensington',
-  //     date: DateTime.now(),
-  //     hoursWorked: 12,
-  //     payRate: 11.5),
-  // ];
-
-  // Timesheet(this.userId, this._timesheet);
-
+  //timesheet getter
   List<TimesheetItem> get timesheet {
     return [..._timesheet];
   }
@@ -115,7 +63,7 @@ class Timesheet with ChangeNotifier {
       _timesheet = loadedTimesheetList.reversed.toList();
       notifyListeners();
     } catch (error) {
-      print(error);
+      // print(error);
       throw error;
     }
   }

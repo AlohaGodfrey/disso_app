@@ -56,7 +56,8 @@ class Auth with ChangeNotifier {
     final url = firebaseUrl(_token as String, '/role/$userId.json');
 
     //send admin status to server
-    final response = await http.post(
+    // final response =
+    await http.post(
       url,
       body: json.encode({
         'adminStatus': isAdmin,

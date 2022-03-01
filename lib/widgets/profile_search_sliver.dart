@@ -34,7 +34,7 @@ class _ProfileSearchSliverState extends State<ProfileSearchSliver> {
           Column(
             children: [
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 height: size.height / 7,
                 decoration: const BoxDecoration(
                     color: Palette.kToLight,
@@ -51,10 +51,6 @@ class _ProfileSearchSliverState extends State<ProfileSearchSliver> {
                     ]),
                 child: Column(
                   children: [
-                    // const SizedBox(
-                    //   height: 20,
-                    // ),
-
                     Row(
                       children: [
                         const CircleAvatar(
@@ -65,10 +61,7 @@ class _ProfileSearchSliverState extends State<ProfileSearchSliver> {
                             radius: 30,
                           ),
                         ),
-                        // SizedBox(
-                        //   width: size.width * 0.12,
-                        // ),
-                        Spacer(),
+                        const Spacer(),
                         Column(
                           children: [
                             widget.isAdmin
@@ -108,74 +101,67 @@ class _ProfileSearchSliverState extends State<ProfileSearchSliver> {
                             ),
                           ],
                         ),
-                        Spacer(),
+                        const Spacer(),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.02,
                         ),
                         IconButton(
                             onPressed: () {
-                              print(context.read<Auth?>()?.isAdmin);
+                              // print(context.read<Auth?>()?.isAdmin);
+                              FocusManager.instance.primaryFocus?.unfocus();
                             },
-                            icon: Icon(Icons.help))
+                            icon: const Icon(Icons.help))
                       ],
                     )
                   ],
                 ),
               ),
-              Visibility(
-                visible: widget.isAdmin,
-                child: SizedBox(
-                  height: 20,
-                ),
-              )
+              const SizedBox(height: 20),
             ],
           ),
-          Visibility(
-            visible: widget.isAdmin,
-            child: Positioned(
-              bottom: 0,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: 40,
-                child: Card(
-                  margin: EdgeInsets.symmetric(horizontal: 50),
-                  elevation: 3,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
-                  child: widget.searchType == SearchType.viaSearchButton
-                      ? TextFormField(
-                          controller: widget.searchController,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              labelText: widget.searchBarHint,
-                              suffixIcon: IconButton(
-                                onPressed: () async {
-                                  widget.searchFunction();
-                                },
-                                icon: Icon(Icons.search),
-                              ),
-                              contentPadding: EdgeInsets.only(left: 20)),
-                        )
-                      : TextField(
-                          controller: widget.searchController,
-                          onChanged: (value) {
-                            widget.searchFunction(value);
-                          },
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              labelText: widget.searchBarHint,
-                              suffixIcon: IconButton(
-                                onPressed: () async {
-                                  // widget.searchFunction();
-                                },
-                                icon: Icon(Icons.search),
-                              ),
-                              contentPadding: EdgeInsets.only(left: 20)),
-                        ),
-                ),
+          Positioned(
+            bottom: 0,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 40,
+              child: Card(
+                margin: const EdgeInsets.symmetric(horizontal: 50),
+                elevation: 3,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15)),
+                child: widget.searchType == SearchType.viaSearchButton
+                    ? TextFormField(
+                        controller: widget.searchController,
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            labelText: widget.searchBarHint,
+                            suffixIcon: IconButton(
+                              onPressed: () async {
+                                widget.searchFunction();
+                              },
+                              icon: const Icon(Icons.search),
+                            ),
+                            contentPadding: const EdgeInsets.only(left: 20)),
+                      )
+                    : TextField(
+                        controller: widget.searchController,
+                        onChanged: (value) {
+                          widget.searchFunction(value);
+                        },
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            labelText: widget.searchBarHint,
+                            suffixIcon: IconButton(
+                              onPressed: () async {
+                                // widget.searchFunction();
+                              },
+                              icon: const Icon(Icons.search),
+                            ),
+                            contentPadding: const EdgeInsets.only(left: 20)),
+                      ),
               ),
             ),
-          )
+          ),
         ]),
       ]),
     );

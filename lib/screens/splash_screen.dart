@@ -1,11 +1,13 @@
-import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:flutter/material.dart';
 
+import '../theme/palette.dart';
 import '../theme/clip_shadow_path.dart';
 import '../theme/custom_clippers_bezier.dart';
-import '../theme/palette.dart';
 
 class SplashScreen extends StatelessWidget {
+  const SplashScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,11 +37,6 @@ class SplashScreen extends StatelessWidget {
           Center(
             child: LoadingAnimationWidget.inkDrop(
                 color: Palette.bToLight, size: 25),
-            // child: CircularProgressIndicator(
-            //   strokeWidth: 2,
-            //   color: Palette.bToLight,
-            //   backgroundColor: Palette.bToLight.shade700,
-            // ),
           ),
         ],
       ),

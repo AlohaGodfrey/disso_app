@@ -1,38 +1,34 @@
-import 'package:disso_app/widgets/location_input.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:circular_countdown_timer/circular_countdown_timer.dart';
-import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import 'package:disso_app/widgets/location_input.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 
-import '../widgets/show_dialog.dart' as custom_dialog;
-import '../models/job_model.dart';
 import '../theme/palette.dart';
-import '../widgets/details_job_text.dart';
+import '../models/job_model.dart';
 import '../helpers/location_service.dart';
-import '../widgets/app_drawer.dart';
+import '../widgets/details_job_widgets.dart';
+import '../widgets/show_dialog.dart' as custom_dialog;
 
 class ActiveJobScreen extends StatefulWidget {
-  static const routeName = '/job-active';
   final Job currentJob;
-  ActiveJobScreen(this.currentJob);
+  const ActiveJobScreen(this.currentJob, {Key? key}) : super(key: key);
 
   @override
   _ActiveJobScreenState createState() => _ActiveJobScreenState();
 }
 
 class _ActiveJobScreenState extends State<ActiveJobScreen> {
-  List<bool> _isSelected = [false, false];
   var _jobStartPanel = true;
   var _switchPanel = true;
   var _breakPanel = true;
-  CountDownController _clockController = CountDownController();
-  final int _initDuration = 12; //calculate this from DateTime.now().toIso...
-  double _elaspedTime = 0;
-  //timer for the internals
+  //simluates 12 hours shift in 12 seconds
+  final int _initDuration = 12;
+  //visual timer for user counting down
+  final CountDownController _clockController = CountDownController();
+  //internal stopwatch for calculations counting up
   final _stopWatch = Stopwatch();
-  //pretend 12 seconds tranlates to 12 hours
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +48,7 @@ class _ActiveJobScreenState extends State<ActiveJobScreen> {
               child: LocationInput(_previewImageUrl),
               height: MediaQuery.of(context).size.height * 0.1,
             ),
-            // const Spacer(),
             CircularCountDownTimer(
-              // duration: 43200,
               duration: _initDuration,
               initialDuration: 0,
               controller: _clockController,
@@ -77,7 +71,6 @@ class _ActiveJobScreenState extends State<ActiveJobScreen> {
               isReverseAnimation: false,
               isTimerTextShown: true,
               autoStart: false,
-
               onStart: () {
                 // print('Countdown Started');
               },

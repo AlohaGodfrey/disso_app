@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../widgets/profile_sliver.dart';
 
-import '../widgets/app_drawer.dart';
 import '../providers/auth.dart';
-import '../providers/timesheet.dart' show Timesheet;
+import '../widgets/app_drawer.dart';
+import '../widgets/profile_sliver.dart';
 import '../widgets/timesheet_card.dart';
 import '../widgets/timesheet_pdf_invoice.dart';
+import '../providers/timesheet.dart' show Timesheet;
 
 class TimesheetScreen extends StatefulWidget {
-  static const routeName = '/sliver-timesheet';
+  const TimesheetScreen({Key? key}) : super(key: key);
 
   @override
   State<TimesheetScreen> createState() => _TimesheetScreenState();
