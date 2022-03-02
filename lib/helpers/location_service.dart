@@ -41,6 +41,7 @@ class LocationService {
     var response = await http.get(Uri.parse(url));
     var json = convert.jsonDecode(response.body);
     var results = json['result'] as Map<String, dynamic>;
+    // print(results);
 
     return results;
   }

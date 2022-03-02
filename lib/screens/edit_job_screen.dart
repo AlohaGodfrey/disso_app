@@ -1,3 +1,4 @@
+import 'package:disso_app/models/place_location.dart';
 import 'package:disso_app/widgets/show_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +10,7 @@ import '../providers/auth.dart';
 import '../models/job_model.dart';
 import '../widgets/profile_sliver.dart';
 import '../widgets/edit_job_card.dart';
+import '../helpers/location_service.dart';
 
 class EditJobScreen extends StatefulWidget {
   static const routeName = '/add-new-jobs';
@@ -49,6 +51,26 @@ class _EditJobScreenState extends State<EditJobScreen> {
 
     //saves the user data
     _form.currentState?.save();
+
+    //map api get valid data
+    final place = await LocationService.getPlace(_editedJob.postcode as String);
+    final double lat = place['geometry']['location']['lat'];
+    final double lng = place['geometry']['location']['lng'];
+
+    //saves location to job
+    _updateJobDetails(
+      Job(
+        id: _editedJob.id,
+        title: _editedJob.title,
+        description: _editedJob.description,
+        postcode: _editedJob.postcode,
+        payRate: _editedJob.payRate,
+        endDate: _editedJob.endDate,
+        vehicleRequired: _editedJob.vehicleRequired,
+        lightConfig: _editedJob.lightConfig,
+        location: PlaceLocation(latitude: lat, longitude: lng),
+      ),
+    );
 
     setState(() {
       _isLoading = true;

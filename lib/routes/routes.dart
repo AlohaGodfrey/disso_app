@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/Jobs.dart';
 import '../models/job_model.dart';
 import '../widgets/auto_login_config.dart';
 import '../screens/splash_screen.dart';
@@ -71,7 +73,7 @@ class RouteManager {
 
       case mapsGoogleScreen:
         return MaterialPageRoute(
-          builder: (context) => const MapsGoogleScreen(),
+          builder: (context) => MapsGoogleScreen(),
         );
 
       default:

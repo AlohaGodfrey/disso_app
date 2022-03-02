@@ -1,3 +1,4 @@
+import 'package:disso_app/models/place_location.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -68,6 +69,7 @@ class _EditJobFormState extends State<EditJobForm> {
           endDate: _selectedDate as DateTime,
           vehicleRequired: _editedJob.vehicleRequired,
           lightConfig: _editedJob.lightConfig,
+          location: _editedJob.location,
         ),
       );
       //updates local job object
@@ -80,6 +82,7 @@ class _EditJobFormState extends State<EditJobForm> {
         endDate: _selectedDate as DateTime,
         vehicleRequired: _editedJob.vehicleRequired,
         lightConfig: _editedJob.lightConfig,
+        location: _editedJob.location,
       );
     });
   }
@@ -185,6 +188,7 @@ class _EditJobFormState extends State<EditJobForm> {
                     endDate: _editedJob.endDate,
                     vehicleRequired: _editedJob.vehicleRequired,
                     lightConfig: _editedJob.lightConfig,
+                    location: _editedJob.location,
                   ),
                 );
 
@@ -197,6 +201,7 @@ class _EditJobFormState extends State<EditJobForm> {
                   endDate: _editedJob.endDate,
                   vehicleRequired: _editedJob.vehicleRequired,
                   lightConfig: _editedJob.lightConfig,
+                  location: _editedJob.location,
                 );
               },
             ),
@@ -216,12 +221,16 @@ class _EditJobFormState extends State<EditJobForm> {
                 } else if (value.isEmpty) {
                   return 'Please provide an Area Postcode';
                 }
-                if (value.length != 5) {
-                  return 'Should be five characters long';
+                if (value.length < 5) {
+                  return 'Should be at least five characters long';
                 }
+                if (value.length > 8) {
+                  return 'Postcode should be 5-8 characters long';
+                }
+
                 return null;
               },
-              onSaved: (value) {
+              onSaved: (value) async {
                 // updates state job
                 widget.updateJobDetails(
                   Job(
@@ -235,6 +244,7 @@ class _EditJobFormState extends State<EditJobForm> {
                     endDate: _editedJob.endDate,
                     vehicleRequired: _editedJob.vehicleRequired,
                     lightConfig: _editedJob.lightConfig,
+                    // location: PlaceLocation(latitude: lat, longitude: lng),
                   ),
                   // updates local job
                 );
@@ -249,6 +259,7 @@ class _EditJobFormState extends State<EditJobForm> {
                   endDate: _editedJob.endDate,
                   vehicleRequired: _editedJob.vehicleRequired,
                   lightConfig: _editedJob.lightConfig,
+                  // location: PlaceLocation(latitude: lat, longitude: lng),
                 );
               },
             ),
@@ -273,6 +284,7 @@ class _EditJobFormState extends State<EditJobForm> {
                     vehicleRequired: _editedJob.vehicleRequired,
                     lightConfig: _editedJob.lightConfig,
                     endDate: _editedJob.endDate,
+                    location: _editedJob.location,
                   ),
                 );
 
@@ -285,6 +297,7 @@ class _EditJobFormState extends State<EditJobForm> {
                   vehicleRequired: _editedJob.vehicleRequired,
                   lightConfig: _editedJob.lightConfig,
                   endDate: _editedJob.endDate,
+                  location: _editedJob.location,
                 );
               },
               validator: (value) {
@@ -350,6 +363,7 @@ class _EditJobFormState extends State<EditJobForm> {
                           vehicleRequired: VehicleRequired.anyTransport,
                           lightConfig: _editedJob.lightConfig,
                           endDate: _editedJob.endDate,
+                          location: _editedJob.location,
                         ),
                       );
                       _editedJob = Job(
@@ -361,6 +375,7 @@ class _EditJobFormState extends State<EditJobForm> {
                         vehicleRequired: VehicleRequired.anyTransport,
                         lightConfig: _editedJob.lightConfig,
                         endDate: _editedJob.endDate,
+                        location: _editedJob.location,
                       );
                     }
                     break;
@@ -376,6 +391,7 @@ class _EditJobFormState extends State<EditJobForm> {
                           vehicleRequired: VehicleRequired.carOnly,
                           lightConfig: _editedJob.lightConfig,
                           endDate: _editedJob.endDate,
+                          location: _editedJob.location,
                         ),
                       );
                       _editedJob = Job(
@@ -387,6 +403,7 @@ class _EditJobFormState extends State<EditJobForm> {
                         vehicleRequired: VehicleRequired.carOnly,
                         lightConfig: _editedJob.lightConfig,
                         endDate: _editedJob.endDate,
+                        location: _editedJob.location,
                       );
                     }
                     break;
@@ -402,6 +419,7 @@ class _EditJobFormState extends State<EditJobForm> {
                           vehicleRequired: VehicleRequired.noParking,
                           lightConfig: _editedJob.lightConfig,
                           endDate: _editedJob.endDate,
+                          location: _editedJob.location,
                         ),
                       );
                       _editedJob = Job(
@@ -413,6 +431,7 @@ class _EditJobFormState extends State<EditJobForm> {
                         vehicleRequired: VehicleRequired.noParking,
                         lightConfig: _editedJob.lightConfig,
                         endDate: _editedJob.endDate,
+                        location: _editedJob.location,
                       );
                     }
                     break;
@@ -468,6 +487,7 @@ class _EditJobFormState extends State<EditJobForm> {
                           vehicleRequired: _editedJob.vehicleRequired,
                           lightConfig: _editedJob.lightConfig,
                           endDate: _editedJob.endDate,
+                          location: _editedJob.location,
                         ),
                       );
                       _editedJob = Job(
@@ -479,6 +499,7 @@ class _EditJobFormState extends State<EditJobForm> {
                         vehicleRequired: _editedJob.vehicleRequired,
                         lightConfig: LightConfig.twoWay,
                         endDate: _editedJob.endDate,
+                        location: _editedJob.location,
                       );
                     }
                     break;
@@ -495,6 +516,7 @@ class _EditJobFormState extends State<EditJobForm> {
                           vehicleRequired: _editedJob.vehicleRequired,
                           lightConfig: _editedJob.lightConfig,
                           endDate: _editedJob.endDate,
+                          location: _editedJob.location,
                         ),
                       );
                       _editedJob = Job(
@@ -507,6 +529,7 @@ class _EditJobFormState extends State<EditJobForm> {
                         vehicleRequired: _editedJob.vehicleRequired,
                         lightConfig: LightConfig.threeWay,
                         endDate: _editedJob.endDate,
+                        location: _editedJob.location,
                       );
                     }
                     break;
@@ -523,6 +546,7 @@ class _EditJobFormState extends State<EditJobForm> {
                           vehicleRequired: _editedJob.vehicleRequired,
                           lightConfig: _editedJob.lightConfig,
                           endDate: _editedJob.endDate,
+                          location: _editedJob.location,
                         ),
                       );
                       _editedJob = Job(
@@ -535,6 +559,7 @@ class _EditJobFormState extends State<EditJobForm> {
                         vehicleRequired: _editedJob.vehicleRequired,
                         lightConfig: LightConfig.fourWay,
                         endDate: _editedJob.endDate,
+                        location: _editedJob.location,
                       );
                     }
                     break;
@@ -550,6 +575,7 @@ class _EditJobFormState extends State<EditJobForm> {
                           vehicleRequired: _editedJob.vehicleRequired,
                           lightConfig: _editedJob.lightConfig,
                           endDate: _editedJob.endDate,
+                          location: _editedJob.location,
                         ),
                       );
                       _editedJob = Job(
@@ -561,6 +587,7 @@ class _EditJobFormState extends State<EditJobForm> {
                         vehicleRequired: _editedJob.vehicleRequired,
                         lightConfig: LightConfig.twoWay,
                         endDate: _editedJob.endDate,
+                        location: _editedJob.location,
                       );
 
                       _editedJob.lightConfig.index;

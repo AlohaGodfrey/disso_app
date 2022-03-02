@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/auth.dart';
 import '../models/http_exception.dart';
+import './show_dialog.dart';
 
 enum AuthMode { signup, login }
 
@@ -119,6 +120,7 @@ class _AuthCardState extends State<AuthCard>
       }
 
       _showErrorDialog(errorMessage);
+      // showAuthError(context, errorMessage);
     } catch (error) {
       const errorMessage = 'Could not authenticate you. Please try again later';
       _showErrorDialog(errorMessage);

@@ -123,3 +123,13 @@ void helpContextDialog(BuildContext context, HelpHintType currentScreen) {
     text: '$helpInfo $helpInfoExtended',
   );
 }
+
+void showAuthError(BuildContext context, String error) {
+  CoolAlert.show(
+    context: context,
+    // backgroundColor: Palette.kToLight,
+    type: CoolAlertType.error,
+    title: 'An Error Occured',
+    text: error,
+  );
+}

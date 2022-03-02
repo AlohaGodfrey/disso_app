@@ -3,7 +3,10 @@ import 'dart:async';
 import 'package:disso_app/widgets/show_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/Jobs.dart';
+import '../models/job_model.dart';
 import '../helpers/location_service.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/profile_search_sliver.dart';
@@ -79,8 +82,26 @@ class MapsGoogleScreenState extends State<MapsGoogleScreen> {
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
       position: const LatLng(51.626288, -0.742899));
 
+  Set<Marker> _returnJobListMarker(List<Job> jobList) {
+    var marker = <Marker>[];
+    jobList.forEach((job) {
+      marker.add(
+        Marker(
+            markerId: MarkerId('_k${job.title}'),
+            infoWindow: InfoWindow(title: job.title),
+            icon: BitmapDescriptor.defaultMarkerWithHue(
+                BitmapDescriptor.hueAzure),
+            position: LatLng(job.location.latitude, job.location.longitude)),
+      );
+    });
+
+    return {...marker};
+  }
+
   @override
   Widget build(BuildContext context) {
+    // //uses Auth & Jobs Providers to retrieve relevant data
+    // final jobList = Provider.of<Jobs>(context, listen: false).jobItems;
     return Scaffold(
       drawer: const AppDrawer(),
       body: CustomScrollView(
@@ -130,6 +151,7 @@ class MapsGoogleScreenState extends State<MapsGoogleScreen> {
                               child: GoogleMap(
                                 mapType: MapType.normal,
                                 markers: {_kUniCampusMarker, _kTheRyeMarker},
+                                // markers: _returnJobListMarker(widget.jobList),
                                 initialCameraPosition: _kUniCampus,
                                 onMapCreated: (GoogleMapController controller) {
                                   _controller.complete(controller);

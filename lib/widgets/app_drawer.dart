@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../routes/routes.dart';
+import '../providers/Jobs.dart';
 import '../providers/auth.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -45,8 +46,9 @@ class AppDrawer extends StatelessWidget {
               leading: const Icon(Icons.location_history),
               title: const Text('Map Overview'),
               onTap: () {
-                Navigator.of(context)
-                    .pushReplacementNamed(RouteManager.mapsGoogleScreen);
+                Navigator.of(context).pushReplacementNamed(
+                  RouteManager.mapsGoogleScreen,
+                );
               },
             ),
           ),

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:async';
 
+import 'package:disso_app/models/place_location.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http; //bundle in http prefix
 
@@ -50,6 +51,8 @@ class Jobs with ChangeNotifier {
           'payRate': jobEntry.payRate,
           'vehicleRequired': jobEntry.vehicleRequired.name,
           'lightConfig': jobEntry.lightConfig.name,
+          'latcoord': jobEntry.location.latitude,
+          'lngcoord': jobEntry.location.longitude
         }),
       );
 
@@ -63,6 +66,7 @@ class Jobs with ChangeNotifier {
           payRate: jobEntry.payRate,
           vehicleRequired: jobEntry.vehicleRequired,
           lightConfig: jobEntry.lightConfig,
+          location: jobEntry.location,
           //assigns unique Id returned by the server
           id: json.decode(response.body)['name']);
 
@@ -92,6 +96,8 @@ class Jobs with ChangeNotifier {
             'payRate': newJob.payRate,
             'vehicleRequired': newJob.vehicleRequired.name,
             'lightConfig': newJob.lightConfig.name,
+            'latcoord': newJob.location.latitude,
+            'lngcoord': newJob.location.longitude
           }));
       _jobItems[jobIndex] = newJob;
       notifyListeners();
@@ -148,15 +154,20 @@ class Jobs with ChangeNotifier {
       extractedData.forEach((jobId, jobData) {
         loadedJobs.add(
           Job(
-              id: jobId,
-              title: jobData['title'],
-              postcode: jobData['postcode'],
-              description: jobData['description'],
-              payRate: jobData['payRate'],
-              endDate: DateTime.parse(jobData['endDate']),
-              vehicleRequired:
-                  retrieveVehicleRequirments(jobData['vehicleRequired']),
-              lightConfig: retrieveLightConfig(jobData['lightConfig'])),
+            id: jobId,
+            title: jobData['title'],
+            postcode: jobData['postcode'],
+            description: jobData['description'],
+            payRate: jobData['payRate'],
+            endDate: DateTime.parse(jobData['endDate']),
+            vehicleRequired:
+                retrieveVehicleRequirments(jobData['vehicleRequired']),
+            lightConfig: retrieveLightConfig(jobData['lightConfig']),
+            location: PlaceLocation(
+              latitude: jobData['latcoord'],
+              longitude: jobData['lngcoord'],
+            ),
+          ),
         );
       });
 

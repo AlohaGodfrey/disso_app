@@ -1,3 +1,4 @@
+import 'package:disso_app/models/job_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
