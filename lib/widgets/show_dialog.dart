@@ -10,6 +10,23 @@ import '../models/job_model.dart';
 
 enum HelpHintType { listAdmin, listUser, editJob, timesheet, mapsGoogle }
 
+void showErrorDialog(BuildContext context, String message) {
+  showDialog(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      title: const Text('An Error Occurred!'),
+      content: Text(message),
+      actions: [
+        FlatButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Okay'))
+      ],
+    ),
+  );
+}
+
 //shows a custom dialog and transfer job data
 void activeJobDone(
     {required BuildContext context,

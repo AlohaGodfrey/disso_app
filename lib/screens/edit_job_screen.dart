@@ -1,5 +1,3 @@
-import 'package:disso_app/models/place_location.dart';
-import 'package:disso_app/widgets/show_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +12,9 @@ import '../models/job_model.dart';
 import '../widgets/profile_sliver.dart';
 import '../widgets/edit_job_card.dart';
 import '../helpers/location_service.dart';
+import 'package:disso_app/models/http_exception.dart';
+import 'package:disso_app/models/place_location.dart';
+import 'package:disso_app/widgets/show_dialog.dart';
 
 class EditJobScreen extends StatefulWidget {
   static const routeName = '/add-new-jobs';
@@ -43,7 +44,7 @@ class _EditJobScreenState extends State<EditJobScreen> {
   }
 
   //add date,veh,light config to final edit.
-  Future<void> _saveForm() async {
+  Future<void> _saveForm(BuildContext context) async {
     final isValid = _form.currentState?.validate();
 
     if (isValid == null) {
@@ -55,64 +56,90 @@ class _EditJobScreenState extends State<EditJobScreen> {
     //saves the user data
     _form.currentState?.save();
 
-    //map api get valid data
-    final place = await LocationService.getPlace(_editedJob.postcode as String);
-    final double lat = place['geometry']['location']['lat'];
-    final double lng = place['geometry']['location']['lng'];
+    try {
+      //map api get valid data
+      final place =
+          await LocationService.getPlace(_editedJob.postcode as String);
+      final double lat = place['geometry']['location']['lat'];
+      final double lng = place['geometry']['location']['lng'];
 
-    //saves location to job
-    _updateJobDetails(
-      Job(
-        id: _editedJob.id,
-        title: _editedJob.title,
-        description: _editedJob.description,
-        postcode: _editedJob.postcode,
-        payRate: _editedJob.payRate,
-        endDate: _editedJob.endDate,
-        vehicleRequired: _editedJob.vehicleRequired,
-        lightConfig: _editedJob.lightConfig,
-        location: PlaceLocation(latitude: lat, longitude: lng),
-      ),
-    );
+      //saves location to job
+      _updateJobDetails(
+        Job(
+          id: _editedJob.id,
+          title: _editedJob.title,
+          description: _editedJob.description,
+          postcode: _editedJob.postcode,
+          payRate: _editedJob.payRate,
+          endDate: _editedJob.endDate,
+          vehicleRequired: _editedJob.vehicleRequired,
+          lightConfig: _editedJob.lightConfig,
+          location: PlaceLocation(latitude: lat, longitude: lng),
+        ),
+      );
+    } on HttpException catch (error) {
+      // print(error);
+      showErrorDialog(context, error.toString());
+      return;
+    } catch (error) {
+      await showDialog<void>(
+        //add custom dialog
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('An error occurred!'),
+          content: const Text('Something went wrong'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+              child: const Text('Okay'),
+            )
+          ],
+        ),
+      );
+      return;
+    }
 
     setState(() {
       _isLoading = true;
     });
-
-    if (_editedJob.id != '') {
-      await Provider.of<JobsFirebase>(context, listen: false)
-          .updateJob(_editedJob.id, _editedJob);
-    } else {
-      try {
+    //pushes job update
+    try {
+      if (_editedJob.id != '') {
+        await Provider.of<JobsFirebase>(context, listen: false)
+            .updateJob(_editedJob.id, _editedJob);
+      } else {
         //pushes object to global products
         await Provider.of<JobsFirebase>(context, listen: false)
             .addJob(_editedJob);
         // //force all app listners to update
         // await Provider.of<Jobs>(context, listen: false).fetchAndSetJobs();
-      } catch (error) {
-        await showDialog<void>(
-          //add custom dialog
-          context: context,
-          builder: (ctx) => AlertDialog(
-            title: const Text('An error occurred!'),
-            content: const Text('Something went wrong'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(ctx).pop();
-                },
-                child: const Text('Okay'),
-              )
-            ],
-          ),
-        );
-      } finally {
-        setState(() {
-          _isLoading = false;
-        });
-        Navigator.of(context).pop();
       }
+    } catch (error) {
+      await showDialog<void>(
+        //add custom dialog
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('An error occurred!'),
+          content: const Text('Something went wrong'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+              child: const Text('Okay'),
+            )
+          ],
+        ),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+      Navigator.of(context).pop();
     }
+
     setState(() {
       _isLoading = false;
     });
@@ -135,7 +162,7 @@ class _EditJobScreenState extends State<EditJobScreen> {
             actions: [
               IconButton(
                 onPressed: () {
-                  _saveForm();
+                  _saveForm(context);
                   Navigator.of(context).pop;
                 },
                 icon: const Icon(Icons.save),

@@ -25,11 +25,12 @@ class JobCard extends StatelessWidget {
 
         //pushes the Detail Jobscreen and pass the instance of the job selected,
         //returns deleteObject from Edit screen if selected
-        final _confirmDeleteJob = await Navigator.of(context)
-            .pushNamed(RouteManager.detailJobScreen, arguments: {
-          'jobID': jobInstance,
-          'refreshJobList': refreshJobList
-        });
+        // final _confirmDeleteJob = await
+        Navigator.of(context).pushNamed(RouteManager.detailJobScreen,
+            arguments: {
+              'jobID': jobInstance,
+              'refreshJobList': refreshJobList
+            });
 
         //if EditScreen deleted selected the page is refreshed
         // if (_confirmDeleteJob == true) {

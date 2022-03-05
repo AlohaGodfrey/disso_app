@@ -1,5 +1,8 @@
 import 'dart:convert' as convert; //json decoder
+
 import 'package:http/http.dart' as http;
+
+import '../models/http_exception.dart'; //custom exception
 
 const GOOGLE_API_KEY = 'AIzaSyCpse1vOgkUBCBr4zuzRx0jbROlGV-ymME';
 
@@ -28,6 +31,10 @@ class LocationService {
 
     var response = await http.get(Uri.parse(url));
     var json = convert.jsonDecode(response.body);
+
+    if (json['status'] == 'ZERO_RESULTS') {
+      throw HttpException('Invalid Postcode');
+    }
     var placeId = json['candidates'][0]['place_id'] as String;
 
     return placeId;
