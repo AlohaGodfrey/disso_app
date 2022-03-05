@@ -6,7 +6,8 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../routes/routes.dart';
 import '../theme/palette.dart';
-import '../providers/jobs.dart';
+// import '../providers/jobs.dart';
+import '../providers/jobs_firebase.dart';
 import '../providers/auth.dart';
 import '../models/job_model.dart';
 import '../widgets/app_drawer.dart';
@@ -39,7 +40,9 @@ class _ListJobScreenState extends State<ListJobScreen> {
     setState(() {
       _isLoading = true;
     });
-    Provider.of<Jobs>(context, listen: false).fetchAndSetJobs().then((_) {
+    Provider.of<JobsFirebase>(context, listen: false)
+        .fetchAndSetJobs()
+        .then((_) {
       setState(() {
         _isLoading = false;
       });
@@ -51,8 +54,8 @@ class _ListJobScreenState extends State<ListJobScreen> {
     setState(() {
       _isLoading = true;
     });
-    Provider.of<Jobs>(context, listen: false).clearJobList();
-    await Provider.of<Jobs>(context, listen: false).fetchAndSetJobs();
+    Provider.of<JobsFirebase>(context, listen: false).clearJobList();
+    await Provider.of<JobsFirebase>(context, listen: false).fetchAndSetJobs();
 
     setState(() {
       _isLoading = false;
@@ -79,7 +82,7 @@ class _ListJobScreenState extends State<ListJobScreen> {
   @override
   Widget build(BuildContext context) {
     //uses Auth & Jobs Providers to retrieve relevant data
-    jobList = Provider.of<Jobs>(context, listen: true).jobItems;
+    jobList = Provider.of<JobsFirebase>(context, listen: true).jobItems;
     //if user isAdmin, enable 'add new job'
     final isAdmin = Provider.of<Auth>(context).isAdmin;
     //bool flag message if no job objects returned from search query
@@ -154,7 +157,8 @@ class _ListJobScreenState extends State<ListJobScreen> {
                                         top: 24,
                                         bottom: 0,
                                       ),
-                                      physics: const ClampingScrollPhysics(),
+                                      // physics: const ClampingScrollPhysics(),
+                                      physics: NeverScrollableScrollPhysics(),
                                       itemCount:
                                           _searchController.text.isNotEmpty
                                               ? jobListSearch.length
@@ -165,7 +169,7 @@ class _ListJobScreenState extends State<ListJobScreen> {
                                               _searchController.text.isNotEmpty
                                                   ? jobListSearch[index]
                                                   : jobList[index],
-                                          refreshPage: refreshPage,
+                                          refreshJobList: refreshPage,
                                         );
                                       },
                                       separatorBuilder: (context, index) {

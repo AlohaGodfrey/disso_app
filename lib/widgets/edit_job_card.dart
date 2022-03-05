@@ -4,7 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/jobs.dart';
+// import '../providers/jobs.dart';
+import '../providers/jobs_firebase.dart';
 import '../models/job_model.dart';
 import '../theme/palette.dart';
 import './details_job_widgets.dart';
@@ -104,7 +105,7 @@ class _EditJobFormState extends State<EditJobForm> {
     //else create new empty fields for the form
     if (_isInit) {
       if (widget.jobId != null) {
-        _editedJob = Provider.of<Jobs>(context, listen: false)
+        _editedJob = Provider.of<JobsFirebase>(context, listen: false)
             .findById(widget.jobId as String);
 
         _initValues = {

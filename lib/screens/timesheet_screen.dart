@@ -7,7 +7,7 @@ import '../widgets/app_drawer.dart';
 import '../widgets/profile_sliver.dart';
 import '../widgets/timesheet_card.dart';
 import '../widgets/timesheet_pdf_invoice.dart';
-import '../providers/timesheet.dart' show Timesheet;
+import '../providers/timesheets_firebase.dart' show TimesheetsFirebase;
 
 class TimesheetScreen extends StatefulWidget {
   const TimesheetScreen({Key? key}) : super(key: key);
@@ -18,7 +18,7 @@ class TimesheetScreen extends StatefulWidget {
 class _TimesheetScreenState extends State<TimesheetScreen> {
   late Future _timesheetFuture;
   Future _obtaintimesheetFuture() {
-    return Provider.of<Timesheet>(context, listen: false)
+    return Provider.of<TimesheetsFirebase>(context, listen: false)
         .fetchAndSetTimesheet();
   }
 
@@ -47,9 +47,12 @@ class _TimesheetScreenState extends State<TimesheetScreen> {
               //if timesheet history is null then disable pdf button
               IconButton(
                 onPressed: () async {
-                  if (context.read<Timesheet?>()?.timesheet.isNotEmpty ??
+                  if (context
+                          .read<TimesheetsFirebase?>()
+                          ?.timesheet
+                          .isNotEmpty ??
                       true) {
-                    generatePDF(context.read<Timesheet>().timesheet);
+                    generatePDF(context.read<TimesheetsFirebase>().timesheet);
                   } else {
                     print(false);
                   }
@@ -78,7 +81,7 @@ class _TimesheetScreenState extends State<TimesheetScreen> {
                     } else {
                       return Container(
                         height: MediaQuery.of(context).size.height * 0.8,
-                        child: Consumer<Timesheet>(
+                        child: Consumer<TimesheetsFirebase>(
                           builder: (ctx, timesheetData, child) =>
                               ListView.separated(
                             //annoying bug where there is default padding. Phantom space

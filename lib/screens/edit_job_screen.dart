@@ -5,7 +5,10 @@ import 'package:provider/provider.dart';
 
 import '../routes/routes.dart';
 import '../theme/palette.dart';
-import '../providers/jobs.dart';
+
+// import '../providers/jobs.dart';
+import '../providers/jobs_firebase.dart';
+
 import '../providers/auth.dart';
 import '../models/job_model.dart';
 import '../widgets/profile_sliver.dart';
@@ -77,12 +80,13 @@ class _EditJobScreenState extends State<EditJobScreen> {
     });
 
     if (_editedJob.id != '') {
-      await Provider.of<Jobs>(context, listen: false)
+      await Provider.of<JobsFirebase>(context, listen: false)
           .updateJob(_editedJob.id, _editedJob);
     } else {
       try {
         //pushes object to global products
-        await Provider.of<Jobs>(context, listen: false).addJob(_editedJob);
+        await Provider.of<JobsFirebase>(context, listen: false)
+            .addJob(_editedJob);
         // //force all app listners to update
         // await Provider.of<Jobs>(context, listen: false).fetchAndSetJobs();
       } catch (error) {

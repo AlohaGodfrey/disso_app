@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/timesheet.dart';
-import '../providers/Jobs.dart';
+import '../providers/timesheets_firebase.dart';
+import '../providers/jobs_firebase.dart';
 import '../theme/palette.dart';
 import '../models/job_model.dart';
 
@@ -38,7 +38,7 @@ void activeJobDone(
       text: text,
       onConfirmBtnTap: () async {
         final timeWorked = stopwatch.elapsed.inSeconds;
-        await Provider.of<Timesheet>(context, listen: false)
+        await Provider.of<TimesheetsFirebase>(context, listen: false)
             .addJobX(activeJob, timeWorked.toDouble());
         Navigator.of(context).pop();
         Navigator.of(context).pop();
@@ -51,7 +51,8 @@ void activeJobDone(
 }
 
 //confirmation windows for admin requesting job delete
-void confirmJobDelete(BuildContext context, Job currentJob) {
+void confirmJobDelete(
+    BuildContext context, Job currentJob, Function refreshJobList) {
   CoolAlert.show(
     context: context,
     title: 'Delete Job Entry?',
@@ -61,14 +62,13 @@ void confirmJobDelete(BuildContext context, Job currentJob) {
     confirmBtnColor: Colors.red,
     backgroundColor: Palette.kToLight,
     onConfirmBtnTap: () async {
-      //signals the main list to refresh
-      var jobDelete = true;
-      //delete the item
-      await Provider.of<Jobs>(context, listen: false).fetchAndSetJobs();
-      await Provider.of<Jobs>(context, listen: false).deleteJob(currentJob.id);
-      await Provider.of<Jobs>(context, listen: false).fetchAndSetJobs();
+      //deletes thie item
+      await context.read<JobsFirebase>().deleteJob(currentJob.id);
+      //navigates back to main joblist
       Navigator.of(context).pop();
-      Navigator.of(context).pop(jobDelete);
+      Navigator.of(context).pop();
+      //auto-refreshes the main joblist
+      await refreshJobList();
     },
   );
 }

@@ -8,12 +8,12 @@ import '../models/job_model.dart';
 import '../models/timesheet_model.dart';
 import '../helpers/firebase_service.dart'; //custom made for Url/Uri Building
 
-class Timesheet with ChangeNotifier {
+class TimesheetsFirebase with ChangeNotifier {
   final String authToken;
   final String userId;
   List<TimesheetItem> _timesheet = [];
 
-  Timesheet(this.authToken, this.userId, this._timesheet);
+  TimesheetsFirebase(this.authToken, this.userId, this._timesheet);
 
   //timesheet getter
   List<TimesheetItem> get timesheet {

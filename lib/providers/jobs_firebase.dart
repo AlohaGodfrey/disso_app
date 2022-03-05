@@ -9,13 +9,14 @@ import '../models/http_exception.dart';
 import '../helpers/firebase_service.dart';
 import '../models/job_model.dart';
 
-class Jobs with ChangeNotifier {
+class JobsFirebase with ChangeNotifier {
   List<Job> _jobItems = [];
 
   final String authToken;
   final String authUserId;
 
-  Jobs(this._jobItems, {required this.authToken, required this.authUserId});
+  JobsFirebase(this._jobItems,
+      {required this.authToken, required this.authUserId});
 
   //getter
   List<Job> get jobItems {

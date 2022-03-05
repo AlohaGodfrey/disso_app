@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/Jobs.dart';
+import '../providers/jobs_firebase.dart';
 import '../models/job_model.dart';
 import '../widgets/auto_login_config.dart';
 import '../screens/splash_screen.dart';
@@ -49,9 +49,11 @@ class RouteManager {
         );
 
       case detailJobScreen:
-        final currentJob = settings.arguments as Job;
+        var arguments = settings.arguments as Map;
+        // final Function refreshJobList = settings.arguments as Function;
         return MaterialPageRoute(
-          builder: (context) => DetailJobScreen(currentJob),
+          builder: (context) =>
+              DetailJobScreen(arguments['jobID'], arguments['refreshJobList']),
         );
 
       case editJobScreen:

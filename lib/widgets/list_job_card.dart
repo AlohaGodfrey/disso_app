@@ -7,9 +7,9 @@ import './details_job_widgets.dart';
 
 class JobCard extends StatelessWidget {
   final Job jobInstance;
-  final Function refreshPage;
+  final Function refreshJobList;
   const JobCard(
-      {required this.jobInstance, required this.refreshPage, Key? key})
+      {required this.jobInstance, required this.refreshJobList, Key? key})
       : super(key: key);
 
   @override
@@ -26,12 +26,15 @@ class JobCard extends StatelessWidget {
         //pushes the Detail Jobscreen and pass the instance of the job selected,
         //returns deleteObject from Edit screen if selected
         final _confirmDeleteJob = await Navigator.of(context)
-            .pushNamed(RouteManager.detailJobScreen, arguments: jobInstance);
+            .pushNamed(RouteManager.detailJobScreen, arguments: {
+          'jobID': jobInstance,
+          'refreshJobList': refreshJobList
+        });
 
         //if EditScreen deleted selected the page is refreshed
-        if (_confirmDeleteJob == true) {
-          refreshPage();
-        }
+        // if (_confirmDeleteJob == true) {
+        //   refreshPage();
+        // }
       },
       child: Container(
         height: 100,

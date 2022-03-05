@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../routes/routes.dart';
-import '../providers/Jobs.dart';
 import '../providers/auth.dart';
 
 class AppDrawer extends StatelessWidget {
