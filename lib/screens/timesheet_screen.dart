@@ -35,12 +35,15 @@ class _TimesheetScreenState extends State<TimesheetScreen> {
     final isAdmin =
         Provider.of<Auth>(context, listen: false).isAdmin; //checks isAdmin?
     // final timesheetHistory = Provider.of<Timesheet>(context);
+    //screen size optimizations
+    var deviceSize = MediaQuery.of(context).size;
+    bool isSmallScreen = deviceSize.width > 650;
     return Scaffold(
       drawer: const AppDrawer(),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            pinned: true,
+            pinned: false,
             title: Text('Digital Timesheet'),
             actions: [
               //disables pdf button if timesheet history is empty
@@ -85,7 +88,15 @@ class _TimesheetScreenState extends State<TimesheetScreen> {
                           builder: (ctx, timesheetData, child) =>
                               ListView.separated(
                             //annoying bug where there is default padding. Phantom space
-                            padding: const EdgeInsets.only(top: 0, bottom: 80),
+                            // padding: const EdgeInsets.only(top: 0, bottom: 80),
+                            padding: isSmallScreen
+                                ? EdgeInsets.only(
+                                    top: 0,
+                                    bottom: 80,
+                                    left: deviceSize.width * 0.2,
+                                    right: deviceSize.width * 0.2,
+                                  )
+                                : const EdgeInsets.only(top: 0, bottom: 80),
                             physics: const BouncingScrollPhysics(),
                             itemCount: timesheetData.timesheet.length,
                             itemBuilder: (ctx, index) {

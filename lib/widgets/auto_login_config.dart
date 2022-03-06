@@ -8,7 +8,6 @@ import '../screens/splash_screen.dart';
 
 class AutoLoginConfig extends StatelessWidget {
   const AutoLoginConfig({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     //listens for authentication status change

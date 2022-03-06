@@ -126,6 +126,9 @@ class _EditJobFormState extends State<EditJobForm> {
 
   @override
   Widget build(BuildContext context) {
+    //screen size optimizations
+    var deviceSize = MediaQuery.of(context).size;
+    bool isSmallScreen = deviceSize.width > 800;
     return Form(
       key: widget.form,
       child: Column(
@@ -328,7 +331,10 @@ class _EditJobFormState extends State<EditJobForm> {
           Align(
             alignment: Alignment.center,
             child: ToggleSwitch(
-              minWidth: MediaQuery.of(context).size.width * 0.27,
+              // minWidth: MediaQuery.of(context).size.width * 0.27,
+              minWidth: isSmallScreen
+                  ? deviceSize.width * 0.17
+                  : deviceSize.width * 0.27,
               minHeight: 40,
               activeFgColor: Colors.white,
               totalSwitches: 3,
@@ -458,7 +464,10 @@ class _EditJobFormState extends State<EditJobForm> {
           Align(
             alignment: Alignment.center,
             child: ToggleSwitch(
-              minWidth: MediaQuery.of(context).size.width * 0.27,
+              // minWidth: MediaQuery.of(context).size.width * 0.27,
+              minWidth: isSmallScreen
+                  ? deviceSize.width * 0.17
+                  : deviceSize.width * 0.27,
               minHeight: 40,
               activeFgColor: Colors.white,
               totalSwitches: 3,

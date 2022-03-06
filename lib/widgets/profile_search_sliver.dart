@@ -30,7 +30,9 @@ class _ProfileSearchSliverState extends State<ProfileSearchSliver> {
   @override
   Widget build(BuildContext context) {
     // final isAdmin = Provider.of<Auth>(context).isAdmin; //checks isAdmin?
-    Size size = MediaQuery.of(context).size;
+    //screen size optimizations
+    var deviceSize = MediaQuery.of(context).size;
+    bool isSmallScreen = deviceSize.width > 650;
     return SliverList(
       delegate: SliverChildListDelegate([
         Stack(children: [
@@ -38,92 +40,104 @@ class _ProfileSearchSliverState extends State<ProfileSearchSliver> {
             children: [
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
-                height: size.height / 7,
-                decoration: const BoxDecoration(
-                    color: Palette.kToLight,
-                    borderRadius: BorderRadius.vertical(
+                // margin:
+                //     EdgeInsets.symmetric(horizontal: deviceSize.width * 0.2),
+                height: isSmallScreen ? 60 : deviceSize.height / 7,
+                decoration: BoxDecoration(
+                    // color: Palette.kToLight,
+                    color: isSmallScreen
+                        ? const Color.fromRGBO(246, 246, 246, 1)
+                        : Palette.kToLight,
+                    borderRadius: const BorderRadius.vertical(
                       bottom: Radius.circular(45),
                     ),
                     boxShadow: [
-                      BoxShadow(
-                        color: Color.fromARGB(136, 212, 212, 212),
-                        blurRadius: 2.0,
-                        spreadRadius: 0.0,
-                        offset: Offset(2.0, 2.0),
-                      ),
+                      isSmallScreen
+                          ? const BoxShadow(
+                              color: Color.fromRGBO(246, 246, 246, 1))
+                          : const BoxShadow(
+                              color: Color.fromARGB(136, 212, 212, 212),
+                              blurRadius: 2.0,
+                              spreadRadius: 0.0,
+                              offset: Offset(2.0, 2.0),
+                            ),
                     ]),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        const CircleAvatar(
-                          backgroundColor: Colors.white70,
-                          radius: 35,
-                          child: CircleAvatar(
-                            backgroundImage: AssetImage('assets/profile.jpg'),
-                            radius: 30,
+                child: Visibility(
+                  visible: !isSmallScreen,
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          const CircleAvatar(
+                            backgroundColor: Colors.white70,
+                            radius: 35,
+                            child: CircleAvatar(
+                              backgroundImage: AssetImage('assets/profile.jpg'),
+                              radius: 30,
+                            ),
                           ),
-                        ),
-                        const Spacer(),
-                        Column(
-                          children: [
-                            widget.isAdmin
-                                ? Text(
-                                    'Admin Account',
-                                    style: GoogleFonts.inter(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white),
-                                  )
-                                : Text(
-                                    'Traffic Management',
-                                    style: GoogleFonts.inter(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white),
-                                  ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Center(
-                              child: Container(
-                                padding: const EdgeInsets.all(4),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Colors.black54),
-                                child: widget.isAdmin
-                                    ? const Text(
-                                        '  Supervisor  ',
-                                        style: TextStyle(color: Colors.white),
-                                      )
-                                    : const Text(
-                                        '  Operative  ',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
+                          const Spacer(),
+                          Column(
+                            children: [
+                              widget.isAdmin
+                                  ? Text(
+                                      'Admin Account',
+                                      style: GoogleFonts.inter(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white),
+                                    )
+                                  : Text(
+                                      'Traffic Management',
+                                      style: GoogleFonts.inter(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white),
+                                    ),
+                              const SizedBox(
+                                height: 10,
                               ),
-                            ),
-                          ],
-                        ),
-                        const Spacer(),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.02,
-                        ),
-                        IconButton(
-                            onPressed: () {
-                              // print(context.read<Auth?>()?.isAdmin);
-                              // FocusManager.instance.primaryFocus?.unfocus();
-                              if (widget.helpDialog == HelpHintType.listUser &&
-                                  widget.isAdmin == true) {
-                                helpContextDialog(
-                                    context, HelpHintType.listAdmin);
-                                return;
-                              }
-                              helpContextDialog(context, widget.helpDialog);
-                            },
-                            icon: const Icon(Icons.help))
-                      ],
-                    )
-                  ],
+                              Center(
+                                child: Container(
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: Colors.black54),
+                                  child: widget.isAdmin
+                                      ? const Text(
+                                          '  Supervisor  ',
+                                          style: TextStyle(color: Colors.white),
+                                        )
+                                      : const Text(
+                                          '  Operative  ',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const Spacer(),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.02,
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                // print(context.read<Auth?>()?.isAdmin);
+                                // FocusManager.instance.primaryFocus?.unfocus();
+                                if (widget.helpDialog ==
+                                        HelpHintType.listUser &&
+                                    widget.isAdmin == true) {
+                                  helpContextDialog(
+                                      context, HelpHintType.listAdmin);
+                                  return;
+                                }
+                                helpContextDialog(context, widget.helpDialog);
+                              },
+                              icon: const Icon(Icons.help))
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
@@ -135,7 +149,10 @@ class _ProfileSearchSliverState extends State<ProfileSearchSliver> {
               width: MediaQuery.of(context).size.width,
               height: 40,
               child: Card(
-                margin: const EdgeInsets.symmetric(horizontal: 50),
+                // margin: const EdgeInsets.symmetric(horizontal: 50),
+                margin: isSmallScreen
+                    ? EdgeInsets.symmetric(horizontal: deviceSize.width * 0.3)
+                    : const EdgeInsets.symmetric(horizontal: 50),
                 elevation: 3,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)),

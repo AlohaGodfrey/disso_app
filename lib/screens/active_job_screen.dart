@@ -36,17 +36,27 @@ class _ActiveJobScreenState extends State<ActiveJobScreen> {
         latitute: widget.currentJob.location.latitude,
         longitude: widget.currentJob.location.longitude);
     final scaffold = ScaffoldMessenger.of(context); //use for small snackbar txt
+
+    //screen size optimizations
+    var deviceSize = MediaQuery.of(context).size;
+    bool isSmallScreen = deviceSize.width > 650;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Active Job'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+        child: ListView(
+          // mainAxisAlignment: MainAxisAlignment.start,
+          // shrinkWrap: true,
           children: [
             Container(
               child: LocationInput(_previewImageUrl),
               height: MediaQuery.of(context).size.height * 0.1,
+              margin: deviceSize.width > 800
+                  ? EdgeInsets.symmetric(
+                      horizontal: deviceSize.width * 0.2, vertical: 12)
+                  : const EdgeInsets.all(12),
             ),
             CircularCountDownTimer(
               duration: _initDuration,
@@ -87,9 +97,13 @@ class _ActiveJobScreenState extends State<ActiveJobScreen> {
               height: 80,
               padding: const EdgeInsets.all(12),
               width: double.infinity,
-              margin: const EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
+              // margin: const EdgeInsets.symmetric(
+              //   horizontal: 16,
+              // ),
+              margin: isSmallScreen
+                  ? EdgeInsets.symmetric(
+                      horizontal: deviceSize.width * 0.2, vertical: 16)
+                  : const EdgeInsets.all(16),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   color: Colors.white,
@@ -109,7 +123,10 @@ class _ActiveJobScreenState extends State<ActiveJobScreen> {
                     key: UniqueKey(),
                     visible: !_breakPanel,
                     child: ToggleSwitch(
-                      minWidth: MediaQuery.of(context).size.width * 0.28,
+                      // minWidth: MediaQuery.of(context).size.width * 0.28,
+                      minWidth: isSmallScreen
+                          ? deviceSize.width * 0.17
+                          : deviceSize.width * 0.27,
                       minHeight: 55,
                       activeFgColor: Colors.white,
                       totalSwitches: 3,
@@ -175,7 +192,10 @@ class _ActiveJobScreenState extends State<ActiveJobScreen> {
                     key: UniqueKey(),
                     visible: !_switchPanel,
                     child: ToggleSwitch(
-                      minWidth: MediaQuery.of(context).size.width * 0.28,
+                      // minWidth: MediaQuery.of(context).size.width * 0.28,
+                      minWidth: isSmallScreen
+                          ? deviceSize.width * 0.17
+                          : deviceSize.width * 0.27,
                       minHeight: 55,
                       animate: true,
                       animationDuration: 200,
@@ -238,7 +258,10 @@ class _ActiveJobScreenState extends State<ActiveJobScreen> {
                       key: UniqueKey(),
                       visible: _jobStartPanel,
                       child: ToggleSwitch(
-                        minWidth: MediaQuery.of(context).size.width * 0.85,
+                        // minWidth: MediaQuery.of(context).size.width * 0.85,
+                        minWidth: isSmallScreen
+                            ? deviceSize.width * 0.5
+                            : deviceSize.width * 0.85,
                         minHeight: 50,
                         animate: true,
                         animationDuration: 200,
@@ -279,7 +302,7 @@ class _ActiveJobScreenState extends State<ActiveJobScreen> {
               ),
             ),
             const Spacer(),
-            jobDetailPanel(widget.currentJob),
+            jobDetailPanel(widget.currentJob, deviceSize),
             const SizedBox(
               height: 20,
             )

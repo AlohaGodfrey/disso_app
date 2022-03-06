@@ -32,6 +32,10 @@ class DetailJobScreen extends StatelessWidget {
         latitute: currentJob.location.latitude,
         longitude: currentJob.location.longitude);
 
+    //screen size optimizations
+    var deviceSize = MediaQuery.of(context).size;
+    bool isSmallScreen = deviceSize.width > 650;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -65,18 +69,22 @@ class DetailJobScreen extends StatelessWidget {
           )
         ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+      body: ListView(
+        // mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          jobDetailPanel(currentJob),
+          jobDetailPanel(currentJob, deviceSize),
           const SizedBox(width: 20),
           Expanded(
             child: Container(
               // height: 265,
-              height: MediaQuery.of(context).size.height * 0.3,
+              // height: de * 0.3,
               padding: const EdgeInsets.all(12),
               width: double.infinity,
-              margin: const EdgeInsets.all(12),
+              // margin: const EdgeInsets.all(12),
+              margin: isSmallScreen
+                  ? EdgeInsets.symmetric(horizontal: deviceSize.width * 0.2)
+                  : const EdgeInsets.all(12),
+
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   color: Colors.white,
@@ -100,7 +108,7 @@ class DetailJobScreen extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  LocationInput(_previewImageUrl),
+                  Center(child: LocationInput(_previewImageUrl)),
                   const SizedBox(
                     height: 10,
                   ),
@@ -147,7 +155,11 @@ class DetailJobScreen extends StatelessWidget {
               height: 80,
               padding: const EdgeInsets.all(12),
               width: double.infinity,
-              margin: const EdgeInsets.all(12),
+              // margin: const EdgeInsets.all(12),
+              margin: isSmallScreen
+                  ? EdgeInsets.symmetric(
+                      horizontal: deviceSize.width * 0.2, vertical: 12)
+                  : const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 gradient: const LinearGradient(

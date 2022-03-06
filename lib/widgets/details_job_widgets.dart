@@ -12,12 +12,15 @@ Widget googleFontStyle(String text) {
   );
 }
 
-Widget jobDetailPanel(Job currentJob) {
+Widget jobDetailPanel(Job currentJob, Size deviceSize) {
   return Container(
     height: 115,
     padding: const EdgeInsets.all(12),
     width: double.infinity,
-    margin: const EdgeInsets.all(12),
+    // margin: const EdgeInsets.all(12),
+    margin: deviceSize.width > 800
+        ? EdgeInsets.symmetric(horizontal: deviceSize.width * 0.2, vertical: 12)
+        : const EdgeInsets.all(12),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(16),
       color: Colors.white,

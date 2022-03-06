@@ -87,7 +87,8 @@ class _ListJobScreenState extends State<ListJobScreen> {
     final isAdmin = Provider.of<Auth>(context).isAdmin;
     //bool flag message if no job objects returned from search query
     jobAvailability = jobList.isNotEmpty;
-
+    //gets the device size
+    var deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       drawer: const AppDrawer(),
       body: RefreshIndicator(
@@ -153,10 +154,18 @@ class _ListJobScreenState extends State<ListJobScreen> {
                                       ),
                                     )
                                   : ListView.separated(
-                                      padding: const EdgeInsets.only(
-                                        top: 24,
-                                        bottom: 0,
-                                      ),
+                                      padding: deviceSize.width > 650
+                                          ? EdgeInsets.only(
+                                              top: 24,
+                                              bottom: 0,
+                                              left: deviceSize.width * 0.2,
+                                              right: deviceSize.width * 0.2,
+                                            )
+                                          : const EdgeInsets.only(
+                                              top: 24,
+                                              bottom: 0,
+                                            ),
+
                                       // physics: const ClampingScrollPhysics(),
                                       physics: NeverScrollableScrollPhysics(),
                                       itemCount:

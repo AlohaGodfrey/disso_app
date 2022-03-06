@@ -9,7 +9,7 @@ class LocationInput extends StatelessWidget {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     return Container(
-      width: deviceSize.width > 600 ? deviceSize.width * 0.5 : double.infinity,
+      width: deviceSize.width > 650 ? deviceSize.width * 0.5 : double.infinity,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         border: Border.all(width: 1, color: Colors.grey),

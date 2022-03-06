@@ -44,16 +44,16 @@ class Auth with ChangeNotifier {
   Future<void> signup(String email, String password, bool isAdmin) async {
     final _url = Uri.parse(
         'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCN1YGy3V2Lq3zaMowbVU6jPV9RGZnLTjs');
-    return _authenticate(email, password, _url, setAdminStatus, isAdmin);
+    return _authenticate(email, password, _url, setProfileData, isAdmin);
   }
 
   Future<void> login(String email, String password, bool isAdmin) async {
     final _url = Uri.parse(
         'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCN1YGy3V2Lq3zaMowbVU6jPV9RGZnLTjs');
-    return _authenticate(email, password, _url, fetchAdminStatus, isAdmin);
+    return _authenticate(email, password, _url, fetchProfileData, isAdmin);
   }
 
-  Future<void> setAdminStatus(bool isAdmin) async {
+  Future<void> setProfileData([bool isAdmin = false]) async {
     final url = firebaseUrl(_token as String, '/role/$userId.json');
 
     //send admin status to server
@@ -70,7 +70,7 @@ class Auth with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchAdminStatus(bool isAdmin) async {
+  Future<void> fetchProfileData(bool isAdmin) async {
     final url = firebaseUrl(_token as String, '/role/$userId.json');
     final response = await http.get(url);
 

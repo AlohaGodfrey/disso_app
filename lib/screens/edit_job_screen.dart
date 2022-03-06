@@ -151,6 +151,9 @@ class _EditJobScreenState extends State<EditJobScreen> {
     // final jobList = Provider.of<Jobs>(context).jobItems; //access the joblist
     final isAdmin = Provider.of<Auth>(context).isAdmin; //checks isAdmin?
     // final jobId = ModalRoute.of(context)?.settings.arguments;
+    //screen size optimizations
+    var deviceSize = MediaQuery.of(context).size;
+    bool isSmallScreen = deviceSize.width > 650;
     return Scaffold(
       // drawer: const AppDrawer(),
       body: CustomScrollView(
@@ -180,10 +183,15 @@ class _EditJobScreenState extends State<EditJobScreen> {
                 Container(
                   height: (MediaQuery.of(context).size.height / 7) * 4.5,
                   padding: const EdgeInsets.all(20),
-                  width: MediaQuery.of(context).size.width > 600
-                      ? MediaQuery.of(context).size.width * 0.5
-                      : double.infinity,
-                  margin: const EdgeInsets.all(12),
+                  // width: MediaQuery.of(context).size.width > 800
+                  //     ? MediaQuery.of(context).size.width * 0.7
+                  //     : double.infinity,
+                  // margin: const EdgeInsets.all(12),
+                  // margin: EdgeInsets.all(50),
+                  margin: isSmallScreen
+                      ? EdgeInsets.symmetric(horizontal: deviceSize.width * 0.2)
+                      : const EdgeInsets.all(12),
+
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
                       color: Colors.white,

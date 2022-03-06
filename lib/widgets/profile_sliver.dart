@@ -18,95 +18,106 @@ class ProfileSliver extends StatefulWidget {
 class _ProfileSliverState extends State<ProfileSliver> {
   @override
   Widget build(BuildContext context) {
-    Size deviceSize = MediaQuery.of(context).size;
+    //screen size optimizations
+    var deviceSize = MediaQuery.of(context).size;
+    bool isSmallScreen = deviceSize.width > 650;
     return SliverList(
       delegate: SliverChildListDelegate([
         Column(
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              height: deviceSize.height / 7,
-              decoration: const BoxDecoration(
+              // padding: const EdgeInsets.symmetric(horizontal: 15),
+              padding: isSmallScreen
+                  ? const EdgeInsets.all(0)
+                  : const EdgeInsets.symmetric(horizontal: 15),
+              height: isSmallScreen ? 60 : deviceSize.height / 7,
+              decoration: BoxDecoration(
                   color: Palette.kToLight,
-                  borderRadius: BorderRadius.vertical(
+                  borderRadius: const BorderRadius.vertical(
                     bottom: Radius.circular(45),
                   ),
                   boxShadow: [
-                    BoxShadow(
-                      color: Color.fromARGB(136, 212, 212, 212),
-                      blurRadius: 2.0,
-                      spreadRadius: 0.0,
-                      offset: Offset(2.0, 2.0),
-                    ),
+                    isSmallScreen
+                        ? const BoxShadow(
+                            color: Color.fromRGBO(246, 246, 246, 1))
+                        : const BoxShadow(
+                            color: Color.fromARGB(136, 212, 212, 212),
+                            blurRadius: 2.0,
+                            spreadRadius: 0.0,
+                            offset: Offset(2.0, 2.0),
+                          ),
                   ]),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    children: [
-                      const CircleAvatar(
-                        backgroundColor: Colors.white70,
-                        radius: 35,
-                        child: CircleAvatar(
-                          backgroundImage: AssetImage('assets/profile.jpg'),
-                          radius: 30,
+              child: Visibility(
+                visible: !isSmallScreen,
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: [
+                        const CircleAvatar(
+                          backgroundColor: Colors.white70,
+                          radius: 35,
+                          child: CircleAvatar(
+                            backgroundImage: AssetImage('assets/profile.jpg'),
+                            radius: 30,
+                          ),
                         ),
-                      ),
-                      const Spacer(),
-                      Column(
-                        children: [
-                          widget.isAdmin
-                              ? Text(
-                                  'Admin Account',
-                                  style: GoogleFonts.inter(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white),
-                                )
-                              : Text(
-                                  'Traffic Management',
-                                  style: GoogleFonts.inter(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white),
-                                ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Center(
-                            child: Container(
-                              padding: const EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Colors.black54),
-                              child: widget.isAdmin
-                                  ? const Text(
-                                      '  Supervisor  ',
-                                      style: TextStyle(color: Colors.white),
-                                    )
-                                  : const Text(
-                                      '  Operative  ',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
+                        const Spacer(),
+                        Column(
+                          children: [
+                            widget.isAdmin
+                                ? Text(
+                                    'Admin Account',
+                                    style: GoogleFonts.inter(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white),
+                                  )
+                                : Text(
+                                    'Traffic Management',
+                                    style: GoogleFonts.inter(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white),
+                                  ),
+                            const SizedBox(
+                              height: 10,
                             ),
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      SizedBox(
-                        width: deviceSize.width * 0.02,
-                      ),
-                      IconButton(
-                          onPressed: () {
-                            // print(context.read<Auth?>()?.isAdmin);
-                            helpContextDialog(context, widget.helpDialog);
-                          },
-                          icon: const Icon(Icons.help))
-                    ],
-                  )
-                ],
+                            Center(
+                              child: Container(
+                                padding: const EdgeInsets.all(4),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Colors.black54),
+                                child: widget.isAdmin
+                                    ? const Text(
+                                        '  Supervisor  ',
+                                        style: TextStyle(color: Colors.white),
+                                      )
+                                    : const Text(
+                                        '  Operative  ',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        SizedBox(
+                          width: deviceSize.width * 0.02,
+                        ),
+                        IconButton(
+                            onPressed: () {
+                              // print(context.read<Auth?>()?.isAdmin);
+                              helpContextDialog(context, widget.helpDialog);
+                            },
+                            icon: const Icon(Icons.help))
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           ],
