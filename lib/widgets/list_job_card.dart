@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../models/job_model.dart';
 import './details_job_widgets.dart';
+import '../theme/palette.dart';
 
 class JobCard extends StatelessWidget {
   final Job jobInstance;

@@ -1,9 +1,9 @@
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:flutter/material.dart';
 
-import '../theme/palette.dart';
-import '../theme/clip_shadow_path.dart';
-import '../theme/custom_clippers_bezier.dart';
+import 'palette.dart';
+import 'clip_shadow_path.dart';
+import 'custom_clippers_bezier.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);

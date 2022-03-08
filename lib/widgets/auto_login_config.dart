@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../providers/auth.dart';
 import '../screens/list_job_screen.dart';
 import '../screens/auth_screen.dart';
-import '../screens/splash_screen.dart';
+import '../theme/splash_screen.dart';
 
 class AutoLoginConfig extends StatelessWidget {
   const AutoLoginConfig({Key? key}) : super(key: key);

@@ -4,28 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:dropdown_button2/custom_dropdown_button2.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 
-import 'package:disso_app/widgets/show_dialog.dart';
+import '../helpers/location_service.dart';
 import '../providers/jobs_firebase.dart';
 import '../models/job_model.dart';
-import '../helpers/location_service.dart';
+import '../widgets/show_dialog.dart';
 import '../widgets/app_drawer.dart';
+import '../widgets/maps_card.dart';
 import '../widgets/profile_search_sliver.dart';
-import '../models/place_location.dart';
-import '../widgets/maps_web.dart';
-import '../widgets/maps_mobile.dart';
-import '../widgets/maps_web.dart';
-import '../widgets/details_job_widgets.dart';
 
-class MapsGoogleScreen extends StatefulWidget {
-  const MapsGoogleScreen({Key? key}) : super(key: key);
+class MapsScreen extends StatefulWidget {
+  const MapsScreen({Key? key}) : super(key: key);
 
   @override
-  State<MapsGoogleScreen> createState() => MapsGoogleScreenState();
+  State<MapsScreen> createState() => MapsScreenState();
 }
 
-class MapsGoogleScreenState extends State<MapsGoogleScreen> {
+class MapsScreenState extends State<MapsScreen> {
   final Completer<GoogleMapController> _controller = Completer();
   final TextEditingController _searchController = TextEditingController();
 
@@ -43,9 +38,22 @@ class MapsGoogleScreenState extends State<MapsGoogleScreen> {
     final double lng = place['geometry']['location']['lng'];
     final GoogleMapController controller = await _controller.future;
 
+    //moves the maps viewport
+    controller.animateCamera(
+      CameraUpdate.newCameraPosition(
+          CameraPosition(target: LatLng(lat, lng), zoom: 14)),
+    );
+  }
+
+//maps camera controls
+  Future<void> _goToJobPlace(Map<String, dynamic> place) async {
+    //gets place id
+    final double lat = place['geometry']['location']['lat'];
+    final double lng = place['geometry']['location']['lng'];
+    final GoogleMapController controller = await _controller.future;
+
     //retrieves markerID
     final String markerId = place['MarkerId'];
-
     controller.showMarkerInfoWindow(MarkerId(markerId));
 
     //moves the maps viewport
@@ -55,6 +63,7 @@ class MapsGoogleScreenState extends State<MapsGoogleScreen> {
     );
   }
 
+  //creates a map of job location and markerId from joblist
   void _normalizeJobData(String dropdownListJob, List<Job> jobList) {
     var jobLocation = {
       'geometry': {
@@ -72,9 +81,10 @@ class MapsGoogleScreenState extends State<MapsGoogleScreen> {
       'MarkerId':
           '_k${jobList.firstWhere((job) => job.title == dropdownListJob).title}',
     };
-    _goToCustomPlace(jobLocation);
+    _goToJobPlace(jobLocation);
   }
 
+  //used to input custom location using the search profile sliver
   Future<void> _searchUpdateMap() async {
     var place = await LocationService.getPlace(_searchController.text);
     _goToCustomPlace(place);
@@ -87,6 +97,7 @@ class MapsGoogleScreenState extends State<MapsGoogleScreen> {
     super.dispose();
   }
 
+  //creates a set of markers from the timesheet data
   Set<Marker> _returnJobListMarker() {
     final jobList = Provider.of<JobsFirebase>(context, listen: false).jobItems;
     //adds a custom location marker for each job in joblist
@@ -165,95 +176,10 @@ class MapsGoogleScreenState extends State<MapsGoogleScreen> {
                         ),
 
                         //dynamically chooses between web/mobile
-                        MapsMobile(
+                        MapsView(
                             initCameraPosition: initCameraPosition,
                             generateMapMarkers: _returnJobListMarker,
                             mapController: _controller),
-                        // MapsWeb()
-                        // Visibility(
-                        //   visible: !isDebugMap,
-                        //   child: MapsWeb(),
-                        // ),
-                        // Container(
-                        //   padding: const EdgeInsets.all(10),
-                        //   height: MediaQuery.of(context).size.height * 0.49,
-                        //   margin: const EdgeInsets.symmetric(
-                        //       horizontal: 16, vertical: 16),
-                        //   decoration: BoxDecoration(
-                        //       borderRadius: BorderRadius.circular(16),
-                        //       color: Colors.white,
-                        //       boxShadow: const [
-                        //         BoxShadow(
-                        //           color: Color.fromARGB(136, 212, 212, 212),
-                        //           blurRadius: 2.0,
-                        //           spreadRadius: 0.0,
-                        //           offset: Offset(2.0, 2.0),
-                        //           // shadow direction: bottom right
-                        //         ),
-                        //       ]),
-                        //   child: ClipRRect(
-                        //     borderRadius: BorderRadius.circular(16),
-                        //     child: Align(
-                        //       alignment: Alignment.bottomCenter,
-                        //       child: GoogleMap(
-                        //         mapType: MapType.normal,
-                        //         markers: _returnJobListMarker(jobList),
-                        //         initialCameraPosition: initCameraPosition,
-                        //         onMapCreated: (GoogleMapController controller) {
-                        //           _controller.complete(controller);
-                        //         },
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                        //       //code for deprecated worker window
-                        //       // Container(
-                        //       //   height: MediaQuery.of(context).size.height * 0.1,
-                        //       //   width: MediaQuery.of(context).size.width * 0.9,
-                        //       //   margin: const EdgeInsets.symmetric(
-                        //       //     horizontal: 5,
-                        //       //   ),
-                        //       //   decoration: BoxDecoration(
-                        //       //       borderRadius: BorderRadius.circular(16),
-                        //       //       color: Colors.white,
-                        //       //       boxShadow: const [
-                        //       //         BoxShadow(
-                        //       //           color: Color.fromARGB(136, 212, 212, 212),
-                        //       //           blurRadius: 2.0,
-                        //       //           spreadRadius: 0.0,
-                        //       //           offset: Offset(2.0,
-                        //       //               2.0), // shadow direction: bottom right
-                        //       //         ),
-                        //       //       ]),
-                        //       //   child: ListView(
-                        //       //       padding: const EdgeInsets.all(7),
-                        //       //       children: [
-                        //       //         ListTile(
-                        //       //           leading: const Icon(
-                        //       //             Icons.circle,
-                        //       //             color: Colors.green,
-                        //       //             size: 30,
-                        //       //           ),
-                        //       //           title: const Text('Worker 1'),
-                        //       //           subtitle: const Text('Location: The Rye'),
-                        //       //           onTap: () async {
-                        //       //             await _goToTheLake();
-                        //       //           },
-                        //       //         ),
-                        //       //         ListTile(
-                        //       //           leading: const Icon(
-                        //       //             Icons.circle,
-                        //       //             color: Colors.green,
-                        //       //           ),
-                        //       //           title: const Text('Worker 2'),
-                        //       //           subtitle: const Text('Location: BNU Campus'),
-                        //       //           onTap: () async {
-                        //       //             await _goToTheBNU();
-                        //       //           },
-                        //       //         )
-                        //       //       ]),
-                        //       // ),
-                        //     ]),
                       ]),
                 )
               ],

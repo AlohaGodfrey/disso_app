@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../providers/jobs_firebase.dart';
 import '../models/job_model.dart';
 import '../widgets/auto_login_config.dart';
-import '../screens/splash_screen.dart';
+import '../theme/splash_screen.dart';
 import '../screens/active_job_screen.dart';
 import '../screens/auth_screen.dart';
 import '../screens/detail_job_screen.dart';
 import '../screens/edit_job_screen.dart';
 import '../screens/list_job_screen.dart';
 import '../screens/timesheet_screen.dart';
-import '../screens/maps_google_screen.dart';
+import '../screens/maps_screen.dart';
 
 //Screen Navigation Manager
 
@@ -50,7 +48,6 @@ class RouteManager {
 
       case detailJobScreen:
         var arguments = settings.arguments as Map;
-        // final Function refreshJobList = settings.arguments as Function;
         return MaterialPageRoute(
           builder: (context) =>
               DetailJobScreen(arguments['jobID'], arguments['refreshJobList']),
@@ -75,7 +72,7 @@ class RouteManager {
 
       case mapsGoogleScreen:
         return MaterialPageRoute(
-          builder: (context) => MapsGoogleScreen(),
+          builder: (context) => MapsScreen(),
         );
 
       default:

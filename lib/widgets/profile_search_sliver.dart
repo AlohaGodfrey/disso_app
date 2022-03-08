@@ -159,6 +159,9 @@ class _ProfileSearchSliverState extends State<ProfileSearchSliver> {
                 child: widget.searchType == SearchType.viaSearchButton
                     ? TextFormField(
                         controller: widget.searchController,
+                        onFieldSubmitted: (value) async {
+                          widget.searchFunction();
+                        },
                         decoration: InputDecoration(
                             border: InputBorder.none,
                             labelText: widget.searchBarHint,
@@ -180,7 +183,7 @@ class _ProfileSearchSliverState extends State<ProfileSearchSliver> {
                             labelText: widget.searchBarHint,
                             suffixIcon: IconButton(
                               onPressed: () async {
-                                // widget.searchFunction();
+                                widget.searchFunction();
                               },
                               icon: const Icon(Icons.search),
                             ),

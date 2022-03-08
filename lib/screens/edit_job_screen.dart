@@ -3,18 +3,15 @@ import 'package:provider/provider.dart';
 
 import '../routes/routes.dart';
 import '../theme/palette.dart';
-
-// import '../providers/jobs.dart';
-import '../providers/jobs_firebase.dart';
-
-import '../providers/auth.dart';
+import '../helpers/location_service.dart';
 import '../models/job_model.dart';
+import '../models/http_exception.dart';
+import '../models/place_location.dart';
 import '../widgets/profile_sliver.dart';
 import '../widgets/edit_job_card.dart';
-import '../helpers/location_service.dart';
-import 'package:disso_app/models/http_exception.dart';
-import 'package:disso_app/models/place_location.dart';
-import 'package:disso_app/widgets/show_dialog.dart';
+import '../widgets/show_dialog.dart';
+import '../providers/auth.dart';
+import '../providers/jobs_firebase.dart';
 
 class EditJobScreen extends StatefulWidget {
   static const routeName = '/add-new-jobs';
@@ -183,15 +180,9 @@ class _EditJobScreenState extends State<EditJobScreen> {
                 Container(
                   height: (MediaQuery.of(context).size.height / 7) * 4.5,
                   padding: const EdgeInsets.all(20),
-                  // width: MediaQuery.of(context).size.width > 800
-                  //     ? MediaQuery.of(context).size.width * 0.7
-                  //     : double.infinity,
-                  // margin: const EdgeInsets.all(12),
-                  // margin: EdgeInsets.all(50),
                   margin: isSmallScreen
                       ? EdgeInsets.symmetric(horizontal: deviceSize.width * 0.2)
                       : const EdgeInsets.all(12),
-
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
                       color: Colors.white,

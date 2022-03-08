@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class MapsMobile extends StatelessWidget {
+class MapsView extends StatelessWidget {
   final CameraPosition initCameraPosition;
   final Function generateMapMarkers;
   final Completer<GoogleMapController> mapController;
-  const MapsMobile(
+  const MapsView(
       {required this.initCameraPosition,
       required this.generateMapMarkers,
       required this.mapController,

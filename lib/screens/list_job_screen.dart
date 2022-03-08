@@ -1,4 +1,3 @@
-import 'package:disso_app/widgets/show_dialog.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -6,11 +5,11 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../routes/routes.dart';
 import '../theme/palette.dart';
-// import '../providers/jobs.dart';
 import '../providers/jobs_firebase.dart';
 import '../providers/auth.dart';
 import '../models/job_model.dart';
 import '../widgets/app_drawer.dart';
+import '../widgets/show_dialog.dart';
 import '../widgets/list_job_card.dart';
 import '../widgets/details_job_widgets.dart';
 import '../widgets/profile_search_sliver.dart';
