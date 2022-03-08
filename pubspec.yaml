@@ -59,7 +59,7 @@ dependencies:
 
  
 flutter_icons:
-    image_path: "assets/logo_alpha_large.png"
+    image_path: "assets/logo_clipboard.png"
     android: true  
     
 

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
@@ -10,7 +11,7 @@ import 'package:pdf/widgets.dart';
 import '../models/invoice.dart';
 
 class PdfApi {
-  static Future<File> saveDocument({
+  static Future<File> saveDocumentMobile({
     required String name,
     required Document pdf,
   }) async {
@@ -24,6 +25,14 @@ class PdfApi {
     return file;
   }
 
+  static Future<Uint8List> saveDocumentWeb({
+    required String name,
+    required Document pdf,
+  }) async {
+    final bytes = await pdf.save();
+    return bytes;
+  }
+
   static Future openFile(File file) async {
     final url = file.path;
 
@@ -32,7 +41,7 @@ class PdfApi {
 }
 
 class PdfInvoiceApi {
-  static Future<File> generate(Invoice invoice) async {
+  static Future<File> generateMobile(Invoice invoice) async {
     final pdf = Document();
 
     pdf.addPage(MultiPage(
@@ -47,7 +56,25 @@ class PdfInvoiceApi {
       footer: (context) => buildFooter(invoice),
     ));
 
-    return PdfApi.saveDocument(name: 'generated_Invoice.pdf', pdf: pdf);
+    return PdfApi.saveDocumentMobile(name: 'generated_Invoice.pdf', pdf: pdf);
+  }
+
+  static Future<Uint8List> generateWeb(Invoice invoice) async {
+    final pdf = Document();
+
+    pdf.addPage(MultiPage(
+      build: (context) => [
+        buildHeader(invoice),
+        SizedBox(height: 3 * PdfPageFormat.cm),
+        buildTitle(invoice),
+        buildInvoice(invoice),
+        Divider(),
+        buildTotal(invoice),
+      ],
+      footer: (context) => buildFooter(invoice),
+    ));
+
+    return PdfApi.saveDocumentWeb(name: 'generated_Invoice.pdf', pdf: pdf);
   }
 
   static Widget buildHeader(Invoice invoice) {

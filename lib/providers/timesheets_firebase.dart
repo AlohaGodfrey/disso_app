@@ -49,15 +49,13 @@ class TimesheetsFirebase with ChangeNotifier {
       }
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       extractedData.forEach((timesheetId, timesheetData) {
-        loadedTimesheetList.add(
-          TimesheetItem(
-            id: timesheetId,
-            siteName: timesheetData['siteName'],
-            date: DateTime.parse(timesheetData['date']),
-            payRate: timesheetData['payRate'],
-            hoursWorked: timesheetData['hoursWorked'],
-          ),
-        );
+        loadedTimesheetList.add(TimesheetItem(
+          id: timesheetId,
+          siteName: timesheetData['siteName'],
+          date: DateTime.parse(timesheetData['date']),
+          payRate: timesheetData['payRate'],
+          hoursWorked: double.parse(timesheetData['hoursWorked'].toString()),
+        ));
       });
 
       _timesheet = loadedTimesheetList.reversed.toList();

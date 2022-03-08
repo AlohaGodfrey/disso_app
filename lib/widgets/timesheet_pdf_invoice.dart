@@ -2,6 +2,9 @@ import '../models/invoice.dart';
 import '../models/timesheet_model.dart';
 import '../helpers/pdf_service.dart';
 
+import 'package:universal_html/html.dart' as html;
+import 'package:flutter/foundation.dart';
+
 void generatePDF(List<TimesheetItem> timesheetData) async {
   final date = DateTime.now();
   final dueDate = date.add(const Duration(days: 7));
@@ -39,9 +42,22 @@ void generatePDF(List<TimesheetItem> timesheetData) async {
       ),
       items: tableData);
 
-  //generates a new invoice
-  final pdfFile = await PdfInvoiceApi.generate(invoice);
-
-  //opens the invoice
-  PdfApi.openFile(pdfFile);
+  if (kIsWeb) {
+    //download pdf for web
+    final bytesPDFweb = await PdfInvoiceApi.generateWeb(invoice);
+    final blob = html.Blob([bytesPDFweb], 'application/pdf');
+    final url = html.Url.createObjectUrlFromBlob(blob);
+    html.window.open(url, "_blank");
+    html.Url.revokeObjectUrl(url);
+  } else if (defaultTargetPlatform == TargetPlatform.android ||
+      defaultTargetPlatform == TargetPlatform.iOS ||
+      defaultTargetPlatform == TargetPlatform.windows) {
+    //generates a new invoice
+    final pdfFile = await PdfInvoiceApi.generateMobile(invoice);
+    //opens the invoice
+    PdfApi.openFile(pdfFile);
+  } else {
+    //if platform is not web, ios, mac, or windows. pdf is not supported.
+    return;
+  }
 }
