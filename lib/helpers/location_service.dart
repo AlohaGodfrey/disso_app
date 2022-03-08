@@ -1,10 +1,18 @@
 import 'dart:convert' as convert; //json decoder
 
 import 'package:http/http.dart' as http;
+// import 'package:universal_html/html.dart';
+// import 'package:universal_html/js.dart' as js;
+// import 'package:google_place/google_place.dart';
+import 'package:flutter/foundation.dart';
 
 import '../models/http_exception.dart'; //custom exception
+import 'package:mapbox_search/mapbox_search.dart';
 
-const GOOGLE_API_KEY = 'AIzaSyCpse1vOgkUBCBr4zuzRx0jbROlGV-ymME';
+//API KEYS
+const GOOGLE_API_KEY = 'AIzaSyBVy5E8sxIs9cuhC8_br2tvvWrAFugAV_w';
+const MAPBOX_API_KEY =
+    'pk.eyJ1IjoibXJhbG9oYWdvZGZyZXkiLCJhIjoiY2wwaW0wcnMwMDMyeDNjb2c4cG4yazh1YSJ9.rFAxExobut6iLyw42Aee6A';
 
 class LocationService {
   //returns a map image with custom markers
@@ -28,8 +36,9 @@ class LocationService {
   static Future<String> getPlaceId(String input) async {
     final String url =
         'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=$input&inputtype=textquery&key=$GOOGLE_API_KEY';
-
+    var plainUrl = Uri.parse(url);
     var response = await http.get(Uri.parse(url));
+    print(response);
     var json = convert.jsonDecode(response.body);
 
     if (json['status'] == 'ZERO_RESULTS') {
@@ -41,15 +50,60 @@ class LocationService {
   }
 
   static Future<Map<String, dynamic>> getPlace(String input) async {
-    final placeId = await getPlaceId(input);
-    final String url =
-        'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$GOOGLE_API_KEY';
+    Map<String, dynamic> result;
+    if (kIsWeb) {
+      //runs api for the web (MapBox) uses a different api due to the
+      //CORS blocking on web local host using standard sdk
+      result = await getWebPlaceId(input);
+    } else {
+      //runs api for mobile (google)
+      final placeId = await getPlaceId(input);
+      final String url =
+          'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$GOOGLE_API_KEY';
 
-    var response = await http.get(Uri.parse(url));
-    var json = convert.jsonDecode(response.body);
-    var results = json['result'] as Map<String, dynamic>;
-    // print(results);
+      var response = await http.get(Uri.parse(url));
+      var json = convert.jsonDecode(response.body);
+      result = json['result'] as Map<String, dynamic>;
+    }
+    return result;
+  }
 
-    return results;
+  //web
+  static Future<Map<String, dynamic>> getWebPlaceId(String input) async {
+    //uses the mapbox forward geocoding api to get latlng from text query
+    Map<String, dynamic> nomalizedResponse;
+
+    var placesSearch = PlacesSearch(
+      apiKey: MAPBOX_API_KEY,
+      limit: 5,
+    );
+
+    try {
+      //feteches the data
+      final response = await placesSearch.getPlaces(input);
+
+      final lat = response![0].geometry!.coordinates![1];
+      final lng = response[0].geometry!.coordinates![0];
+      nomalizedResponse = {
+        'geometry': {
+          'location': {
+            'lat': lat,
+            'lng': lng,
+          }
+        }
+      };
+    } catch (error) {
+      //if error the coords default to Trafalgar Square
+      nomalizedResponse = {
+        'geometry': {
+          'location': {
+            'lat': 51.507321899999994,
+            'lng': -0.12764739999999997,
+          }
+        }
+      };
+    }
+
+    return nomalizedResponse;
   }
 }

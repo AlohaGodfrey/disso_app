@@ -56,7 +56,9 @@ dependencies:
   dropdown_button2: ^1.2.0
   google_maps_flutter_web: ^0.3.2+1
   universal_html: ^2.0.8
-
+  google_place: ^0.4.7
+  mapbox_search: ^3.0.1+2
+ 
  
 flutter_icons:
     image_path: "assets/logo_clipboard.png"

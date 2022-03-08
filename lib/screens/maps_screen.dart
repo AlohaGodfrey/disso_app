@@ -129,7 +129,7 @@ class MapsScreenState extends State<MapsScreen> {
         slivers: [
           const SliverAppBar(
             pinned: false,
-            title: Text('Google Maps'),
+            title: Text('Map Overview'),
           ),
           ProfileSearchSliver(
             isAdmin: true,
