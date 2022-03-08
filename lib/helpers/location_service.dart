@@ -11,7 +11,7 @@ class LocationService {
   //it is possible to add multiple markers on a page
   static String generateLocationPreviewImage(
       {required double latitute, required double longitude}) {
-    return 'https://maps.googleapis.com/maps/api/staticmap?center=&$latitute,$longitude&zoom=17&size=600x300&maptype=roadmap&markers=color:red%7Clabel:C%7C$latitute,$longitude&key=$GOOGLE_API_KEY';
+    return 'https://maps.googleapis.com/maps/api/staticmap?center=&$latitute,$longitude&zoom=14&size=800x400&maptype=roadmap&markers=color:red%7Clabel:C%7C$latitute,$longitude&key=$GOOGLE_API_KEY';
   }
 
   //we can use reverse geocoding to get human readable address from LatLng coords
