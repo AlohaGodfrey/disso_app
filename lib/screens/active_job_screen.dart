@@ -301,7 +301,10 @@ class _ActiveJobScreenState extends State<ActiveJobScreen> {
                 ],
               ),
             ),
-            const Spacer(),
+            // const Spacer(),
+            const SizedBox(
+              height: 5,
+            ),
             jobDetailPanel(widget.currentJob, deviceSize),
             const SizedBox(
               height: 20,
