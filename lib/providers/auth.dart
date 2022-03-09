@@ -24,8 +24,8 @@ class Auth with ChangeNotifier {
 
   bool get isAdmin {
     //debug admin sliver
-    return true;
-    // return _isAdmin;
+    // return true;
+    return _isAdmin;
   }
 
   String? get token {

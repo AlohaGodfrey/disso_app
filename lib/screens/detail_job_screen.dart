@@ -74,74 +74,74 @@ class DetailJobScreen extends StatelessWidget {
         children: [
           jobDetailPanel(currentJob, deviceSize),
           const SizedBox(width: 20),
-          Expanded(
-            child: Container(
-              // height: 265,
-              // height: de * 0.3,
-              padding: const EdgeInsets.all(12),
-              width: double.infinity,
-              // margin: const EdgeInsets.all(12),
-              margin: isSmallScreen
-                  ? EdgeInsets.symmetric(horizontal: deviceSize.width * 0.2)
-                  : const EdgeInsets.all(12),
+          // Expanded(
+          //   child: Container(
+          //     // height: 265,
+          //     // height: de * 0.3,
+          //     padding: const EdgeInsets.all(12),
+          //     width: double.infinity,
+          //     // margin: const EdgeInsets.all(12),
+          //     margin: isSmallScreen
+          //         ? EdgeInsets.symmetric(horizontal: deviceSize.width * 0.2)
+          //         : const EdgeInsets.all(12),
 
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: Colors.white,
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color.fromARGB(136, 212, 212, 212),
-                      blurRadius: 2.0,
-                      spreadRadius: 0.0,
-                      offset:
-                          Offset(2.0, 2.0), // shadow direction: bottom right
-                    ),
-                  ]),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Location | ${currentJob.title} ${currentJob.postcode}',
-                    style: GoogleFonts.inter(
-                        fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Center(child: LocationInput(_previewImageUrl)),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      transportIconFinder(currentJob.vehicleRequired),
-                      googleFontStyle(' | '),
-                      transportInfo(currentJob.vehicleRequired),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Text(
-                    'Requirements',
-                    style: GoogleFonts.inter(
-                        fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  googleFontStyle(
-                      '\u2022 Wear Personal Protective Equipment at all times'),
-                  googleFontStyle('\u2022 No Phones Allowed on site '),
-                  googleFontStyle(
-                      '\u2022 Must have Streetwork(NRSWA) ID Avaialble'),
-                  googleFontStyle(
-                      '\u2022 Report hazardous working conditions to supervisor'),
-                ],
-              ),
-            ),
-          ),
+          //     decoration: BoxDecoration(
+          //         borderRadius: BorderRadius.circular(16),
+          //         color: Colors.white,
+          //         boxShadow: const [
+          //           BoxShadow(
+          //             color: Color.fromARGB(136, 212, 212, 212),
+          //             blurRadius: 2.0,
+          //             spreadRadius: 0.0,
+          //             offset:
+          //                 Offset(2.0, 2.0), // shadow direction: bottom right
+          //           ),
+          //         ]),
+          //     child: Column(
+          //       crossAxisAlignment: CrossAxisAlignment.start,
+          //       children: [
+          //         Text(
+          //           'Location | ${currentJob.title} ${currentJob.postcode}',
+          //           style: GoogleFonts.inter(
+          //               fontSize: 16, fontWeight: FontWeight.w600),
+          //         ),
+          //         const SizedBox(
+          //           height: 10,
+          //         ),
+          //         Center(child: LocationInput(_previewImageUrl)),
+          //         const SizedBox(
+          //           height: 10,
+          //         ),
+          //         Row(
+          //           mainAxisAlignment: MainAxisAlignment.center,
+          //           children: [
+          //             transportIconFinder(currentJob.vehicleRequired),
+          //             googleFontStyle(' | '),
+          //             transportInfo(currentJob.vehicleRequired),
+          //           ],
+          //         ),
+          //         const SizedBox(
+          //           height: 15,
+          //         ),
+          //         Text(
+          //           'Requirements',
+          //           style: GoogleFonts.inter(
+          //               fontSize: 16, fontWeight: FontWeight.w600),
+          //         ),
+          //         const SizedBox(
+          //           height: 10,
+          //         ),
+          //         googleFontStyle(
+          //             '\u2022 Wear Personal Protective Equipment at all times'),
+          //         googleFontStyle('\u2022 No Phones Allowed on site '),
+          //         googleFontStyle(
+          //             '\u2022 Must have Streetwork(NRSWA) ID Avaialble'),
+          //         googleFontStyle(
+          //             '\u2022 Report hazardous working conditions to supervisor'),
+          //       ],
+          //     ),
+          //   ),
+          // ),
           const SizedBox(
             height: 3,
           ),
