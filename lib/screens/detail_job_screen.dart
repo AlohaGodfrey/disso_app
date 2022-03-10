@@ -73,7 +73,7 @@ class DetailJobScreen extends StatelessWidget {
         // mainAxisAlignment: MainAxisAlignment.start,
         children: [
           jobDetailPanel(currentJob, deviceSize),
-          const SizedBox(width: 20),
+          const SizedBox(width: 10),
           Container(
             // height: 265,
             // height: de * 0.3,
@@ -156,7 +156,7 @@ class DetailJobScreen extends StatelessWidget {
               margin: isSmallScreen
                   ? EdgeInsets.symmetric(
                       horizontal: deviceSize.width * 0.2, vertical: 12)
-                  : const EdgeInsets.all(12),
+                  : const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 gradient: const LinearGradient(

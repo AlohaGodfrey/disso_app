@@ -24,7 +24,7 @@ class _ActiveJobScreenState extends State<ActiveJobScreen> {
   var _switchPanel = true;
   var _breakPanel = true;
   //simluates 12 hours shift in 12 seconds
-  final int _initDuration = 12;
+  final int _initDuration = 43200;
   //visual timer for user counting down
   final CountDownController _clockController = CountDownController();
   //internal stopwatch for calculations counting up
@@ -60,7 +60,7 @@ class _ActiveJobScreenState extends State<ActiveJobScreen> {
             ),
             CircularCountDownTimer(
               duration: _initDuration,
-              initialDuration: 0,
+              initialDuration: 30600,
               controller: _clockController,
               width: MediaQuery.of(context).size.width * 0.6,
               height: MediaQuery.of(context).size.height * 0.42,
@@ -103,7 +103,7 @@ class _ActiveJobScreenState extends State<ActiveJobScreen> {
               margin: isSmallScreen
                   ? EdgeInsets.symmetric(
                       horizontal: deviceSize.width * 0.2, vertical: 16)
-                  : const EdgeInsets.all(16),
+                  : const EdgeInsets.only(top: 16, left: 16, right: 16),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   color: Colors.white,
