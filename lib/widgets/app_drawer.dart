@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/foundation.dart';
 
 import '../routes/routes.dart';
 import '../providers/auth.dart';
@@ -38,6 +39,7 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.location_history),
             title: const Text('Map Overview'),
+            enabled: defaultTargetPlatform != TargetPlatform.windows,
             onTap: () {
               Navigator.of(context).pushReplacementNamed(
                 RouteManager.mapsGoogleScreen,

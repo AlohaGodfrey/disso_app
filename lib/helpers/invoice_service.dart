@@ -1,9 +1,9 @@
-import '../models/invoice.dart';
-import '../models/timesheet_model.dart';
-import 'pdf_service.dart';
-
 import 'package:universal_html/html.dart' as html;
 import 'package:flutter/foundation.dart';
+
+import '../models/invoice.dart';
+import '../models/timesheet_model.dart';
+import './pdf_service.dart';
 
 void generateInvoicePDF(List<TimesheetItem> timesheetData) async {
   final date = DateTime.now();
