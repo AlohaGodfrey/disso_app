@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../theme/palette.dart';
+import '../widgets/auth_card.dart';
 import '../theme/clip_shadow_path.dart';
 import '../theme/custom_clippers_bezier.dart';
-import '../widgets/auth_card.dart';
 
 enum AuthMode { signup, login }
 

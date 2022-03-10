@@ -1,10 +1,10 @@
-import 'package:disso_app/models/place_location.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:provider/provider.dart';
 
 // import '../providers/jobs.dart';
+import '../models/place_location.dart';
 import '../providers/jobs_firebase.dart';
 import '../models/job_model.dart';
 import '../theme/palette.dart';
@@ -128,7 +128,7 @@ class _EditJobFormState extends State<EditJobForm> {
   Widget build(BuildContext context) {
     //screen size optimizations
     var deviceSize = MediaQuery.of(context).size;
-    bool isSmallScreen = deviceSize.width > 800;
+    bool isLargeScreen = deviceSize.width > Palette.deviceScreenThreshold;
     return Form(
       key: widget.form,
       child: Column(
@@ -332,7 +332,7 @@ class _EditJobFormState extends State<EditJobForm> {
             alignment: Alignment.center,
             child: ToggleSwitch(
               // minWidth: MediaQuery.of(context).size.width * 0.27,
-              minWidth: isSmallScreen
+              minWidth: isLargeScreen
                   ? deviceSize.width * 0.17
                   : deviceSize.width * 0.27,
               minHeight: 40,
@@ -465,7 +465,7 @@ class _EditJobFormState extends State<EditJobForm> {
             alignment: Alignment.center,
             child: ToggleSwitch(
               // minWidth: MediaQuery.of(context).size.width * 0.27,
-              minWidth: isSmallScreen
+              minWidth: isLargeScreen
                   ? deviceSize.width * 0.17
                   : deviceSize.width * 0.27,
               minHeight: 40,

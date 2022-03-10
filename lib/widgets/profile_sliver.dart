@@ -20,24 +20,24 @@ class _ProfileSliverState extends State<ProfileSliver> {
   Widget build(BuildContext context) {
     //screen size optimizations
     var deviceSize = MediaQuery.of(context).size;
-    bool isSmallScreen = deviceSize.width > 650;
+    bool isLargeScreen = deviceSize.width > Palette.deviceScreenThreshold;
     return SliverList(
       delegate: SliverChildListDelegate([
         Column(
           children: [
             Container(
               // padding: const EdgeInsets.symmetric(horizontal: 15),
-              padding: isSmallScreen
+              padding: isLargeScreen
                   ? const EdgeInsets.all(0)
                   : const EdgeInsets.symmetric(horizontal: 15),
-              height: isSmallScreen ? 60 : deviceSize.height / 7,
+              height: isLargeScreen ? 60 : deviceSize.height / 7,
               decoration: BoxDecoration(
                   color: Palette.kToLight,
                   borderRadius: const BorderRadius.vertical(
                     bottom: Radius.circular(45),
                   ),
                   boxShadow: [
-                    isSmallScreen
+                    isLargeScreen
                         ? const BoxShadow(
                             color: Color.fromRGBO(246, 246, 246, 1))
                         : const BoxShadow(
@@ -48,7 +48,7 @@ class _ProfileSliverState extends State<ProfileSliver> {
                           ),
                   ]),
               child: Visibility(
-                visible: !isSmallScreen,
+                visible: !isLargeScreen,
                 child: Column(
                   children: [
                     const SizedBox(

@@ -34,7 +34,7 @@ class DetailJobScreen extends StatelessWidget {
 
     //screen size optimizations
     var deviceSize = MediaQuery.of(context).size;
-    bool isSmallScreen = deviceSize.width > 650;
+    bool isLargeScreen = deviceSize.width > Palette.deviceScreenThreshold;
 
     return Scaffold(
       appBar: AppBar(
@@ -80,7 +80,7 @@ class DetailJobScreen extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             width: double.infinity,
             // margin: const EdgeInsets.all(12),
-            margin: isSmallScreen
+            margin: isLargeScreen
                 ? EdgeInsets.symmetric(horizontal: deviceSize.width * 0.2)
                 : const EdgeInsets.all(12),
 
@@ -153,7 +153,7 @@ class DetailJobScreen extends StatelessWidget {
               padding: const EdgeInsets.all(12),
               width: double.infinity,
               // margin: const EdgeInsets.all(12),
-              margin: isSmallScreen
+              margin: isLargeScreen
                   ? EdgeInsets.symmetric(
                       horizontal: deviceSize.width * 0.2, vertical: 12)
                   : const EdgeInsets.symmetric(horizontal: 12),

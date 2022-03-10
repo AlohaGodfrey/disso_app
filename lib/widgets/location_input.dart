@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme/palette.dart';
+
 class LocationInput extends StatelessWidget {
   final String _previewImageUrl;
   const LocationInput(this._previewImageUrl, {Key? key}) : super(key: key);
@@ -7,9 +9,11 @@ class LocationInput extends StatelessWidget {
   //uses location_service URL to generate a map
   @override
   Widget build(BuildContext context) {
-    final deviceSize = MediaQuery.of(context).size;
+    var deviceSize = MediaQuery.of(context).size;
+    //screen size optimizations
+    bool isLargeScreen = deviceSize.width > Palette.deviceScreenThreshold;
     return Container(
-      width: deviceSize.width > 650 ? deviceSize.width * 0.5 : double.infinity,
+      width: isLargeScreen ? deviceSize.width * 0.5 : double.infinity,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         border: Border.all(width: 1, color: Colors.grey),

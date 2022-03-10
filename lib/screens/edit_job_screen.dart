@@ -150,7 +150,7 @@ class _EditJobScreenState extends State<EditJobScreen> {
     // final jobId = ModalRoute.of(context)?.settings.arguments;
     //screen size optimizations
     var deviceSize = MediaQuery.of(context).size;
-    bool isSmallScreen = deviceSize.width > 650;
+    bool isLargeScreen = deviceSize.width > Palette.deviceScreenThreshold;
     return Scaffold(
       // drawer: const AppDrawer(),
       body: CustomScrollView(
@@ -180,7 +180,7 @@ class _EditJobScreenState extends State<EditJobScreen> {
                 Container(
                   height: (MediaQuery.of(context).size.height / 7) * 4.5,
                   padding: const EdgeInsets.all(20),
-                  margin: isSmallScreen
+                  margin: isLargeScreen
                       ? EdgeInsets.symmetric(horizontal: deviceSize.width * 0.2)
                       : const EdgeInsets.all(12),
                   decoration: BoxDecoration(

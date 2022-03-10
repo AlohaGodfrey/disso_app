@@ -18,7 +18,7 @@ Widget jobDetailPanel(Job currentJob, Size deviceSize) {
     padding: const EdgeInsets.all(12),
     width: double.infinity,
     // margin: const EdgeInsets.all(12),
-    margin: deviceSize.width > 800
+    margin: deviceSize.width > 650
         ? EdgeInsets.symmetric(horizontal: deviceSize.width * 0.2, vertical: 12)
         : const EdgeInsets.all(12),
     decoration: BoxDecoration(

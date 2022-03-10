@@ -32,7 +32,7 @@ class _ProfileSearchSliverState extends State<ProfileSearchSliver> {
     // final isAdmin = Provider.of<Auth>(context).isAdmin; //checks isAdmin?
     //screen size optimizations
     var deviceSize = MediaQuery.of(context).size;
-    bool isSmallScreen = deviceSize.width > 650;
+    bool isLargeScreen = deviceSize.width > Palette.deviceScreenThreshold;
     return SliverList(
       delegate: SliverChildListDelegate([
         Stack(children: [
@@ -42,17 +42,17 @@ class _ProfileSearchSliverState extends State<ProfileSearchSliver> {
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 // margin:
                 //     EdgeInsets.symmetric(horizontal: deviceSize.width * 0.2),
-                height: isSmallScreen ? 60 : deviceSize.height / 7,
+                height: isLargeScreen ? 60 : deviceSize.height / 7,
                 decoration: BoxDecoration(
                     // color: Palette.kToLight,
-                    color: isSmallScreen
+                    color: isLargeScreen
                         ? const Color.fromRGBO(246, 246, 246, 1)
                         : Palette.kToLight,
                     borderRadius: const BorderRadius.vertical(
                       bottom: Radius.circular(45),
                     ),
                     boxShadow: [
-                      isSmallScreen
+                      isLargeScreen
                           ? const BoxShadow(
                               color: Color.fromRGBO(246, 246, 246, 1))
                           : const BoxShadow(
@@ -63,7 +63,7 @@ class _ProfileSearchSliverState extends State<ProfileSearchSliver> {
                             ),
                     ]),
                 child: Visibility(
-                  visible: !isSmallScreen,
+                  visible: !isLargeScreen,
                   child: Column(
                     children: [
                       Row(
@@ -150,7 +150,7 @@ class _ProfileSearchSliverState extends State<ProfileSearchSliver> {
               height: 40,
               child: Card(
                 // margin: const EdgeInsets.symmetric(horizontal: 50),
-                margin: isSmallScreen
+                margin: isLargeScreen
                     ? EdgeInsets.symmetric(horizontal: deviceSize.width * 0.3)
                     : const EdgeInsets.symmetric(horizontal: 50),
                 elevation: 3,

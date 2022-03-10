@@ -89,6 +89,7 @@ class _ListJobScreenState extends State<ListJobScreen> {
     jobAvailability = jobList.isNotEmpty;
     //gets the device size
     var deviceSize = MediaQuery.of(context).size;
+    bool isLargeScreen = deviceSize.width > Palette.deviceScreenThreshold;
     return Scaffold(
       drawer: const AppDrawer(),
       body: RefreshIndicator(
@@ -155,7 +156,7 @@ class _ListJobScreenState extends State<ListJobScreen> {
                                     )
                                   : ListView.separated(
                                       shrinkWrap: true, //preload all list items
-                                      padding: deviceSize.width > 650
+                                      padding: isLargeScreen
                                           ? EdgeInsets.only(
                                               top: 24,
                                               bottom: 0,

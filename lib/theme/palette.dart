@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 //global app theme
 class Palette {
+  static const deviceScreenThreshold = 650;
   static const MaterialColor kToDark = MaterialColor(
     0xffa7cdcc, // 0% comes in here, this will be color picked if no shade is selected when defining a Color property which doesn’t require a swatch.
     <int, Color>{

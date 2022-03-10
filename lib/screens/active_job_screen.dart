@@ -40,7 +40,7 @@ class _ActiveJobScreenState extends State<ActiveJobScreen> {
 
     //screen size optimizations
     var deviceSize = MediaQuery.of(context).size;
-    bool isSmallScreen = deviceSize.width > 650;
+    bool isLargeScreen = deviceSize.width > Palette.deviceScreenThreshold;
 
     return Scaffold(
       appBar: AppBar(
@@ -54,7 +54,7 @@ class _ActiveJobScreenState extends State<ActiveJobScreen> {
             Container(
               child: LocationInput(_previewImageUrl),
               height: MediaQuery.of(context).size.height * 0.1,
-              margin: deviceSize.width > 800
+              margin: isLargeScreen
                   ? EdgeInsets.symmetric(
                       horizontal: deviceSize.width * 0.2, vertical: 12)
                   : const EdgeInsets.all(12),
@@ -101,7 +101,7 @@ class _ActiveJobScreenState extends State<ActiveJobScreen> {
               // margin: const EdgeInsets.symmetric(
               //   horizontal: 16,
               // ),
-              margin: isSmallScreen
+              margin: isLargeScreen
                   ? EdgeInsets.symmetric(
                       horizontal: deviceSize.width * 0.2, vertical: 16)
                   : const EdgeInsets.only(top: 16, left: 16, right: 16),
@@ -125,7 +125,7 @@ class _ActiveJobScreenState extends State<ActiveJobScreen> {
                     visible: !_breakPanel,
                     child: ToggleSwitch(
                       // minWidth: MediaQuery.of(context).size.width * 0.28,
-                      minWidth: isSmallScreen
+                      minWidth: isLargeScreen
                           ? deviceSize.width * 0.17
                           : deviceSize.width * 0.27,
                       minHeight: 55,
@@ -194,7 +194,7 @@ class _ActiveJobScreenState extends State<ActiveJobScreen> {
                     visible: !_switchPanel,
                     child: ToggleSwitch(
                       // minWidth: MediaQuery.of(context).size.width * 0.28,
-                      minWidth: isSmallScreen
+                      minWidth: isLargeScreen
                           ? deviceSize.width * 0.17
                           : deviceSize.width * 0.27,
                       minHeight: 55,
@@ -260,7 +260,7 @@ class _ActiveJobScreenState extends State<ActiveJobScreen> {
                       visible: _jobStartPanel,
                       child: ToggleSwitch(
                         // minWidth: MediaQuery.of(context).size.width * 0.85,
-                        minWidth: isSmallScreen
+                        minWidth: isLargeScreen
                             ? deviceSize.width * 0.5
                             : deviceSize.width * 0.85,
                         minHeight: 50,

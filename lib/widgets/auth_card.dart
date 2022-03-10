@@ -3,7 +3,8 @@ import 'package:provider/provider.dart';
 
 import '../providers/auth.dart';
 import '../models/http_exception.dart';
-import './show_dialog.dart';
+// import './show_dialog.dart';
+import '../theme/palette.dart';
 
 enum AuthMode { signup, login }
 
@@ -148,7 +149,9 @@ class _AuthCardState extends State<AuthCard>
 
   @override
   Widget build(BuildContext context) {
-    final deviceSize = MediaQuery.of(context).size;
+    var deviceSize = MediaQuery.of(context).size;
+    //screen size optimizations
+    bool isLargeScreen = deviceSize.width > Palette.deviceScreenThreshold;
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
@@ -163,7 +166,7 @@ class _AuthCardState extends State<AuthCard>
           minHeight: _authMode == AuthMode.signup ? 400 : 260,
         ),
         // width: deviceSize.width * 0.75,
-        width: deviceSize.width > 600 ? 450 : deviceSize.width * 0.75,
+        width: isLargeScreen ? 450 : deviceSize.width * 0.75,
 
         padding: const EdgeInsets.all(16.0),
         child: Form(

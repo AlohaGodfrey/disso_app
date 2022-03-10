@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../theme/palette.dart';
 import '../providers/auth.dart';
 import '../widgets/show_dialog.dart';
 import '../widgets/app_drawer.dart';
@@ -37,14 +38,14 @@ class _TimesheetScreenState extends State<TimesheetScreen> {
     // final timesheetHistory = Provider.of<Timesheet>(context);
     //screen size optimizations
     var deviceSize = MediaQuery.of(context).size;
-    bool isSmallScreen = deviceSize.width > 650;
+    bool isSmallScreen = deviceSize.width > Palette.deviceScreenThreshold;
     return Scaffold(
       drawer: const AppDrawer(),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             pinned: false,
-            title: Text('Digital Timesheet'),
+            title: const Text('Digital Timesheet'),
             actions: [
               //disables pdf button if timesheet history is empty
               //if timesheet history is null then disable pdf button
