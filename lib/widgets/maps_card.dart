@@ -41,6 +41,7 @@ class MapsView extends StatelessWidget {
             mapType: MapType.normal,
             //callback returned as Set<Marker>
             markers: mapMarkers,
+
             initialCameraPosition: initCameraPosition,
             onMapCreated: (GoogleMapController controller) {
               mapController.complete(controller);

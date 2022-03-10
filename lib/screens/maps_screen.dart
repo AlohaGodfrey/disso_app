@@ -5,13 +5,16 @@ import 'package:dropdown_button2/custom_dropdown_button2.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../routes/routes.dart';
+import '../models/job_model.dart';
 import '../helpers/location_service.dart';
 import '../providers/jobs_firebase.dart';
-import '../models/job_model.dart';
 import '../widgets/show_dialog.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/maps_card.dart';
 import '../widgets/profile_search_sliver.dart';
+
+import '../screens/list_job_screen.dart';
 
 class MapsScreen extends StatefulWidget {
   const MapsScreen({Key? key}) : super(key: key);
@@ -23,7 +26,7 @@ class MapsScreen extends StatefulWidget {
 class MapsScreenState extends State<MapsScreen> {
   final Completer<GoogleMapController> _controller = Completer();
   final TextEditingController _searchController = TextEditingController();
-
+  var _isLoading = true;
   final initCameraPosition = const CameraPosition(
       bearing: 192.8334901395799,
       target: LatLng(51.628082, -0.753216),
@@ -97,6 +100,12 @@ class MapsScreenState extends State<MapsScreen> {
     super.dispose();
   }
 
+  //used to autorefresh page once and item is removed from jobs provider
+  Future<void> refreshPage() async {
+    Provider.of<JobsFirebase>(context, listen: false).clearJobList();
+    await Provider.of<JobsFirebase>(context, listen: false).fetchAndSetJobs();
+  }
+
   //creates a set of markers from the timesheet data
   Set<Marker> _returnJobListMarker() {
     final jobList = Provider.of<JobsFirebase>(context, listen: false).jobItems;
@@ -107,6 +116,10 @@ class MapsScreenState extends State<MapsScreen> {
         Marker(
             markerId: MarkerId('_k${job.title}'),
             infoWindow: InfoWindow(
+                onTap: () {
+                  Navigator.of(context).pushNamed(RouteManager.detailJobScreen,
+                      arguments: {'jobID': job, 'refreshJobList': refreshPage});
+                },
                 title: '${job.title} \n${job.postcode} ',
                 snippet: job.description),
             icon:

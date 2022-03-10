@@ -1,6 +1,7 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../routes/routes.dart';
@@ -153,6 +154,7 @@ class _ListJobScreenState extends State<ListJobScreen> {
                                       ),
                                     )
                                   : ListView.separated(
+                                      shrinkWrap: true, //preload all list items
                                       padding: deviceSize.width > 650
                                           ? EdgeInsets.only(
                                               top: 24,
@@ -164,9 +166,10 @@ class _ListJobScreenState extends State<ListJobScreen> {
                                               top: 24,
                                               bottom: 0,
                                             ),
-
-                                      // physics: const ClampingScrollPhysics(),
-                                      physics: NeverScrollableScrollPhysics(),
+                                      //enable ListView scrolling on web platform
+                                      physics: kIsWeb
+                                          ? const ClampingScrollPhysics()
+                                          : const NeverScrollableScrollPhysics(),
                                       itemCount:
                                           _searchController.text.isNotEmpty
                                               ? jobListSearch.length
