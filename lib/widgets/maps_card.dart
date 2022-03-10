@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../helpers/location_service.dart';
+
 class MapsView extends StatelessWidget {
   final CameraPosition initCameraPosition;
   final Function generateMapMarkers;
@@ -17,6 +19,7 @@ class MapsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mapMarkers = generateMapMarkers();
+    LocationService.getCurrentuserLocation();
     return Container(
       padding: const EdgeInsets.all(10),
       height: MediaQuery.of(context).size.height * 0.49,
@@ -41,6 +44,9 @@ class MapsView extends StatelessWidget {
             mapType: MapType.normal,
             //callback returned as Set<Marker>
             markers: mapMarkers,
+            myLocationButtonEnabled: true,
+            myLocationEnabled: true,
+            mapToolbarEnabled: true,
 
             initialCameraPosition: initCameraPosition,
             onMapCreated: (GoogleMapController controller) {

@@ -118,7 +118,7 @@ class MapsScreenState extends State<MapsScreen> {
                   Navigator.of(context).pushNamed(RouteManager.detailJobScreen,
                       arguments: {'jobID': job, 'refreshJobList': refreshPage});
                 },
-                title: '${job.title} \n${job.postcode} ',
+                title: (kIsWeb) ? '${job.title} \n${job.postcode} ' : job.title,
                 snippet: job.description),
             icon:
                 BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),

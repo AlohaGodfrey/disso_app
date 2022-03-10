@@ -1,5 +1,6 @@
 import 'dart:convert' as convert; //json decoder
 
+import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 // import 'package:universal_html/html.dart';
 // import 'package:universal_html/js.dart' as js;
@@ -7,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 
 import '../models/http_exception.dart'; //custom exception
-import 'package:mapbox_search/mapbox_search.dart';
+import 'package:mapbox_search/mapbox_search.dart ' as mpbx;
 
 //API KEYS
 const GOOGLE_API_KEY = 'AIzaSyBVy5E8sxIs9cuhC8_br2tvvWrAFugAV_w';
@@ -73,7 +74,7 @@ class LocationService {
     //uses the mapbox forward geocoding api to get latlng from text query
     Map<String, dynamic> nomalizedResponse;
 
-    var placesSearch = PlacesSearch(
+    var placesSearch = mpbx.PlacesSearch(
       apiKey: MAPBOX_API_KEY,
       limit: 5,
     );
@@ -105,5 +106,38 @@ class LocationService {
     }
 
     return nomalizedResponse;
+  }
+
+  static Future<void> getCurrentuserLocation() async {
+    Location location = Location();
+
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    final locData = await location.getLocation();
+
+    //all you need is latitute and longtitute for any location in the world
+    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    if (locData == null) {
+      return;
+    }
+
+    print(locData);
   }
 }

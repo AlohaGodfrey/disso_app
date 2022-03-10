@@ -39,7 +39,8 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.location_history),
             title: const Text('Map Overview'),
-            enabled: defaultTargetPlatform != TargetPlatform.windows,
+            enabled:
+                defaultTargetPlatform == TargetPlatform.windows ? true : false,
             onTap: () {
               Navigator.of(context).pushReplacementNamed(
                 RouteManager.mapsGoogleScreen,

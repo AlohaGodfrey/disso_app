@@ -1,13 +1,13 @@
-import 'package:disso_app/models/job_model.dart';
 import 'package:disso_app/providers/jobs_firebase.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import './models/job_model.dart';
 import './theme/palette.dart';
-import '../routes/routes.dart';
+import './routes/routes.dart';
 import './providers/auth.dart';
-import 'providers/jobs_firebase.dart';
-import 'providers/timesheets_firebase.dart';
+import './providers/jobs_firebase.dart';
+import './providers/timesheets_firebase.dart';
 
 void main() {
   runApp(const MyApp());
