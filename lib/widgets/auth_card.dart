@@ -267,7 +267,7 @@ class _AuthCardState extends State<AuthCard>
                       obscureText: true,
                       validator: _authMode == AuthMode.signup
                           ? (value) {
-                              if (value != 'dissoAdminKey') {
+                              if (value != Auth.adminSignUpKey) {
                                 return 'Invalid Admin Key!';
                               }
                             }

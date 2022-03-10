@@ -17,6 +17,8 @@ class Auth with ChangeNotifier {
   static const dbUrl =
       'https://disso-7229a-default-rtdb.europe-west1.firebasedatabase.app';
 
+  static const adminSignUpKey = 'dissoAdminKey';
+
   //check if user is authenticated
   bool get isAuth {
     return token != null;
