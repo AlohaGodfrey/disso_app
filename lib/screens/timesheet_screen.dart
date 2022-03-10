@@ -1,12 +1,12 @@
-import 'package:disso_app/widgets/show_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/auth.dart';
+import '../widgets/show_dialog.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/profile_sliver.dart';
 import '../widgets/timesheet_card.dart';
-import '../widgets/timesheet_pdf_invoice.dart';
+import '../helpers/invoice_service.dart';
 import '../providers/timesheets_firebase.dart' show TimesheetsFirebase;
 
 class TimesheetScreen extends StatefulWidget {
@@ -55,7 +55,8 @@ class _TimesheetScreenState extends State<TimesheetScreen> {
                           ?.timesheet
                           .isNotEmpty ??
                       true) {
-                    generatePDF(context.read<TimesheetsFirebase>().timesheet);
+                    generateInvoicePDF(
+                        context.read<TimesheetsFirebase>().timesheet);
                   } else {
                     print('Tmesheet is Empty');
                   }
