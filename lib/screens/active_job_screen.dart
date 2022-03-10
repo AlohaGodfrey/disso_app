@@ -24,7 +24,8 @@ class _ActiveJobScreenState extends State<ActiveJobScreen> {
   var _switchPanel = true;
   var _breakPanel = true;
   //simluates 12 hours shift in 12 seconds
-  final int _initDuration = 43200;
+  final int _timerMaxDuration = 43200;
+  final int _timeInitDuration = 30600;
   //visual timer for user counting down
   final CountDownController _clockController = CountDownController();
   //internal stopwatch for calculations counting up
@@ -59,8 +60,8 @@ class _ActiveJobScreenState extends State<ActiveJobScreen> {
                   : const EdgeInsets.all(12),
             ),
             CircularCountDownTimer(
-              duration: _initDuration,
-              initialDuration: 30600,
+              duration: _timerMaxDuration,
+              initialDuration: _timeInitDuration,
               controller: _clockController,
               width: MediaQuery.of(context).size.width * 0.6,
               height: MediaQuery.of(context).size.height * 0.42,
@@ -89,7 +90,7 @@ class _ActiveJobScreenState extends State<ActiveJobScreen> {
                     context: context,
                     activeJob: widget.currentJob,
                     stopwatch: _stopWatch,
-                    earlyFinish: false,
+                    isEarlyFinish: false,
                     clockController: _clockController);
               },
             ),
@@ -176,7 +177,7 @@ class _ActiveJobScreenState extends State<ActiveJobScreen> {
                                   context: context,
                                   activeJob: widget.currentJob,
                                   stopwatch: _stopWatch,
-                                  earlyFinish: false,
+                                  isEarlyFinish: false,
                                   clockController: _clockController);
 
                               break;
@@ -238,7 +239,7 @@ class _ActiveJobScreenState extends State<ActiveJobScreen> {
                                     context: context,
                                     activeJob: widget.currentJob,
                                     stopwatch: _stopWatch,
-                                    earlyFinish: true,
+                                    isEarlyFinish: true,
                                     clockController: _clockController);
                               }
                               break;

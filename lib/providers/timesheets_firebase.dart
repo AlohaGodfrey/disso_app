@@ -1,4 +1,5 @@
 import 'dart:convert'; //converts data into json
+import 'dart:math'; //used for calculating timesheets hours
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -89,5 +90,21 @@ class TimesheetsFirebase with ChangeNotifier {
           payRate: activeJob.payRate),
     );
     notifyListeners();
+  }
+
+  //returns double rounded to places exponent
+  static double roundDouble(double value, int places) {
+    num mod = pow(10.0, places);
+    return ((value * mod).round().toDouble() / mod);
+  }
+
+  static double calculateTimeWorked(String clockElapsedTime) {
+    //remove colon from hh:mm:ss and store time in list<String>[h,m,s]
+    final List<String> result = clockElapsedTime.split(RegExp(r':+'));
+    //converts List<String> to formatted double
+    final timesheetHours = double.parse(result[0]);
+    final timesheetMinutes = double.parse(result[1]) / 60;
+    //final time value must be rounded to two decimal place
+    return roundDouble((timesheetHours + timesheetMinutes), 2);
   }
 }

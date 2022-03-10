@@ -1,3 +1,6 @@
+import 'dart:core';
+import 'dart:math';
+
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:cool_alert/cool_alert.dart';
@@ -32,11 +35,12 @@ void activeJobDone(
     {required BuildContext context,
     required Job activeJob,
     required Stopwatch stopwatch,
-    required bool earlyFinish,
+    required bool isEarlyFinish,
     required CountDownController clockController}) {
   String title;
   String text;
-  if (earlyFinish) {
+
+  if (isEarlyFinish) {
     title = 'Shift Complete';
     text = 'Press Ok to save a digital timesheet';
   } else {
@@ -54,9 +58,12 @@ void activeJobDone(
       title: title,
       text: text,
       onConfirmBtnTap: () async {
-        final timeWorked = stopwatch.elapsed.inSeconds;
+        // final timeWorked = stopwatch.elapsed.inSeconds;
+        // final timeWorked = _calculateTimeWorked(clockController);
+        final timeWorked =
+            TimesheetsFirebase.calculateTimeWorked(clockController.getTime());
         await Provider.of<TimesheetsFirebase>(context, listen: false)
-            .addJobX(activeJob, timeWorked.toDouble());
+            .addJobX(activeJob, (timeWorked).toDouble());
         Navigator.of(context).pop();
         Navigator.of(context).pop();
       },
@@ -79,7 +86,7 @@ void confirmJobDelete(
     confirmBtnColor: Colors.red,
     backgroundColor: Palette.kToLight,
     onConfirmBtnTap: () async {
-      //deletes thie item
+      //deletes the item
       await context.read<JobsFirebase>().deleteJob(currentJob.id);
       //navigates back to main joblist
       Navigator.of(context).pop();
