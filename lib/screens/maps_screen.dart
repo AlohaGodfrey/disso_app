@@ -1,9 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:dropdown_button2/custom_dropdown_button2.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:provider/provider.dart';
 
 import '../routes/routes.dart';
 import '../models/job_model.dart';
@@ -13,8 +14,6 @@ import '../widgets/show_dialog.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/maps_card.dart';
 import '../widgets/profile_search_sliver.dart';
-
-import '../screens/list_job_screen.dart';
 
 class MapsScreen extends StatefulWidget {
   const MapsScreen({Key? key}) : super(key: key);
@@ -26,7 +25,6 @@ class MapsScreen extends StatefulWidget {
 class MapsScreenState extends State<MapsScreen> {
   final Completer<GoogleMapController> _controller = Completer();
   final TextEditingController _searchController = TextEditingController();
-  var _isLoading = true;
   final initCameraPosition = const CameraPosition(
       bearing: 192.8334901395799,
       target: LatLng(51.628082, -0.753216),
@@ -66,8 +64,8 @@ class MapsScreenState extends State<MapsScreen> {
     );
   }
 
-  //creates a map of job location and markerId from joblist
-  void _normalizeJobData(String dropdownListJob, List<Job> jobList) {
+  //creates a Map<Type> of job location and markerId from joblist
+  void _updateJobMap(String dropdownListJob, List<Job> jobList) {
     var jobLocation = {
       'geometry': {
         'location': {
@@ -174,13 +172,17 @@ class MapsScreenState extends State<MapsScreen> {
                                   dropdownItems:
                                       jobList.map((job) => job.title).toList(),
                                   onChanged: (value) {
-                                    //move camera postion to job
-                                    setState(() {
-                                      dropdownSelectedValue = value;
-
-                                      _normalizeJobData(
-                                          value as String, jobList);
-                                    });
+                                    //setstate breaks map Onclick if on web
+                                    if (kIsWeb != true) {
+                                      setState(() {
+                                        //updates dropdownlist value
+                                        dropdownSelectedValue = value;
+                                        _updateJobMap(value as String, jobList);
+                                      });
+                                    } else {
+                                      //move camera postion to job
+                                      _updateJobMap(value as String, jobList);
+                                    }
                                   },
                                 ),
                               ),
