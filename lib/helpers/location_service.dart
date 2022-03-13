@@ -9,7 +9,7 @@ import 'package:flutter/foundation.dart';
 
 import '../models/http_exception.dart'; //custom exception
 // import 'package:mapbox_search/mapbox_search.dart ' as mpbx;
-import 'package:mapbox_search/mapbox_search.dart ';
+// import 'package:mapbox_search/mapbox_search.dart ';
 
 //API KEYS
 const GOOGLE_API_KEY = 'AIzaSyBVy5E8sxIs9cuhC8_br2tvvWrAFugAV_w';
@@ -56,7 +56,15 @@ class LocationService {
     if (kIsWeb) {
       //runs api for the web (MapBox) uses a different api due to the
       //CORS blocking on web local host using standard sdk
-      result = await getWebPlaceId(input);
+      // result = await getWebPlaceId(input);
+      result = {
+        'geometry': {
+          'location': {
+            'lat': 51.7,
+            'lng': -0.7,
+          }
+        }
+      };
     } else {
       //runs api for mobile (google)
       final placeId = await getPlaceId(input);
@@ -71,43 +79,43 @@ class LocationService {
   }
 
   //web
-  static Future<Map<String, dynamic>> getWebPlaceId(String input) async {
-    //uses the mapbox forward geocoding api to get latlng from text query
-    Map<String, dynamic> nomalizedResponse;
+  // static Future<Map<String, dynamic>> getWebPlaceId(String input) async {
+  //   //uses the mapbox forward geocoding api to get latlng from text query
+  //   Map<String, dynamic> nomalizedResponse;
 
-    var placesSearch = PlacesSearch(
-      apiKey: MAPBOX_API_KEY,
-      limit: 5,
-    );
+  //   var placesSearch = PlacesSearch(
+  //     apiKey: MAPBOX_API_KEY,
+  //     limit: 5,
+  //   );
 
-    try {
-      //feteches the data
-      final response = await placesSearch.getPlaces(input);
+  //   try {
+  //     //feteches the data
+  //     final response = await placesSearch.getPlaces(input);
 
-      final lat = response![0].geometry!.coordinates![1];
-      final lng = response[0].geometry!.coordinates![0];
-      nomalizedResponse = {
-        'geometry': {
-          'location': {
-            'lat': lat,
-            'lng': lng,
-          }
-        }
-      };
-    } catch (error) {
-      //if error the coords default to Trafalgar Square
-      nomalizedResponse = {
-        'geometry': {
-          'location': {
-            'lat': 51.507321899999994,
-            'lng': -0.12764739999999997,
-          }
-        }
-      };
-    }
+  //     final lat = response![0].geometry!.coordinates![1];
+  //     final lng = response[0].geometry!.coordinates![0];
+  //     nomalizedResponse = {
+  //       'geometry': {
+  //         'location': {
+  //           'lat': lat,
+  //           'lng': lng,
+  //         }
+  //       }
+  //     };
+  //   } catch (error) {
+  //     //if error the coords default to Trafalgar Square
+  //     nomalizedResponse = {
+  //       'geometry': {
+  //         'location': {
+  //           'lat': 51.507321899999994,
+  //           'lng': -0.12764739999999997,
+  //         }
+  //       }
+  //     };
+  //   }
 
-    return nomalizedResponse;
-  }
+  //   return nomalizedResponse;
+  // }
 
   // static Future<void> getCurrentuserLocation() async {
   //   Location location = Location();
