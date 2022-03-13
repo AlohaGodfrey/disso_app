@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 
 import '../helpers/location_service.dart';
 
@@ -16,10 +17,43 @@ class MapsView extends StatelessWidget {
       Key? key})
       : super(key: key);
 
+  void getCurrentuserLocation() async {
+    Location location = Location();
+
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    final locData = await location.getLocation();
+
+    //all you need is latitute and longtitute for any location in the world
+    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    if (locData == null) {
+      return;
+    }
+
+    print(locData);
+  }
+
   @override
   Widget build(BuildContext context) {
     final mapMarkers = generateMapMarkers();
-    LocationService.getCurrentuserLocation();
+    getCurrentuserLocation();
     return Container(
       padding: const EdgeInsets.all(10),
       height: MediaQuery.of(context).size.height * 0.49,
