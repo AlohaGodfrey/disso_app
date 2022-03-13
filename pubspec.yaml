@@ -55,7 +55,7 @@ dependencies:
   google_maps_flutter_web: ^0.3.2+1
   universal_html: ^2.0.8
   google_place: ^0.4.7
-  mapbox_search: ^3.0.1+2
+  mapbox_search: 
  
  
 flutter_icons:
