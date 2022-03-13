@@ -6,10 +6,10 @@ import 'package:http/http.dart' as http;
 // import 'package:universal_html/js.dart' as js;
 // import 'package:google_place/google_place.dart';
 import 'package:flutter/foundation.dart';
-import 'package:geocode/geocode.dart';
 
+import '../models/mapbox_place.dart';
 import '../models/http_exception.dart'; //custom exception
-import 'package:mapbox_search/mapbox_search.dart ' as mpbx;
+// import 'package:mapbox_search/mapbox_search.dart ' as mpbx;
 // import 'package:mapbox_search/mapbox_search.dart ';
 
 //API KEYS
@@ -72,55 +72,22 @@ class LocationService {
     return result;
   }
 
-  // static Future<Map<String, dynamic>> getWebPlaceId(String input) async {
-  //   GeoCode geoCode = GeoCode(apiKey: '448156264906954585637x48800');
-
-  //   //default coord in case of failure
-  //   Map<String, dynamic> normalizedResponse;
-
-  //   try {
-  //     Coordinates coordinates = await geoCode.forwardGeocoding(address: input);
-  //     normalizedResponse = {
-  //       'geometry': {
-  //         'location': {
-  //           'lat': coordinates.latitude,
-  //           'lng': coordinates.longitude,
-  //         }
-  //       }
-  //     };
-  //     print("Latitude: ${coordinates.latitude}");
-  //     print("Longitude: ${coordinates.longitude}");
-  //   } catch (e) {
-  //     print(e);
-  //     normalizedResponse = {
-  //       'geometry': {
-  //         'location': {
-  //           'lat': 51.7,
-  //           'lng': -0.7,
-  //         }
-  //       }
-  //     };
-  //   }
-
-  //   return normalizedResponse;
-  // }
-
   // web
   static Future<Map<String, dynamic>> getWebPlaceId(String input) async {
     //uses the mapbox forward geocoding api to get latlng from text query
     Map<String, dynamic> nomalizedResponse;
 
-    var placesSearch = mpbx.PlacesSearch(
-      apiKey: MAPBOX_API_KEY,
-      limit: 5,
-    );
-
     try {
       //feteches the data
+      var placesSearch = PlacesSearch(
+        apiKey: MAPBOX_API_KEY,
+        limit: 5,
+      );
       final response = await placesSearch.getPlaces(input);
 
-      final lat = response![0].geometry!.coordinates![1];
-      final lng = response[0].geometry!.coordinates![0];
+      final lat = response['features'][0]['geometry']['coordinates'][1];
+      final lng = response['features'][0]['geometry']['coordinates'][0];
+      // print('lat: $lat lng:$lng');
       nomalizedResponse = {
         'geometry': {
           'location': {
@@ -174,6 +141,6 @@ class LocationService {
       return;
     }
 
-    print(locData);
+    // print(locData);
   }
 }
