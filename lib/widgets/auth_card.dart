@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/auth.dart';
-import '../helpers/auth_validator.dart';
+import '../helpers/data_validator.dart';
 import '../models/http_exception.dart';
 // import './show_dialog.dart';
 import '../theme/palette.dart';

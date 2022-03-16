@@ -9,6 +9,7 @@ import '../providers/jobs_firebase.dart';
 import '../models/job_model.dart';
 import '../theme/palette.dart';
 import './details_job_widgets.dart';
+import '../helpers/data_validator.dart';
 
 class EditJobForm extends StatefulWidget {
   final GlobalKey<FormState> form;
@@ -173,14 +174,7 @@ class _EditJobFormState extends State<EditJobForm> {
               onFieldSubmitted: (_) {
                 FocusScope.of(context).requestFocus(_postCodeFocusNode);
               },
-              validator: (value) {
-                if (value == null) {
-                  return 'return is null';
-                } else if (value.isEmpty) {
-                  return 'Please provide a Title.';
-                }
-                return null;
-              },
+              validator: (value) => JobDataValidator.title(value),
               onSaved: (value) {
                 widget.updateJobDetails(
                   Job(
@@ -219,21 +213,7 @@ class _EditJobFormState extends State<EditJobForm> {
                   labelText: 'PostCode', border: OutlineInputBorder()),
               textInputAction: TextInputAction.next,
               focusNode: _postCodeFocusNode,
-              validator: (value) {
-                if (value == null) {
-                  return 'return is null';
-                } else if (value.isEmpty) {
-                  return 'Please provide an Area Postcode';
-                }
-                if (value.length < 5) {
-                  return 'Should be at least five characters long';
-                }
-                if (value.length > 8) {
-                  return 'Postcode should be 5-8 characters long';
-                }
-
-                return null;
-              },
+              validator: (value) => JobDataValidator.postcode(value),
               onSaved: (value) async {
                 // updates state job
                 widget.updateJobDetails(
@@ -304,22 +284,7 @@ class _EditJobFormState extends State<EditJobForm> {
                   location: _editedJob.location,
                 );
               },
-              validator: (value) {
-                if (value == null) {
-                  return 'return is null';
-                  //needed for null safety checks in flutter v1.12^
-                }
-                if (value.isEmpty) {
-                  return 'Please enter a Price';
-                }
-                if (double.tryParse(value) == null) {
-                  return 'Please enter a valid number.';
-                }
-                if (double.parse(value) <= 0) {
-                  return 'Please enter a number greater than zero.';
-                }
-                return null;
-              },
+              validator: (value) => JobDataValidator.payRate(value),
             ),
           ),
 
