@@ -6,9 +6,9 @@ import 'package:http/http.dart' as http;
 // import 'package:universal_html/js.dart' as js;
 // import 'package:google_place/google_place.dart';
 import 'package:flutter/foundation.dart';
-
+import './mapbox_place.dart';
 import '../models/http_exception.dart'; //custom exception
-import 'package:mapbox_search/mapbox_search.dart ' as mpbx;
+// import 'package:mapbox_search/mapbox_search.dart ' as mpbx;
 
 //API KEYS
 const GOOGLE_API_KEY = 'AIzaSyBVy5E8sxIs9cuhC8_br2tvvWrAFugAV_w';
@@ -69,22 +69,22 @@ class LocationService {
     return result;
   }
 
-  //web
+  // web
   static Future<Map<String, dynamic>> getWebPlaceId(String input) async {
     //uses the mapbox forward geocoding api to get latlng from text query
     Map<String, dynamic> nomalizedResponse;
 
-    var placesSearch = mpbx.PlacesSearch(
-      apiKey: MAPBOX_API_KEY,
-      limit: 5,
-    );
-
     try {
       //feteches the data
+      var placesSearch = PlacesSearch(
+        apiKey: MAPBOX_API_KEY,
+        limit: 5,
+      );
       final response = await placesSearch.getPlaces(input);
 
-      final lat = response![0].geometry!.coordinates![1];
-      final lng = response[0].geometry!.coordinates![0];
+      final lat = response['features'][0]['geometry']['coordinates'][1];
+      final lng = response['features'][0]['geometry']['coordinates'][0];
+      // print('lat: $lat lng:$lng');
       nomalizedResponse = {
         'geometry': {
           'location': {

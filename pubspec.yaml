@@ -61,8 +61,10 @@ dependencies:
  
  
 flutter_icons:
-    image_path: "assets/logo_clipboard.png"
+    image_path: "assets/base_logo.png"
     android: true  
+    adaptive_icon_background: "F6F6F6"
+    adaptive_icon_foreground: "assets/base_logo.png"
     
 
 dev_dependencies:
@@ -99,6 +101,7 @@ flutter:
     - assets/profile.jpg
     - assets/logo_alpha.png
     - assets/map_pin.png
+    - assets/base_logo.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
