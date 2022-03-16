@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 
 import '../models/invoice.dart';
 import '../models/timesheet_model.dart';
-import './pdf_service.dart';
+import 'pdf_generator.dart';
 
 void generateInvoicePDF(List<TimesheetItem> timesheetData) async {
   final date = DateTime.now();

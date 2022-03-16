@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/auth.dart';
+import '../helpers/auth_validator.dart';
 import '../models/http_exception.dart';
 // import './show_dialog.dart';
 import '../theme/palette.dart';
 
-enum AuthMode { signup, login }
+// enum AuthMode { signup, login }
 
 class AuthCard extends StatefulWidget {
   const AuthCard({Key? key}) : super(key: key);
@@ -181,15 +182,7 @@ class _AuthCardState extends State<AuthCard>
                   onFieldSubmitted: (_) {
                     FocusScope.of(context).requestFocus(_passwordFocusNode);
                   },
-                  validator: (value) {
-                    if (value == null) {
-                      return 'Value is Null';
-                    }
-                    if (value.isEmpty || !value.contains('@')) {
-                      return 'Invalid email!';
-                    }
-                    return null;
-                  },
+                  validator: (value) => AuthValidator.email(value),
                   onSaved: (value) {
                     if (value != null) {
                       _authData['email'] = value;
@@ -214,14 +207,7 @@ class _AuthCardState extends State<AuthCard>
                       _submit();
                     }
                   },
-                  validator: (value) {
-                    if (value == null) {
-                      return 'Value is Null';
-                    }
-                    if (value.isEmpty || value.length < 5) {
-                      return 'Password is too short!';
-                    }
-                  },
+                  validator: (value) => AuthValidator.password(value),
                   onSaved: (value) {
                     if (value != null) {
                       _authData['password'] = value;
@@ -244,13 +230,8 @@ class _AuthCardState extends State<AuthCard>
                       decoration:
                           const InputDecoration(labelText: 'Confirm Password'),
                       obscureText: true,
-                      validator: _authMode == AuthMode.signup
-                          ? (value) {
-                              if (value != _passwordController.text) {
-                                return 'Passwords do not match!';
-                              }
-                            }
-                          : null,
+                      validator: (value) => AuthValidator.confirmPassword(
+                          value, _authMode, _passwordController.text),
                     ),
                   ),
                 ),
@@ -268,13 +249,8 @@ class _AuthCardState extends State<AuthCard>
                       decoration: const InputDecoration(
                           labelText: '[Optional] Admin Key'),
                       obscureText: true,
-                      validator: _authMode == AuthMode.signup
-                          ? (value) {
-                              if (value != Auth.adminSignUpKey) {
-                                return 'Invalid Admin Key!';
-                              }
-                            }
-                          : null,
+                      validator: (value) => AuthValidator.confirmAdminKey(
+                          value, _authMode, Auth.adminSignUpKey),
                       onSaved: (value) {
                         if (value != null) {
                           _adminStatus = true;
