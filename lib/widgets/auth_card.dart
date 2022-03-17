@@ -176,6 +176,7 @@ class _AuthCardState extends State<AuthCard>
             child: Column(
               children: <Widget>[
                 TextFormField(
+                  key: Key('email'),
                   decoration: const InputDecoration(labelText: 'E-Mail'),
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
@@ -192,6 +193,7 @@ class _AuthCardState extends State<AuthCard>
                 //configured to automatically navigate the fields
                 //using TextInputActions and FocusNodes
                 TextFormField(
+                  key: Key('password'),
                   decoration: const InputDecoration(labelText: 'Password'),
                   obscureText: true,
                   controller: _passwordController,
@@ -225,6 +227,7 @@ class _AuthCardState extends State<AuthCard>
                   child: FadeTransition(
                     opacity: _opacityAnimation!,
                     child: TextFormField(
+                      key: const Key('confirmPasswordField'),
                       focusNode: _verifyPasswordFocusNode,
                       enabled: _authMode == AuthMode.signup,
                       decoration:
@@ -245,16 +248,29 @@ class _AuthCardState extends State<AuthCard>
                   child: FadeTransition(
                     opacity: _opacityAnimation!,
                     child: TextFormField(
+                      key: const Key('adminKeyField'),
                       enabled: _authMode == AuthMode.signup,
                       decoration: const InputDecoration(
                           labelText: '[Optional] Admin Key'),
                       obscureText: true,
-                      validator: (value) => AuthValidator.confirmAdminKey(
-                          value, _authMode, Auth.adminSignUpKey),
-                      onSaved: (value) {
-                        if (value != null) {
+                      validator: (value) {
+                        AuthValidator.confirmAdminKey(
+                            value, _authMode, Auth.adminSignUpKey);
+                        if (value == Auth.adminSignUpKey) {
                           _adminStatus = true;
+                          return null;
+                        } else if (value == null || value == '') {
+                          _adminStatus = false;
+                          return null;
+                        } else {
+                          _adminStatus = false;
+                          return 'Invalid Admin Key!';
                         }
+                      },
+                      onSaved: (value) {
+                        // if (value != null && value.isNotEmpty) {
+                        //   _adminStatus = true;
+                        // }
                       },
                     ),
                   ),
@@ -266,6 +282,7 @@ class _AuthCardState extends State<AuthCard>
                 _isLoading
                     ? const CircularProgressIndicator()
                     : RaisedButton(
+                        key: const Key('initAuthButton'),
                         child: Text(
                             _authMode == AuthMode.login ? 'LOGIN' : 'SIGN UP'),
                         onPressed: _submit,
@@ -280,6 +297,7 @@ class _AuthCardState extends State<AuthCard>
                       ),
 
                 FlatButton(
+                  key: const Key('switchAuthMode'),
                   child: Text(
                       '${_authMode == AuthMode.login ? 'SIGNUP' : 'LOGIN'} INSTEAD'),
                   onPressed: _switchAuthMode,

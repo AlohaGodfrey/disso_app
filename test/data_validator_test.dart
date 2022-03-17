@@ -11,7 +11,7 @@ import 'package:mocktail/mocktail.dart';
 void main() {
   setUp(() {});
 
-  group("Auth: ", () {
+  group("Auth_v: ", () {
     test('Empty email returns error string', () {
       final result = AuthValidator.email(null);
       expect(result, 'Value is Null');
@@ -85,7 +85,7 @@ void main() {
     });
   });
 
-  group("Jobs Data:", () {
+  group("Jobs_v:", () {
     test('When Job Title is null return error string', () {
       final result = JobDataValidator.title(null);
       expect(result, 'return is null');
