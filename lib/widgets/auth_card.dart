@@ -280,7 +280,9 @@ class _AuthCardState extends State<AuthCard>
                 ),
                 //isloading replace...
                 _isLoading
-                    ? const CircularProgressIndicator()
+                    ? const CircularProgressIndicator(
+                        key: Key('authProgressIndicator'),
+                      )
                     : RaisedButton(
                         key: const Key('initAuthButton'),
                         child: Text(

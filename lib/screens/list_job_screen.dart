@@ -91,16 +91,22 @@ class _ListJobScreenState extends State<ListJobScreen> {
     var deviceSize = MediaQuery.of(context).size;
     bool isLargeScreen = deviceSize.width > Palette.deviceScreenThreshold;
     return Scaffold(
-      drawer: const AppDrawer(),
+      drawer: const AppDrawer(
+        key: Key('ListAppDrawer'),
+      ),
       body: RefreshIndicator(
         onRefresh: refreshPage,
         child: CustomScrollView(
           slivers: [
             SliverAppBar(
               pinned: true,
-              title: const Text('Job List'),
+              title: const Text(
+                'Job List',
+                key: Key('JobListTitle'),
+              ),
               actions: [
                 IconButton(
+                  key: const Key('refreshJobListIcon'),
                   onPressed: refreshPage,
                   icon: const Icon(Icons.refresh),
                 ),
@@ -177,6 +183,7 @@ class _ListJobScreenState extends State<ListJobScreen> {
                                               : jobList.length,
                                       itemBuilder: (context, index) {
                                         return JobCard(
+                                          key: const Key('SingleJobCard'),
                                           jobInstance:
                                               _searchController.text.isNotEmpty
                                                   ? jobListSearch[index]

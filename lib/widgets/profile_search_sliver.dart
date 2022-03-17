@@ -158,6 +158,7 @@ class _ProfileSearchSliverState extends State<ProfileSearchSliver> {
                     borderRadius: BorderRadius.circular(15)),
                 child: widget.searchType == SearchType.viaSearchButton
                     ? TextFormField(
+                        key: const Key('ProfileSLiverSearch'),
                         controller: widget.searchController,
                         onFieldSubmitted: (value) async {
                           widget.searchFunction();

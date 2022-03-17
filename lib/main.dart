@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
+        ChangeNotifierProvider<Auth>(
           create: (_) => Auth(),
         ),
         ChangeNotifierProxyProvider<Auth, JobsFirebase>(
