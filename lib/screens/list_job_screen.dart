@@ -185,7 +185,7 @@ class _ListJobScreenState extends State<ListJobScreen> {
                                               : jobList.length,
                                       itemBuilder: (context, index) {
                                         return JobCard(
-                                          key: const Key('SingleJobCard'),
+                                          key: const Key('JobCard'),
                                           jobInstance:
                                               _searchController.text.isNotEmpty
                                                   ? jobListSearch[index]

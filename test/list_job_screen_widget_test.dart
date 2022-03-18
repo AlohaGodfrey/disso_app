@@ -4,6 +4,7 @@ import 'package:disso_app/screens/edit_job_screen.dart';
 import 'package:disso_app/screens/list_job_screen.dart';
 import 'package:disso_app/widgets/app_drawer.dart';
 import 'package:disso_app/widgets/profile_search_sliver.dart';
+import 'package:disso_app/widgets/profile_sliver.dart';
 import 'package:flutter/material.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -21,7 +22,7 @@ void main() {
     mockAuth = MockAuth();
     GoogleFonts.config.allowRuntimeFetching = false;
   });
-  Widget createWidgetUnderTest(child) {
+  Widget createWidgetUnderTest() {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<Auth>(
@@ -39,21 +40,58 @@ void main() {
   }
 
   group('EditJob UI:', () {
-    testWidgets('Refresh button is displayed on the List Job Screen',
+    testWidgets('Save form button is displayed on the Edit Job Screen',
         (WidgetTester tester) async {
-      tester.binding.window.physicalSizeTestValue = Size(0, 400);
-      await tester.pumpWidget(createWidgetUnderTest(const ListJobScreen()));
+      // tester.binding.window.physicalSizeTestValue = Size(0, 400);
+      await tester.pumpWidget(createWidgetUnderTest());
 
       expect(find.byKey(const Key('saveFormIconButton')), findsOneWidget);
-      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
+      // addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     });
 
-    testWidgets('Edit JOob Text is displayed on the List Job Screen',
+    // testWidgets('Edit JOob Text is displayed on the List Job Screen',
+    //     (WidgetTester tester) async {
+    //   await tester.pumpWidget(createWidgetUnderTest(const ListJobScreen()));
+
+    //   expect(find.byKey(const Key('JobListTitle')), findsOneWidget);
+    // });
+
+    testWidgets('Profile bar is displayed on the List Job Screen',
         (WidgetTester tester) async {
-      await tester.pumpWidget(createWidgetUnderTest(const ListJobScreen()));
+      // tester.binding.window.physicalSizeTestValue = Size(0, 400);
 
-      expect(find.byKey(const Key('JobListTitle')), findsOneWidget);
+      await tester.pumpWidget(createWidgetUnderTest());
+
+      expect(find.byType(ProfileSliver), findsOneWidget);
+      // addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
     });
+
+    // testWidgets('Contextual hint is displayed on the List Job Screen',
+    //     (WidgetTester tester) async {
+    //   // tester.binding.window.physicalSizeTestValue = Size(0, 400);
+
+    //   await tester.pumpWidget(createWidgetUnderTest());
+    //   await tester.pump();
+
+    //   expect(find.byKey(const Key('JobCard')), findsOneWidget);
+    //   // addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
+    // });
+
+    // testWidgets(
+    //     'Help prompt displays dialog on the Edit Job Screen,once clicked',
+    //     (WidgetTester tester) async {
+    //   // await tester.binding.setSurfaceSize(Size(400, 400));
+
+    //   await tester.pumpWidget(createWidgetUnderTest());
+    //   expect(find.text('Edit/Add a new job'), findsNothing);
+
+    //   await tester.tap(find.byKey(const Key('contextHelpHint')));
+    //   await tester.pumpAndSettle();
+
+    //   expect(find.text('Edit/Add a new job'), findsOneWidget);
+    //   // addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
+    //   // await tester.binding.setSurfaceSize(null);
+    // });
 
     // testWidgets('Loading spinner displayed on the List Job Screen',
     //     (WidgetTester tester) async {
@@ -61,29 +99,29 @@ void main() {
     //   await tester.pump();
     //   expect(find.byKey(const Key('ListJobLoadingAnimation')), findsNothing);
     // });
+
+    testWidgets('Job List Text is displayed on the List Job Screen',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(createWidgetUnderTest());
+
+      expect(find.text('New Job Edit'), findsOneWidget);
+    });
+    testWidgets('Profile Search bar is displayed on the List Job Screen',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(createWidgetUnderTest());
+
+      expect(find.byType(ProfileSliver), findsOneWidget);
+    });
   });
 
   // group('ListJob UI:', () {
-  //   testWidgets('Profile Search bar is displayed on the List Job Screen',
-  //       (WidgetTester tester) async {
-  //     await tester.pumpWidget(createWidgetUnderTest(const ListJobScreen()));
-
-  //     expect(find.byType(ProfileSearchSliver), findsOneWidget);
-  //   });
 
   //   testWidgets('Refresh button is displayed on the List Job Screen',
   //       (WidgetTester tester) async {
   //     await tester.pumpWidget(createWidgetUnderTest(const ListJobScreen()));
 
-  //     expect(find.byKey(const Key('refreshJobListIcon')), findsOneWidget);
-  //   });
-
-  //   testWidgets('Job List Text is displayed on the List Job Screen',
-  //       (WidgetTester tester) async {
-  //     await tester.pumpWidget(createWidgetUnderTest(const ListJobScreen()));
-
-  //     expect(find.byKey(const Key('JobListTitle')), findsOneWidget);
-  //   });
+  //     expect(find.byKey(const Key('refreshJobListIcon')), fqindsOneWidget);
+  //   });s
 
   //   // testWidgets('Loading spinner displayed on the List Job Screen',
   //   //     (WidgetTester tester) async {

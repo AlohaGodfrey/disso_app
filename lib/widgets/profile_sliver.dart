@@ -109,6 +109,7 @@ class _ProfileSliverState extends State<ProfileSliver> {
                           width: deviceSize.width * 0.02,
                         ),
                         IconButton(
+                            key: const Key('contextHelpHint'),
                             onPressed: () {
                               // print(context.read<Auth?>()?.isAdmin);
                               helpContextDialog(context, widget.helpDialog);
