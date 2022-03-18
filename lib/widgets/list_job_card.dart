@@ -42,7 +42,7 @@ class JobCard extends StatelessWidget {
         height: 100,
         margin: const EdgeInsets.symmetric(horizontal: 16),
         padding: const EdgeInsets.all(12),
-        width: 300,
+        width: 270,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           color: Colors.white,

@@ -133,7 +133,9 @@ class _ListJobScreenState extends State<ListJobScreen> {
                           margin: const EdgeInsets.all(12),
                           child: Center(
                             child: LoadingAnimationWidget.inkDrop(
-                                color: Palette.bToLight, size: 25),
+                                key: const Key('ListJobLoadingAnimation'),
+                                color: Palette.bToLight,
+                                size: 25),
                           ),
                         )
                       : jobAvailability

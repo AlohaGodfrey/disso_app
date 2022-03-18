@@ -31,14 +31,14 @@ class MockAuth extends Mock implements Auth {
 }
 
 class MockJobsFirebase extends Mock implements JobsFirebase {
-  @override
-  List<Job> jobItems = [];
+  List<Job> _jobItems = [];
 
   MockJobsFirebase();
 
   //getter
-  List<Job> get jobItemsList {
-    return [...jobItems];
+  @override
+  List<Job> get jobItems {
+    return [..._jobItems];
   }
 
   //setter
@@ -50,7 +50,7 @@ class MockJobsFirebase extends Mock implements JobsFirebase {
   //fetch job list
   @override
   Future<void> fetchAndSetJobs() async {
-    [
+    _jobItems = [
       Job(
           id: 'x1',
           title: 'Caledonian',
@@ -75,6 +75,6 @@ class MockJobsFirebase extends Mock implements JobsFirebase {
   //clear list
   @override
   void clearJobList() {
-    jobItems = [];
+    _jobItems = [];
   }
 }
