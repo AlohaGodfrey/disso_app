@@ -1,9 +1,9 @@
 import 'dart:math';
 
+import 'package:disso_app/models/job_model.dart';
 import 'package:disso_app/providers/auth.dart';
 import 'package:disso_app/providers/jobs_firebase.dart';
 import 'package:disso_app/screens/edit_job_screen.dart';
-import 'package:disso_app/screens/list_job_screen.dart';
 import 'package:disso_app/widgets/app_drawer.dart';
 import 'package:disso_app/widgets/profile_search_sliver.dart';
 import 'package:disso_app/widgets/profile_sliver.dart';
@@ -44,89 +44,258 @@ void main() {
     );
   }
 
-  group('List Job', () {
+  group('Edit Job', () {
     group('UI: ', () {
-      testWidgets('refresh button is displayed in App bar',
+      testWidgets('save form button is rendered in App bar',
           (WidgetTester tester) async {
-        ListJobScreen page = const ListJobScreen();
+        EditJobScreen page = EditJobScreen(jobId: null);
         await tester.pumpWidget(createWidgetUnderTest(page));
 
-        expect(find.byKey(const Key('refreshJobListIcon')), findsOneWidget);
-        // expect(find.byIcon(FontAwesomeIcons.clipboardCheck), findsOneWidget);
-        // expect(find.byType(ClipShadowPath), findsWidgets);
+        expect(find.byKey(const Key('save_Form_Icon_Button')), findsOneWidget);
       });
 
-      testWidgets('profile sliver is rendered with search bar',
+      testWidgets('profile sliver is rendered without search bar',
           (WidgetTester tester) async {
-        ListJobScreen page = const ListJobScreen();
+        EditJobScreen page = EditJobScreen(jobId: null);
         await tester.pumpWidget(createWidgetUnderTest(page));
 
-        expect(
-            find.byKey(const Key('ListJob ProfileSearchBar')), findsOneWidget);
+        expect(find.byKey(const Key('basic_profile_sliver')), findsOneWidget);
       });
 
       testWidgets('context helpbutton is loaded', (WidgetTester tester) async {
-        ListJobScreen page = const ListJobScreen();
+        EditJobScreen page = EditJobScreen(jobId: null);
         await tester.pumpWidget(createWidgetUnderTest(page));
 
         expect(find.byKey(const Key('contextHelpHint')), findsOneWidget);
       });
 
-      testWidgets('show correct number of job-card on list job screen',
-          (WidgetTester tester) async {
-        //internal tests fails due to overflow of unrendered widgets
-        //fix is to deploy the tests on actual widgets.
-        //the accuracy of widget tests drops.
-        //integrations tests are much much better.
-        //widget testing is mean for one widget. ahaahahahaahaha
-        ListJobScreen page = const ListJobScreen();
+      testWidgets('Edit Job form is loaded', (WidgetTester tester) async {
+        EditJobScreen page = EditJobScreen(jobId: null);
         await tester.pumpWidget(createWidgetUnderTest(page));
-        //pump twice for loading icon
-        await tester.pump();
 
-        //number of job cards dependent of number of jobs created in class
-        expect(find.byKey(const Key('JobCard')), findsNWidgets(3));
+        expect(find.byKey(const Key('edit_job_card')), findsOneWidget);
       });
     });
     group('Logic: ', () {
-      testWidgets('search bars query finds specific job',
+      testWidgets(
+          'when user enters valid job data and save button is pressed, no errors displayed',
           (WidgetTester tester) async {
-        ListJobScreen page = const ListJobScreen();
+        EditJobScreen page = EditJobScreen(jobId: null);
         await tester.pumpWidget(createWidgetUnderTest(page));
 
-        Finder jobSearchField = find.byKey(const Key('listJob searchField'));
-        await tester.enterText(jobSearchField, 'caledonian');
+        //title
+        Finder editTitleField = find.byKey(const Key('edit_job_title'));
+        await tester.enterText(editTitleField, 'Kingston');
+
+        //postcode
+        Finder editPostcodeField = find.byKey(const Key('edit_job_postcode'));
+        await tester.enterText(editPostcodeField, 'HP1XX');
+
+        //Pay Rate
+        Finder editPayrateField = find.byKey(const Key('edit_job_payRate'));
+        await tester.enterText(editPayrateField, '13.50');
+
+        //save form button
+        Finder saveFormButton = find.byKey(const Key('save_Form_Icon_Button'));
+        await tester.tap(saveFormButton);
+
+        //set state and update screen
         await tester.pump();
-        expect(find.byKey(const Key('JobCard')), findsOneWidget);
-      });
 
-      testWidgets('search bar query with no results show search_off icon',
-          (WidgetTester tester) async {
-        ListJobScreen page = const ListJobScreen();
-        await tester.pumpWidget(createWidgetUnderTest(page));
-
-        Finder jobSearchField = find.byKey(const Key('listJob searchField'));
-        await tester.enterText(jobSearchField, 'xxxx');
-        await tester.pump();
-        // await tester.pumpAndSettle();
-
-        expect(find.byKey(const Key('JobCard')), findsNothing);
-        expect(find.text('No results found'), findsOneWidget);
-        expect(find.byKey(const Key('search_off Icon')), findsOneWidget);
+        //check if correct error message is displayed
+        expect(find.text('Please provide a Title.'), findsNothing);
+        expect(find.text('Please provide an Area Postcode'), findsNothing);
+        expect(find.text('Please enter a Price'), findsNothing);
       });
 
       testWidgets(
-          'when users taps refresh button, app fetches new jobs instace',
+          'when user enters empty job title and save button is pressed, throws string error',
           (WidgetTester tester) async {
-        ListJobScreen page = const ListJobScreen();
+        EditJobScreen page = EditJobScreen(jobId: null);
         await tester.pumpWidget(createWidgetUnderTest(page));
 
-        Finder refreshJobsButton = find.byKey(const Key('refreshJobListIcon'));
-        await tester.tap(refreshJobsButton);
+        //title
+        Finder editTitleField = find.byKey(const Key('edit_job_title'));
+        await tester.enterText(editTitleField, '');
 
+        //postcode
+        Finder editPostcodeField = find.byKey(const Key('edit_job_postcode'));
+        await tester.enterText(editPostcodeField, 'HP1XX');
+
+        //Pay Rate
+        Finder editPayrateField = find.byKey(const Key('edit_job_payRate'));
+        await tester.enterText(editPayrateField, '13.50');
+
+        //save form button
+        Finder saveFormButton = find.byKey(const Key('save_Form_Icon_Button'));
+        await tester.tap(saveFormButton);
+
+        //set state and update screen
+        await tester.pump();
+
+        //check if correct error message is displayed
+        expect(find.text('Please provide a Title.'), findsOneWidget);
+        expect(find.text('Please provide an Area Postcode'), findsNothing);
+        expect(find.text('Please enter a Price'), findsNothing);
+      });
+
+      testWidgets(
+          'when user enters job postcode and save button is pressed, throws string error',
+          (WidgetTester tester) async {
+        EditJobScreen page = EditJobScreen(jobId: null);
+        await tester.pumpWidget(createWidgetUnderTest(page));
+
+        //title
+        Finder editTitleField = find.byKey(const Key('edit_job_title'));
+        await tester.enterText(editTitleField, 'Valid Title');
+
+        //postcode
+        Finder editPostcodeField = find.byKey(const Key('edit_job_postcode'));
+        await tester.enterText(editPostcodeField, '');
+
+        //Pay Rate
+        Finder editPayrateField = find.byKey(const Key('edit_job_payRate'));
+        await tester.enterText(editPayrateField, '13.50');
+
+        //save form button
+        Finder saveFormButton = find.byKey(const Key('save_Form_Icon_Button'));
+        await tester.tap(saveFormButton);
+
+        //set state and update screen
+        await tester.pump();
+
+        //check if correct error message is displayed
+        expect(find.text('Please provide a Title.'), findsNothing);
+        expect(find.text('Please provide an Area Postcode'), findsOneWidget);
+        expect(find.text('Please enter a Price'), findsNothing);
+      });
+      testWidgets(
+          'when user enters job postcode with less than five characters and save button is pressed, throws string error',
+          (WidgetTester tester) async {
+        EditJobScreen page = EditJobScreen(jobId: null);
+        await tester.pumpWidget(createWidgetUnderTest(page));
+
+        //title
+        Finder editTitleField = find.byKey(const Key('edit_job_title'));
+        await tester.enterText(editTitleField, 'Valid Title');
+
+        //postcode
+        Finder editPostcodeField = find.byKey(const Key('edit_job_postcode'));
+        await tester.enterText(editPostcodeField, '1234');
+
+        //Pay Rate
+        Finder editPayrateField = find.byKey(const Key('edit_job_payRate'));
+        await tester.enterText(editPayrateField, '13.50');
+
+        //save form button
+        Finder saveFormButton = find.byKey(const Key('save_Form_Icon_Button'));
+        await tester.tap(saveFormButton);
+
+        //set state and update screen
+        await tester.pump();
+
+        //check if correct error message is displayed
+        expect(find.text('Please provide a Title.'), findsNothing);
+        expect(find.text('Should be at least five characters long'),
+            findsOneWidget);
+        expect(find.text('Please enter a Price'), findsNothing);
+      });
+
+      testWidgets(
+          'when user enters empty job pay Rate and save button is pressed, throws string error',
+          (WidgetTester tester) async {
+        EditJobScreen page = EditJobScreen(jobId: null);
+        await tester.pumpWidget(createWidgetUnderTest(page));
+
+        //title
+        Finder editTitleField = find.byKey(const Key('edit_job_title'));
+        await tester.enterText(editTitleField, 'Valid Title');
+
+        //postcode
+        Finder editPostcodeField = find.byKey(const Key('edit_job_postcode'));
+        await tester.enterText(editPostcodeField, '12345678');
+
+        //Pay Rate
+        Finder editPayrateField = find.byKey(const Key('edit_job_payRate'));
+        await tester.enterText(editPayrateField, '');
+
+        //save form button
+        Finder saveFormButton = find.byKey(const Key('save_Form_Icon_Button'));
+        await tester.tap(saveFormButton);
+
+        //set state and update screen
+        await tester.pump();
+
+        //check if correct error message is displayed
+        expect(find.text('Please provide a Title.'), findsNothing);
         expect(
-            find.byKey(const Key('ListJobLoadingAnimation')), findsOneWidget);
-        verify(mockJobsFirebase?.clearJobList()).called(1);
+            find.text('Postcode should be 5-8 characters long'), findsNothing);
+        expect(find.text('Please enter a Price'), findsOneWidget);
+      });
+
+      testWidgets(
+          'when user enters text in job pay Rate and save button is pressed, throws string error',
+          (WidgetTester tester) async {
+        EditJobScreen page = EditJobScreen(jobId: null);
+        await tester.pumpWidget(createWidgetUnderTest(page));
+
+        //title
+        Finder editTitleField = find.byKey(const Key('edit_job_title'));
+        await tester.enterText(editTitleField, 'Valid Title');
+
+        //postcode
+        Finder editPostcodeField = find.byKey(const Key('edit_job_postcode'));
+        await tester.enterText(editPostcodeField, '12345678');
+
+        //Pay Rate
+        Finder editPayrateField = find.byKey(const Key('edit_job_payRate'));
+        await tester.enterText(editPayrateField, 'text');
+
+        //save form button
+        Finder saveFormButton = find.byKey(const Key('save_Form_Icon_Button'));
+        await tester.tap(saveFormButton);
+
+        //set state and update screen
+        await tester.pump();
+
+        //check if correct error message is displayed
+        expect(find.text('Please provide a Title.'), findsNothing);
+        expect(
+            find.text('Postcode should be 5-8 characters long'), findsNothing);
+        expect(find.text('Please enter a valid number.'), findsOneWidget);
+      });
+
+      testWidgets(
+          'when user enters \'0\' in job pay Rate and save button is pressed, throws string error',
+          (WidgetTester tester) async {
+        EditJobScreen page = EditJobScreen(jobId: null);
+        await tester.pumpWidget(createWidgetUnderTest(page));
+
+        //title
+        Finder editTitleField = find.byKey(const Key('edit_job_title'));
+        await tester.enterText(editTitleField, 'Valid Title');
+
+        //postcode
+        Finder editPostcodeField = find.byKey(const Key('edit_job_postcode'));
+        await tester.enterText(editPostcodeField, '12345678');
+
+        //Pay Rate
+        Finder editPayrateField = find.byKey(const Key('edit_job_payRate'));
+        await tester.enterText(editPayrateField, '0');
+
+        //save form button
+        Finder saveFormButton = find.byKey(const Key('save_Form_Icon_Button'));
+        await tester.tap(saveFormButton);
+
+        //set state and update screen
+        await tester.pump();
+
+        //check if correct error message is displayed
+        expect(find.text('Please provide a Title.'), findsNothing);
+        expect(
+            find.text('Postcode should be 5-8 characters long'), findsNothing);
+        expect(find.text('Please enter a number greater than zero.'),
+            findsOneWidget);
       });
     });
   });

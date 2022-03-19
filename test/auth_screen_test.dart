@@ -37,44 +37,46 @@ class MockAuth extends Mock implements Auth {
 @GenerateMocks([Auth])
 void main() {
   late MockAuth mockAuth;
-
+  late Function fx;
   setUp(() {
     mockAuth = MockAuth();
   });
 
-  Widget createWidgetUnderTest(Widget child) {
+  Widget createWidgetUnderTest(Widget? child) {
     return ChangeNotifierProvider<Auth>(
       create: (_) => mockAuth,
-      child: const MaterialApp(
+      child: MaterialApp(
         title: 'Disso',
-        home: AuthScreen(),
+        home: child,
       ),
     );
   }
 
-  group('Auth UI:', () {
-    testWidgets('Clipboard Icon is displayed on the AuthScreen',
-        (WidgetTester tester) async {
-      AuthScreen page = AuthScreen();
-      // MockAuth mockAuth = MockAuth();
-      await tester.pumpWidget(createWidgetUnderTest(page));
-      //
-      expect(find.byIcon(FontAwesomeIcons.clipboardCheck), findsOneWidget);
-      // expect(find.byType(ClipShadowPath), findsWidgets);
-    });
+  group('Auth', () {
+    group('UI:', () {
+      testWidgets('Clipboard Icon is displayed on the AuthScreen',
+          (WidgetTester tester) async {
+        AuthScreen page = AuthScreen();
+        // MockAuth mockAuth = MockAuth();
+        await tester.pumpWidget(createWidgetUnderTest(page));
+        //
+        expect(find.byIcon(FontAwesomeIcons.clipboardCheck), findsOneWidget);
+        // expect(find.byType(ClipShadowPath), findsWidgets);
+      });
 
-    testWidgets('Bezier Splash is correctly displayed on the AuthScreen',
-        (WidgetTester tester) async {
-      AuthScreen page = AuthScreen();
-      await tester.pumpWidget(createWidgetUnderTest(page));
-      expect(find.byType(ClipShadowPath), findsNWidgets(2));
-    });
+      testWidgets('Bezier Splash is correctly displayed on the AuthScreen',
+          (WidgetTester tester) async {
+        AuthScreen page = AuthScreen();
+        await tester.pumpWidget(createWidgetUnderTest(page));
+        expect(find.byType(ClipShadowPath), findsNWidgets(2));
+      });
 
-    testWidgets('Auth Card is displayed on the AuthScreen',
-        (WidgetTester tester) async {
-      // AuthScreen page = AuthScreen();
-      await tester.pumpWidget(createWidgetUnderTest(const AuthScreen()));
-      expect(find.byType(AuthCard), findsOneWidget);
+      testWidgets('Auth Card is displayed on the AuthScreen',
+          (WidgetTester tester) async {
+        // AuthScreen page = AuthScreen();
+        await tester.pumpWidget(createWidgetUnderTest(const AuthScreen()));
+        expect(find.byType(AuthCard), findsOneWidget);
+      });
     });
 
     group('login: ', () {

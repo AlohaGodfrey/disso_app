@@ -161,7 +161,7 @@ class _EditJobScreenState extends State<EditJobScreen> {
             title: const Text('New Job Edit'),
             actions: [
               IconButton(
-                key: const Key('saveFormIconButton'),
+                key: const Key('save_Form_Icon_Button'),
                 onPressed: () {
                   _saveForm(context);
                   Navigator.of(context).pop;
@@ -172,6 +172,7 @@ class _EditJobScreenState extends State<EditJobScreen> {
             ],
           ),
           ProfileSliver(
+            key: const Key('basic_profile_sliver'),
             isAdmin: isAdmin,
             helpDialog: HelpHintType.editJob,
           ),
@@ -197,6 +198,7 @@ class _EditJobScreenState extends State<EditJobScreen> {
                         ),
                       ]),
                   child: EditJobForm(
+                    key: const Key('edit_job_card'),
                     form: _form,
                     jobId: widget.jobId,
                     updateJobDetails: _updateJobDetails,

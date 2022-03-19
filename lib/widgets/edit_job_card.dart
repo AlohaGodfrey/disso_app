@@ -167,6 +167,7 @@ class _EditJobFormState extends State<EditJobForm> {
             height: 50,
             padding: const EdgeInsets.symmetric(vertical: 5),
             child: TextFormField(
+              key: const Key('edit_job_title'),
               initialValue: _initValues['title'],
               decoration: const InputDecoration(
                   labelText: 'Site Area', border: OutlineInputBorder()),
@@ -208,6 +209,7 @@ class _EditJobFormState extends State<EditJobForm> {
             height: 50,
             padding: const EdgeInsets.symmetric(vertical: 5),
             child: TextFormField(
+              key: const Key('edit_job_postcode'),
               initialValue: _initValues['postcode'],
               decoration: const InputDecoration(
                   labelText: 'PostCode', border: OutlineInputBorder()),
@@ -252,6 +254,7 @@ class _EditJobFormState extends State<EditJobForm> {
             height: 40,
             margin: const EdgeInsets.symmetric(vertical: 5),
             child: TextFormField(
+              key: const Key('edit_job_payRate'),
               initialValue: '13.50',
               decoration: const InputDecoration(
                   labelText: 'Pay Rate [£13.50]', border: OutlineInputBorder()),
