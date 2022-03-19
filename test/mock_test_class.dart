@@ -71,10 +71,11 @@ class MockJobsFirebase extends Mock implements JobsFirebase {
           postcode: 'SE12XY')
     ];
   }
-
+  //removeed the override as it stop mockito from
+  //verifying object has been called without drastic work around
   //clear list
-  @override
-  void clearJobList() {
-    _jobItems = [];
-  }
+  // @override
+  // void clearJobList() {
+  //   _jobItems = [];
+  // }
 }

@@ -104,6 +104,7 @@ void helpContextDialog(BuildContext context, HelpHintType currentScreen) {
   String helpTitle = 'No Help Available';
   String helpInfo = 'contact support';
   String helpInfoExtended = '';
+  const Key('HelpContextDialog');
 
   switch (currentScreen) {
     case HelpHintType.listUser:

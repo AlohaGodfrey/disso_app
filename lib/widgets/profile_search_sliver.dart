@@ -121,6 +121,7 @@ class _ProfileSearchSliverState extends State<ProfileSearchSliver> {
                             width: MediaQuery.of(context).size.width * 0.02,
                           ),
                           IconButton(
+                              key: const Key('search_Help_Button'),
                               onPressed: () {
                                 // print(context.read<Auth?>()?.isAdmin);
                                 // FocusManager.instance.primaryFocus?.unfocus();
@@ -175,6 +176,8 @@ class _ProfileSearchSliverState extends State<ProfileSearchSliver> {
                             contentPadding: const EdgeInsets.only(left: 20)),
                       )
                     : TextField(
+                        //search type is == SearchType.viaInputText
+                        key: const Key('listJob searchField'),
                         controller: widget.searchController,
                         onChanged: (value) {
                           widget.searchFunction(value);
@@ -183,6 +186,7 @@ class _ProfileSearchSliverState extends State<ProfileSearchSliver> {
                             border: InputBorder.none,
                             labelText: widget.searchBarHint,
                             suffixIcon: IconButton(
+                              key: const Key(('contextHelpHint')),
                               onPressed: () async {
                                 widget.searchFunction();
                               },

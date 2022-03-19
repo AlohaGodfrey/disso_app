@@ -161,7 +161,7 @@ class _EditJobScreenState extends State<EditJobScreen> {
             title: const Text('New Job Edit'),
             actions: [
               IconButton(
-                key: Key('saveFormIconButton'),
+                key: const Key('saveFormIconButton'),
                 onPressed: () {
                   _saveForm(context);
                   Navigator.of(context).pop;

@@ -113,6 +113,7 @@ class _ListJobScreenState extends State<ListJobScreen> {
               ],
             ),
             ProfileSearchSliver(
+              key: const Key('ListJob ProfileSearchBar'),
               isAdmin: isAdmin,
               searchController: _searchController,
               searchFunction: _searchUpdateJobList,
@@ -152,6 +153,7 @@ class _ListJobScreenState extends State<ListJobScreen> {
                                           const Padding(
                                               padding: EdgeInsets.all(12)),
                                           const Icon(Icons.search_off,
+                                              key: Key('search_off Icon'),
                                               size: 100,
                                               color: Palette.kToLight),
                                           Text('No results found',
