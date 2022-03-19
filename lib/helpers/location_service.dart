@@ -55,6 +55,7 @@ class LocationService {
     if (kIsWeb) {
       //runs api for the web (MapBox) uses a different api due to the
       //CORS blocking on web local host using standard sdk
+      //codemagic broke MapBox lol. kmt.-_-
       result = await getWebPlaceId(input);
     } else {
       //runs api for mobile (google)
@@ -138,6 +139,6 @@ class LocationService {
       return;
     }
 
-    print(locData);
+    // print(locData);
   }
 }

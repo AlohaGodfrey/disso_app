@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 
 import '../helpers/location_service.dart';
 
@@ -19,6 +20,7 @@ class MapsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mapMarkers = generateMapMarkers();
+    //get users current location
     LocationService.getCurrentuserLocation();
     return Container(
       padding: const EdgeInsets.all(10),
