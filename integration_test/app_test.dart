@@ -189,64 +189,64 @@ void main() {
         expect(mockAuth.userToken, 'userToken');
       });
 
-      testWidgets(
-          'when signing up, with valid email, passwords and valid AdminKey accept admin auth',
-          (WidgetTester tester) async {
-        await tester.pumpWidget(createWidgetUnderTest(const AuthScreen()));
+      // testWidgets(
+      //     'when signing up, with valid email, passwords and valid AdminKey accept admin auth',
+      //     (WidgetTester tester) async {
+      //   await tester.pumpWidget(createWidgetUnderTest(const AuthScreen()));
 
-        Finder switchAuthForm = find.byKey(const Key('switchAuthMode'));
-        await tester.tap(switchAuthForm);
-        await tester.pumpAndSettle();
+      //   Finder switchAuthForm = find.byKey(const Key('switchAuthMode'));
+      //   await tester.tap(switchAuthForm);
+      //   await tester.pumpAndSettle();
 
-        Finder emailField = find.byKey(const Key('email'));
-        await tester.enterText(emailField, 'email@123');
+      //   Finder emailField = find.byKey(const Key('email'));
+      //   await tester.enterText(emailField, 'email@123');
 
-        Finder passwordField = find.byKey(const Key('password'));
-        await tester.enterText(passwordField, 'password');
+      //   Finder passwordField = find.byKey(const Key('password'));
+      //   await tester.enterText(passwordField, 'password');
 
-        Finder confirmPasswordField =
-            find.byKey(const Key('confirmPasswordField'));
-        await tester.enterText(confirmPasswordField, 'password');
+      //   Finder confirmPasswordField =
+      //       find.byKey(const Key('confirmPasswordField'));
+      //   await tester.enterText(confirmPasswordField, 'password');
 
-        Finder adminKeyField = find.byKey(const Key('adminKeyField'));
-        await tester.enterText(adminKeyField, 'dissoAdminKey');
+      //   Finder adminKeyField = find.byKey(const Key('adminKeyField'));
+      //   await tester.enterText(adminKeyField, 'dissoAdminKey');
 
-        await tester.tap(find.byKey(const Key('initAuthButton')));
+      //   await tester.tap(find.byKey(const Key('initAuthButton')));
 
-        expect(mockAuth.isAdmin, true);
-        expect(mockAuth.userID, 'uid');
-        expect(mockAuth.userToken, 'userToken');
-      });
+      //   expect(mockAuth.isAdmin, true);
+      //   expect(mockAuth.userID, 'uid');
+      //   expect(mockAuth.userToken, 'userToken');
+      // });
 
-      testWidgets(
-          'when user is signing up, with valid email, passwords and invalid AdminKey deny auth',
-          (WidgetTester tester) async {
-        await tester.pumpWidget(createWidgetUnderTest(const AuthScreen()));
+      // testWidgets(
+      //     'when user is signing up, with valid email, passwords and invalid AdminKey deny auth',
+      //     (WidgetTester tester) async {
+      //   await tester.pumpWidget(createWidgetUnderTest(const AuthScreen()));
 
-        Finder switchAuthForm = find.byKey(const Key('switchAuthMode'));
-        await tester.tap(switchAuthForm);
-        await tester.pumpAndSettle();
+      //   Finder switchAuthForm = find.byKey(const Key('switchAuthMode'));
+      //   await tester.tap(switchAuthForm);
+      //   await tester.pumpAndSettle();
 
-        Finder emailField = find.byKey(const Key('email'));
-        await tester.enterText(emailField, 'email@123');
+      //   Finder emailField = find.byKey(const Key('email'));
+      //   await tester.enterText(emailField, 'email@123');
 
-        Finder passwordField = find.byKey(const Key('password'));
-        await tester.enterText(passwordField, 'password');
+      //   Finder passwordField = find.byKey(const Key('password'));
+      //   await tester.enterText(passwordField, 'password');
 
-        Finder confirmPasswordField =
-            find.byKey(const Key('confirmPasswordField'));
-        await tester.enterText(confirmPasswordField, 'password');
+      //   Finder confirmPasswordField =
+      //       find.byKey(const Key('confirmPasswordField'));
+      //   await tester.enterText(confirmPasswordField, 'password');
 
-        Finder adminKeyField = find.byKey(const Key('adminKeyField'));
-        await tester.enterText(adminKeyField, 'invalid Admin Key');
+      //   Finder adminKeyField = find.byKey(const Key('adminKeyField'));
+      //   await tester.enterText(adminKeyField, 'invalid Admin Key');
 
-        await tester.tap(find.byKey(const Key('initAuthButton')));
+      //   await tester.tap(find.byKey(const Key('initAuthButton')));
 
-        expect(mockAuth.isAdmin, false);
-        expect(mockAuth.userID, null);
-        // expect(mockAuth.userID, 'uid');
-        expect(mockAuth.userToken, null);
-      });
+      //   expect(mockAuth.isAdmin, false);
+      //   expect(mockAuth.userID, null);
+      //   // expect(mockAuth.userID, 'uid');
+      //   expect(mockAuth.userToken, null);
+      // });
 
       testWidgets(
           'when user is signing up, invalid email, password and confirm passwords denys user auth',
