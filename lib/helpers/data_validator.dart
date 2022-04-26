@@ -1,5 +1,6 @@
 enum AuthMode { signup, login }
 
+//
 //used for testing
 class AuthValidator {
   static String? email(String? value) {
