@@ -11,9 +11,8 @@ import '../models/http_exception.dart'; //custom exception
 // import 'package:mapbox_search/mapbox_search.dart ' as mpbx;
 
 //API KEYS
-const GOOGLE_API_KEY = 'AIzaSyBVy5E8sxIs9cuhC8_br2tvvWrAFugAV_w';
-const MAPBOX_API_KEY =
-    'pk.eyJ1IjoibXJhbG9oYWdvZGZyZXkiLCJhIjoiY2wwaW0wcnMwMDMyeDNjb2c4cG4yazh1YSJ9.rFAxExobut6iLyw42Aee6A';
+const GOOGLE_API_KEY = 'bad_key';
+const MAPBOX_API_KEY = 'bad_key';
 
 class LocationService {
   //returns a map image with custom markers

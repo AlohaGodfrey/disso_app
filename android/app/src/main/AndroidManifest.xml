@@ -7,8 +7,6 @@
         android:label="Disso"
         android:name="${applicationName}" 
         android:icon="@mipmap/ic_launcher">
-        <meta-data android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyBVy5E8sxIs9cuhC8_br2tvvWrAFugAV_w"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
