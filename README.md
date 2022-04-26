@@ -23,7 +23,7 @@ a comprehensive Job Management System:
 -	Digital Shift Timesheet
 -	Work history
 -	Auto-generate invoice
--	
+
 The current application is available on mobile and desktop platforms. 
 The main application is delivered by using a web application solution and there is also and .apk file that runs natively on Android Platforms.
 The project was developed using Flutter cross platform framework and programmed using the Dart language by Google. 
