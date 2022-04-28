@@ -1,6 +1,4 @@
-# disso_app
-
-A cross managment job application designed using Flutter
+# Cross Platform Management Application
 
 visit [Disso Web Application](https://Dissoapp.link) 
 
