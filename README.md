@@ -1,6 +1,12 @@
 # Cross Platform Management Application
 
-visit [Disso Web Application](https://Dissoapp.link) 
+Visit [Disso Web Application](https://Dissoapp.link) 
+
+Log into test account [optional]
+| Field  | Credentials |
+| ------------- | ------------- |
+| Email  | admin@disso.com  |
+| Password  | Admin1Password  |
 
 ## Installation (For Windows)
 
