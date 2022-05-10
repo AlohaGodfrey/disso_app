@@ -29,3 +29,10 @@ The project was developed using Flutter cross platform framework and programmed 
 The backend services and API use Firebase and Google Cloud Platform Services. 
 A CI/CD pipeline with automated tests to deploy the system on AWS (Amazon Web Services), using serverless architecture.
 
+## Preview
+![](assets/platform-login.PNG)
+![](assets/job-screen.PNG)
+
+
+
+
